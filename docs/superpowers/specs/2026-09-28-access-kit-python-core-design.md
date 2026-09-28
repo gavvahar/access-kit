@@ -12,6 +12,7 @@
 v0.1 Python core delivers 8 foundational modules as a published package, installable by ClearRead and SoundSight. All modules run sync/async where applicable, typed strictly, testable against fakes. No classes except pydantic `BaseSettings` (config) and third-party requirements like `httpcore` transport. Stateful operations use closures + `functools.partial`.
 
 **Key constraints:**
+
 - Zero classes (except noted carve-outs) per user code style
 - No pydantic models—only `BaseSettings` for settings, structured typing via `TypedDict` + callables
 - Closures for `safe_fetch`, `ratelimit`, `budget` configuration carrying
@@ -79,6 +80,7 @@ commands = [["python3", "scripts/no_classes_check.py", "python/src/access_kit", 
 ```
 
 Add to `env_list`:
+
 ```toml
 env_list = [
   "lint", "txt-lint", "format", "prettier", "toml-lint", "duplicate-code",
@@ -87,6 +89,7 @@ env_list = [
 ```
 
 Add to `github` aggregate:
+
 ```toml
 [tool.tox.env.github]
 commands = [
@@ -174,12 +177,14 @@ access-kit/
 from pydantic_settings import BaseSettings
 from typing import Literal
 
+
 class AccessKitSettings(BaseSettings):
     """Base config for all access-kit modules. Apps subclass this."""
+
     app_name: str
     env: Literal["dev", "prod"] = "dev"
     public_base_url: str  # AnyHttpUrl from plan → plain str, validate in factory if needed
-    redis_url: str       # RedisDsn → plain str
+    redis_url: str  # RedisDsn → plain str
     session_secret: str  # SecretStr → str, treat as secret in logs
     ip_hash_salt: str
     trust_cloudflare_headers: bool = True
@@ -189,7 +194,7 @@ class AccessKitSettings(BaseSettings):
     notify_email_to: str | None = None
     notify_webhook_url: str | None = None
     sentry_dsn: str | None = None
-    
+
     class Config:
         env_file = ".env"
         case_sensitive = False
@@ -206,9 +211,11 @@ async def setup_logging(settings: AccessKitSettings) -> None:
     # Returns None (side effect: global logging state)
     pass
 
+
 def request_id_middleware(app, call_next):
     """FastAPI middleware injecting X-Request-ID header."""
     pass
+
 
 # Scrubber: a function that filters log records
 def scrub_logs(logger, method_name, event_dict):
@@ -223,14 +230,16 @@ async def redis_check(redis_url: str) -> dict:
     """Returns {"status": "ok"} or raises."""
     pass
 
+
 async def postgres_check(dsn: str) -> dict:
     """Apps own DB; health module just documents the pattern."""
     pass
 
+
 def health_router(checks: dict[str, Callable]) -> APIRouter:
     """Returns FastAPI router with GET /healthz, pluggable checks."""
     router = APIRouter()
-    
+
     @router.get("/healthz")
     async def healthz():
         results = {}
@@ -240,7 +249,7 @@ def health_router(checks: dict[str, Callable]) -> APIRouter:
             except Exception as e:
                 results[name] = {"status": "error", "error": str(e)}
         return {"status": "ok" if all(r.get("status") == "ok" for r in results.values()) else "error", "checks": results}
-    
+
     return router
 ```
 
@@ -250,15 +259,18 @@ def health_router(checks: dict[str, Callable]) -> APIRouter:
 from ipaddress import IPv4Address, IPv6Address, ip_address
 import hashlib
 
+
 def client_ip(request: Request, trust_cloudflare: bool) -> str:
     """Extract client IP, respecting Cloudflare headers only if trust_cloudflare=True."""
     if trust_cloudflare and request.headers.get("cf-connecting-ip"):
         return request.headers["cf-connecting-ip"]
     return request.client.host
 
+
 def hash_ip(ip: str, salt: str) -> str:
     """HMAC-SHA256 of IP + salt, truncated for privacy."""
     return hashlib.sha256(f"{ip}{salt}".encode()).hexdigest()[:16]
+
 
 def purge_before(db_connection, table: str, date: datetime, ip_hash_col: str) -> int:
     """Documentation: document guidance (30 days default), apps own deletion."""
@@ -273,9 +285,11 @@ def session_middleware(app: FastAPI, session_secret: str):
     # Uses itsdangerous or similar for signing
     pass
 
+
 def get_session_id(request: Request) -> str:
     """FastAPI dependency extracting the session ID from the signed cookie."""
     pass
+
 
 def rotate_session(response: Response):
     """Sets a new session ID, invalidating the old one (for delete-my-history flow)."""
@@ -287,29 +301,33 @@ def rotate_session(response: Response):
 **Plan had:** `class SafeFetcher { __init__(config), fetch(), download() }`
 
 **This design:**
+
 ```python
 # safe_fetch/__init__.py
 def make_fetcher(
-    *, max_bytes: int = 5_000_000,
-    connect_timeout: float = 5, total_timeout: float = 15,
+    *,
+    max_bytes: int = 5_000_000,
+    connect_timeout: float = 5,
+    total_timeout: float = 15,
     max_redirects: int = 5,
     allowed_content_types: set[str] | None = None,
     user_agent: str | None = None,
-    domain_limiter = None,  # RateLimiter instance or None
+    domain_limiter=None,  # RateLimiter instance or None
     blocklist: list[str] | None = None,
 ) -> tuple[Callable, Callable]:
     """Returns (fetch, download) functions closing over config."""
-    
+
     async def fetch(url: str) -> FetchResult:
         """Fetch small doc into memory, SSRF-protected."""
         # Full implementation per plan
         pass
-    
+
     async def download(url: str, dest: Path, max_bytes: int | None = None) -> Path:
         """Stream large file to disk, SSRF-protected."""
         pass
-    
+
     return fetch, download
+
 
 # Usage
 fetch, download = make_fetcher(
@@ -333,35 +351,41 @@ result = await fetch("https://example.com")
 **Plan had:** `class LLMProvider(Protocol)` with methods.
 
 **This design:**
+
 ```python
 # llm/__init__.py
 from typing import TypedDict, Callable, Any
 
+
 class LLMProvider(TypedDict):
     """Shape of a provider: dict of callables."""
+
     name: str
     model: str
     max_input_tokens: int
     complete_json: Callable[[str, str, type], tuple[Any, Usage]]  # (system, user, schema) -> (result, usage)
-    complete_text: Callable[[str, str], tuple[str, Usage]]       # (system, user) -> (text, usage)
+    complete_text: Callable[[str, str], tuple[str, Usage]]  # (system, user) -> (text, usage)
+
 
 class Usage(TypedDict):
     """Token counts from an LLM call."""
+
     input_tokens: int
     output_tokens: int
     total_tokens: int
 
+
 def anthropic_provider(*, api_key: str, model: str = "claude-3-5-sonnet-20241022", max_input_tokens: int = 200_000) -> LLMProvider:
     """Returns a provider dict."""
     client = Anthropic(api_key=api_key)
-    
+
     async def complete_json(system: str, user: str, schema: type[BaseModel]) -> tuple[BaseModel, Usage]:
         # Full implementation with JSON mode + retry on validation error
         pass
-    
+
     async def complete_text(system: str, user: str) -> tuple[str, Usage]:
         pass
-    
+
     return {
         "name": "anthropic",
         "model": model,
@@ -369,6 +393,7 @@ def anthropic_provider(*, api_key: str, model: str = "claude-3-5-sonnet-20241022
         "complete_json": complete_json,
         "complete_text": complete_text,
     }
+
 
 # openai_compat_provider(...) similar
 # factory.py: provider_from_settings(settings) -> list[LLMProvider] with fallback chain
@@ -383,39 +408,47 @@ def anthropic_provider(*, api_key: str, model: str = "claude-3-5-sonnet-20241022
 def fake_llm(responses: list[str] | None = None) -> LLMProvider:
     """Returns a mock provider; records all calls for assertion."""
     calls = []
-    
+
     async def complete_json(system: str, user: str, schema: type[BaseModel]) -> tuple[BaseModel, Usage]:
         calls.append(("complete_json", system, user, schema))
         # Return canned or first response from list
         pass
-    
+
     async def complete_text(system: str, user: str) -> tuple[str, Usage]:
         calls.append(("complete_text", system, user))
         pass
-    
-    provider = { ... }
+
+    provider = {...}
     provider["__test_calls__"] = calls  # for assertions
     return provider
+
 
 def fake_turnstile() -> Callable:
     """Returns an async function that always validates, records calls."""
     pass
 
+
 class FakeNotifier:
     """Notifier that stores messages in memory for tests."""
+
     messages: list[str]
+
     async def send(self, title, body): ...
+
 
 # fixtures.py
 @pytest.fixture
 async def fake_redis():
     import fakeredis
+
     return fakeredis.FakeStrictRedis(decode_responses=True)
+
 
 @pytest.fixture
 async def async_client(app):
     async with AsyncClient(app=app, base_url="http://testserver") as client:
         yield client
+
 
 # ssrf_cases.py — shared list of URLs + IPs that MUST be blocked
 SSRF_CASES = [
@@ -437,24 +470,33 @@ All module errors are plain Exception subclasses (required by Python):
 ```python
 class AccessKitError(Exception):
     """Base for all access-kit errors."""
+
     pass
+
 
 # safe_fetch/
 class BlockedDestination(AccessKitError):
     """URL resolves to or redirects to a blocked IP."""
+
     pass
+
 
 class TooLarge(AccessKitError):
     """Response body exceeds max_bytes."""
+
     pass
+
 
 # llm/
 class LLMError(AccessKitError):
     """Provider call failed."""
+
     pass
+
 
 class ValidationError(AccessKitError):
     """JSON schema validation on LLM output failed."""
+
     pass
 ```
 
@@ -465,6 +507,7 @@ Apps catch by type and render user-friendly messages.
 ## 5. Dependencies
 
 **Core** (pyproject.toml `dependencies`):
+
 - `pydantic-settings` ≥2.0 — config/env validation
 - `httpx` ≥0.26 — async HTTP, custom transport support
 - `fastapi` ≥0.104 — middleware, routers, typing
@@ -473,6 +516,7 @@ Apps catch by type and render user-friendly messages.
 - `openai` ≥1.3 — OpenAI API (covers Ollama, Groq, OmniRoute, etc. via base_url)
 
 **Dev** (`[project.optional-dependencies]`):
+
 - `pytest`, `pytest-asyncio` — test framework
 - `fakeredis` — in-memory Redis mock
 - `respx` — httpx request mocking
@@ -487,6 +531,7 @@ Apps catch by type and render user-friendly messages.
 **Coverage target:** 85% overall, **100% for `safe_fetch`** (security-critical).
 
 **Test organization:**
+
 - `test_settings.py` — env parsing, validation, subclass inheritance
 - `test_logging.py` — structlog config, request ID middleware, log scrubbing
 - `test_privacy.py` — IP extraction, hashing, salt rotation
@@ -508,6 +553,7 @@ Apps catch by type and render user-friendly messages.
 **Version:** `0.1.0-dev` in pyproject, bumped to `0.1.0` on first `py-v0.1.0` tag.
 
 **Installation** (until PyPI):
+
 ```bash
 # ClearRead / SoundSight pyproject.toml
 dependencies = [
@@ -516,6 +562,7 @@ dependencies = [
 ```
 
 **Local dev:**
+
 ```bash
 uv pip install -e ../access-kit/python
 # or conda:
@@ -537,6 +584,7 @@ conda run -n access pip install -e ../access-kit/python
 ## 9. Success Criteria
 
 This spec is done when:
+
 1. ✓ Both ClearRead and SoundSight can install `py-v0.1.0` and use all 8 modules
 2. ✓ All modules tested, 85%+ coverage, 100% for safe_fetch
 3. ✓ Type-checks cleanly with mypy strict
