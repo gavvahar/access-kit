@@ -2713,11 +2713,11 @@ Expected: All checks PASS, exit code 0
 
 ✓ **Review Focus coverage:**
 
-1.  SSRF at redirects: Task 10 (safe_fetch main) manually follows redirects with IP revalidation
-2.  Memory exhaustion: Task 8 (limits) has `check_size()` called before reading full body
-3.  LLM retry: Task 11 (llm core) raises LLMValidationError after max_retries
-4.  Session tampering: Task 6 (session) uses constant-time HMAC comparison, returns None on mismatch
-5.  Missing env vars: Task 2 (settings) uses pydantic-settings with required fields, raises ValidationError
+1. SSRF at redirects: Task 10 (safe_fetch main) manually follows redirects with IP revalidation
+2. Memory exhaustion: Task 8 (limits) has `check_size()` called before reading full body
+3. LLM retry: Task 11 (llm core) raises LLMValidationError after max_retries
+4. Session tampering: Task 6 (session) uses constant-time HMAC comparison, returns None on mismatch
+5. Missing env vars: Task 2 (settings) uses pydantic-settings with required fields, raises ValidationError
 
 ---
 
