@@ -114,7 +114,7 @@ commands = [
 
 ## 2. File Layout
 
-```
+```text
 access-kit/
 ├── python/
 │   ├── pyproject.toml              # updated [project] + tox config
