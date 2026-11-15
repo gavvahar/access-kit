@@ -271,3 +271,41 @@ async def test_actual_httpcore_socket_target_and_tls_name_are_pinned(public_dns,
     assert b"Host: example.com\r\n" in written
     assert len(public_dns[1]) == 1
     assert ("closed",) in calls
+
+
+async def test_redirect_does_not_carry_upstream_cookies(public_dns, patch_fetch_http):
+    responses, seen, _ = patch_fetch_http
+    responses.extend(
+        [
+            stream_response(status=302, headers={"location": "https://other.example.com/final", "set-cookie": "credential=private; Domain=.example.com; Path=/"}),
+            stream_response(),
+        ]
+    )
+    await make_fetcher()[0]("https://example.com/start")
+    assert "cookie" not in seen[1].headers
+    assert seen[1].headers["host"] == "other.example.com"
+
+
+async def test_download_refuses_racing_writer(tmp_path, public_dns, patch_fetch_http, monkeypatch):
+    import os
+
+    patch_fetch_http[0].append(stream_response(b"download"))
+    destination = tmp_path / "raced"
+    link = os.link
+
+    def race(source, target):
+        destination.write_bytes(b"other writer")
+        link(source, target)
+
+    monkeypatch.setattr(os, "link", race)
+    with pytest.raises(FileExistsError):
+        await make_fetcher()[1]("https://example.com", destination)
+    assert destination.read_bytes() == b"other writer"
+    assert list(tmp_path.iterdir()) == [destination]
+
+
+@pytest.mark.parametrize("url,host", [("http://8.8.8.8/path", "8.8.8.8"), ("https://[2606:4700:4700::1111]", "[2606:4700:4700::1111]"), ("https://bücher.de", "xn--bcher-kva.de")])
+async def test_literal_and_idna_hosts(url, host, public_dns, patch_fetch_http):
+    patch_fetch_http[0].append(stream_response())
+    assert (await make_fetcher()[0](url)).content == b"ok"
+    assert patch_fetch_http[1][0].headers["host"] == host
