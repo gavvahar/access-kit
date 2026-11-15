@@ -136,3 +136,15 @@ test("announcements do not require a browser on import", () => {
   assert.equal(announce("message", { document: null }), false);
   assert.equal(announce("", { document: {} }), false);
 });
+
+test("wake lock subscribers observe automatic release", async () => {
+  const { manager, locks } = hardware();
+  const states = [];
+  const stop = manager.subscribe((state) => states.push(state.active));
+  await Promise.all([manager.request(), manager.request()]);
+  assert.equal(locks.length, 1);
+  await locks[0].release();
+  assert.deepEqual(states, [false, true, false]);
+  stop();
+  await manager.destroy();
+});
