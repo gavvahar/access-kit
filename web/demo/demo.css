@@ -1,43 +1,265 @@
-.site-header, main, .site-footer { max-inline-size: 78rem; margin-inline: auto; padding-inline: clamp(1rem, 4vw, 3rem); }
-.site-header { display: flex; align-items: center; flex-wrap: wrap; gap: 1.5rem; padding-block: 1.75rem; font-size: 0.875rem; border-block-end: 1px solid var(--ak-color-border); }
-.wordmark { display: inline-flex; align-items: center; gap: 0.7rem; font-size: 1.1rem; font-weight: 750; letter-spacing: -0.04em; text-decoration: none; color: var(--ak-color-text); }
-.brand-mark { display: inline-flex; align-items: center; justify-content: center; inline-size: 2.2rem; block-size: 2.2rem; border-radius: 0.6rem; background: var(--ak-color-accent); color: var(--ak-color-on-accent); font-size: 1.2rem; letter-spacing: -0.1em; padding-inline-end: 0.12rem; }
-.brand-mark span { margin-block-start: 0.3rem; }
-.version-label { margin-inline-end: auto; color: var(--ak-color-muted); }
-.settings-link { text-decoration: none; font-weight: 600; }
-.settings-link span { margin-inline-start: 0.4rem; }
-.intro { padding-block: 4.5rem 3rem; max-inline-size: 51rem; }
-.eyebrow { display: flex; align-items: center; gap: 0.6rem; text-transform: uppercase; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; color: var(--ak-color-muted); }
-.status-dot { display: inline-block; inline-size: 0.45rem; block-size: 0.45rem; border-radius: 100%; background: var(--ak-color-accent); flex-shrink: 0; }
-.intro h1 { font-size: clamp(2.9rem, 7vw, 5.4rem); line-height: 1.02; letter-spacing: -0.065em; font-weight: 500; margin-block: 1.1rem 1.5rem; }
-.intro-copy { max-inline-size: 35rem; color: var(--ak-color-muted); font-size: 1.05rem; }
-.workspace { display: grid; grid-template-columns: minmax(0, 1fr) 20rem; gap: 1.5rem; align-items: start; }
-.preview, .preferences { background: var(--ak-color-surface); border: 1px solid var(--ak-color-border); border-radius: var(--ak-radius); min-inline-size: 0; }
-.preview-toolbar, .preview-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.15rem 1.5rem; font-size: 0.75rem; }
-.preview-toolbar { border-block-end: 1px solid var(--ak-color-border); }
-.preview-toolbar h2 { font-size: 0.875rem; margin: 0; font-weight: 600; }
-.live-label { display: flex; gap: 0.5rem; align-items: center; color: var(--ak-color-muted); }
-.reading-sample { padding: clamp(1.25rem, 4vw, 3.5rem); padding-block-end: 2rem; margin-inline: auto; }
-.reading-sample h3 { font-size: 1.85em; line-height: 1.15; letter-spacing: -0.045em; font-weight: 500; margin-block: 1.2rem 1.7rem; }
-.reading-sample > p:not(.eyebrow) { color: var(--ak-color-muted); }
-.takeaway { display: flex; gap: 0.9rem; align-items: start; background: var(--ak-color-raised); padding: 1.2rem; border-radius: 0.4rem; margin-block-start: 2rem; }
-.takeaway p { margin: 0; font-size: 0.9em; }
-.takeaway strong { color: var(--ak-color-accent); font-weight: 600; }
-.takeaway-mark { color: var(--ak-color-accent); font-size: 1.3em; }
-.caption-sample { margin-inline: clamp(1.25rem, 4vw, 3.5rem); padding-block: 1.6rem 2rem; border-block-start: 1px solid var(--ak-color-border); }
-.sample-label { font-size: 0.7rem; color: var(--ak-color-muted); }
-.caption-sample p { font-size: 1.6em; line-height: 1.35; font-weight: 600; letter-spacing: -0.02em; margin-block: 0.8rem; }
-.preview-footer { border-block-start: 1px solid var(--ak-color-border); color: var(--ak-color-muted); }
-.preferences { padding: 1.7rem; scroll-margin-block-start: 1rem; }
-.preferences > .eyebrow { margin-block-start: 0; }
-.preferences h2 { font-size: 1.4rem; font-weight: 500; letter-spacing: -0.04em; margin-block: 0.6rem 0; }
-.preferences-intro { font-size: 0.875rem; color: var(--ak-color-muted); margin-block: 0.5rem 1.8rem; }
-.utilities { margin-block: 4rem; border-block-start: 1px solid var(--ak-color-border); padding-block-start: 2rem; }
-.utilities h2 { font-size: 1.6rem; font-weight: 500; letter-spacing: -0.04em; margin-block: 0.5rem; }
-.utilities p:not(.eyebrow) { font-size: 0.9rem; color: var(--ak-color-muted); }
-.utility-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; font-size: 0.875rem; margin-block: 1.25rem; }
-.site-footer { border-block-start: 1px solid var(--ak-color-border); padding-block: 2rem; display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; font-size: 0.75rem; color: var(--ak-color-muted); }
-.site-footer > span { font-weight: 700; color: var(--ak-color-text); }
-.site-footer p { flex: 1; margin: 0; min-inline-size: 10rem; }
-@media (max-width: 55rem) { .workspace { grid-template-columns: minmax(0, 1fr); } .preferences { grid-row: 1; } .intro { padding-block-start: 3rem; } }
-@media (max-width: 27rem) { .version-label { display: none; } .settings-link { margin-inline-start: auto; } .intro h1 { font-size: 2.8rem; } .preview-toolbar, .preview-footer { padding-inline: 1.25rem; } }
+.site-header,
+main,
+.site-footer {
+  max-inline-size: 78rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 3rem);
+}
+.site-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-block: 1.75rem;
+  font-size: 0.875rem;
+  border-block-end: 1px solid var(--ak-color-border);
+}
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 1.1rem;
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+  color: var(--ak-color-text);
+}
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.2rem;
+  block-size: 2.2rem;
+  border-radius: 0.6rem;
+  background: var(--ak-color-accent);
+  color: var(--ak-color-on-accent);
+  font-size: 1.2rem;
+  letter-spacing: -0.1em;
+  padding-inline-end: 0.12rem;
+}
+.brand-mark span {
+  margin-block-start: 0.3rem;
+}
+.version-label {
+  margin-inline-end: auto;
+  color: var(--ak-color-muted);
+}
+.settings-link {
+  text-decoration: none;
+  font-weight: 600;
+}
+.settings-link span {
+  margin-inline-start: 0.4rem;
+}
+.intro {
+  padding-block: 4.5rem 3rem;
+  max-inline-size: 51rem;
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ak-color-muted);
+}
+.status-dot {
+  display: inline-block;
+  inline-size: 0.45rem;
+  block-size: 0.45rem;
+  border-radius: 100%;
+  background: var(--ak-color-accent);
+  flex-shrink: 0;
+}
+.intro h1 {
+  font-size: clamp(2.9rem, 7vw, 5.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.065em;
+  font-weight: 500;
+  margin-block: 1.1rem 1.5rem;
+}
+.intro-copy {
+  max-inline-size: 35rem;
+  color: var(--ak-color-muted);
+  font-size: 1.05rem;
+}
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20rem;
+  gap: 1.5rem;
+  align-items: start;
+}
+.preview,
+.preferences {
+  background: var(--ak-color-surface);
+  border: 1px solid var(--ak-color-border);
+  border-radius: var(--ak-radius);
+  min-inline-size: 0;
+}
+.preview-toolbar,
+.preview-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.15rem 1.5rem;
+  font-size: 0.75rem;
+}
+.preview-toolbar {
+  border-block-end: 1px solid var(--ak-color-border);
+}
+.preview-toolbar h2 {
+  font-size: 0.875rem;
+  margin: 0;
+  font-weight: 600;
+}
+.live-label {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: var(--ak-color-muted);
+}
+.reading-sample {
+  padding: clamp(1.25rem, 4vw, 3.5rem);
+  padding-block-end: 2rem;
+  margin-inline: auto;
+}
+.reading-sample h3 {
+  font-size: 1.85em;
+  line-height: 1.15;
+  letter-spacing: -0.045em;
+  font-weight: 500;
+  margin-block: 1.2rem 1.7rem;
+}
+.reading-sample > p:not(.eyebrow) {
+  color: var(--ak-color-muted);
+}
+.takeaway {
+  display: flex;
+  gap: 0.9rem;
+  align-items: start;
+  background: var(--ak-color-raised);
+  padding: 1.2rem;
+  border-radius: 0.4rem;
+  margin-block-start: 2rem;
+}
+.takeaway p {
+  margin: 0;
+  font-size: 0.9em;
+}
+.takeaway strong {
+  color: var(--ak-color-accent);
+  font-weight: 600;
+}
+.takeaway-mark {
+  color: var(--ak-color-accent);
+  font-size: 1.3em;
+}
+.caption-sample {
+  margin-inline: clamp(1.25rem, 4vw, 3.5rem);
+  padding-block: 1.6rem 2rem;
+  border-block-start: 1px solid var(--ak-color-border);
+}
+.sample-label {
+  font-size: 0.7rem;
+  color: var(--ak-color-muted);
+}
+.caption-sample p {
+  font-size: 1.6em;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-block: 0.8rem;
+}
+.preview-footer {
+  border-block-start: 1px solid var(--ak-color-border);
+  color: var(--ak-color-muted);
+}
+.preferences {
+  padding: 1.7rem;
+  scroll-margin-block-start: 1rem;
+}
+.preferences > .eyebrow {
+  margin-block-start: 0;
+}
+.preferences h2 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  margin-block: 0.6rem 0;
+}
+.preferences-intro {
+  font-size: 0.875rem;
+  color: var(--ak-color-muted);
+  margin-block: 0.5rem 1.8rem;
+}
+.utilities {
+  margin-block: 4rem;
+  border-block-start: 1px solid var(--ak-color-border);
+  padding-block-start: 2rem;
+}
+.utilities h2 {
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  margin-block: 0.5rem;
+}
+.utilities p:not(.eyebrow) {
+  font-size: 0.9rem;
+  color: var(--ak-color-muted);
+}
+.utility-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  margin-block: 1.25rem;
+}
+.site-footer {
+  border-block-start: 1px solid var(--ak-color-border);
+  padding-block: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--ak-color-muted);
+}
+.site-footer > span {
+  font-weight: 700;
+  color: var(--ak-color-text);
+}
+.site-footer p {
+  flex: 1;
+  margin: 0;
+  min-inline-size: 10rem;
+}
+@media (max-width: 55rem) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .preferences {
+    grid-row: 1;
+  }
+  .intro {
+    padding-block-start: 3rem;
+  }
+}
+@media (max-width: 27rem) {
+  .version-label {
+    display: none;
+  }
+  .settings-link {
+    margin-inline-start: auto;
+  }
+  .intro h1 {
+    font-size: 2.8rem;
+  }
+  .preview-toolbar,
+  .preview-footer {
+    padding-inline: 1.25rem;
+  }
+}

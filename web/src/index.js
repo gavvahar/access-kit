@@ -1,4 +1,10 @@
-export { createSettingsStore, defaultSettings, getSettingsStore, initialize, SETTINGS_KEY } from "./settings.js";
+export {
+  createSettingsStore,
+  defaultSettings,
+  getSettingsStore,
+  initialize,
+  SETTINGS_KEY,
+} from "./settings.js";
 export { defineSettingsPanel } from "./settings-panel.js";
 export { fontStacks, themes } from "./themes.js";
 export { createStorage } from "./utilities/storage.js";

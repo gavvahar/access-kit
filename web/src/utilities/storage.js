@@ -2,18 +2,33 @@
 export function createStorage(options = {}) {
   let backend = null;
   try {
-    backend = Object.hasOwn(options, "storage") ? options.storage : globalThis.localStorage;
-  } catch { /* Browsers can deny even access to the localStorage getter. */ }
+    backend = Object.hasOwn(options, "storage")
+      ? options.storage
+      : globalThis.localStorage;
+  } catch {
+    /* Browsers can deny even access to the localStorage getter. */
+  }
   let available = Boolean(backend);
   return {
-    get available() { return available; },
+    get available() {
+      return available;
+    },
     read(key, fallback = null) {
       if (!backend) return fallback;
       let raw;
-      try { raw = backend.getItem(key); available = true; }
-      catch { available = false; return fallback; }
+      try {
+        raw = backend.getItem(key);
+        available = true;
+      } catch {
+        available = false;
+        return fallback;
+      }
       if (typeof raw !== "string" || raw.length > 65_536) return fallback;
-      try { return JSON.parse(raw); } catch { return fallback; }
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return fallback;
+      }
     },
     write(key, value) {
       try {
@@ -21,7 +36,10 @@ export function createStorage(options = {}) {
         backend.setItem(key, JSON.stringify(value));
         available = true;
         return true;
-      } catch { available = false; return false; }
+      } catch {
+        available = false;
+        return false;
+      }
     },
     remove(key) {
       try {
@@ -29,7 +47,10 @@ export function createStorage(options = {}) {
         backend.removeItem(key);
         available = true;
         return true;
-      } catch { available = false; return false; }
+      } catch {
+        available = false;
+        return false;
+      }
     },
   };
 }
