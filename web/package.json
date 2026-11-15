@@ -1,7 +1,6 @@
 {
   "name": "@gavvahar/access-kit-ui",
-  "version": "0.1.0-dev.0",
-  "private": true,
+  "version": "1.0.0",
   "description": "Shared accessible Web Components for ClearRead and SoundSight",
   "type": "module",
   "license": "MIT",
@@ -44,5 +43,13 @@
   "sideEffects": [
     "./dist/auto.js",
     "./dist/access-kit.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "accessibility",
+    "web-components",
+    "adhd"
   ]
 }
