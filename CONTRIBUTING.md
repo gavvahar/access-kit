@@ -1,35 +1,33 @@
 # Contributing
 
-## Commit messages
+Only share code needed by both ClearRead and SoundSight. Keep application-specific
+prompts, detection logic, and content in those repositories.
 
-This repo follows [Conventional Commits](https://www.conventionalcommits.org/): `<type>[optional scope]: <description>`, e.g. `feat: add reverse proxy service` or `fix(ci): correct tox env name`.
-
-Common types: `feat`, `fix`, `chore`, `docs`, `refactor`, `perf`, `test`, `style`, `build`, `ci`, `revert`.
-
-This isn't just style — it drives automation:
-
-- **Changelog generation** (`git-cliff`, configured in `pyproject.toml`) groups commits by type. A commit without a recognized prefix is **dropped from the changelog entirely** rather than lumped into a catch-all bucket, so use the right prefix.
-- **Release versioning** (`.github/workflows/release.yml`) bumps semver based on commit prefixes since the last release: any `!` after the type or a `BREAKING CHANGE:` footer → major, `feat` → minor, everything else → patch.
-
-Keep one logical change per commit rather than bundling unrelated changes together.
-
-## Before opening a PR
-
-Install `tox` and run the full check chain locally:
+## Local checks
 
 ```bash
-pip install tox
-tox -e github   # lint + txt-lint + prettier + toml-lint
+python -m pip install -e './python[dev]'
+npm ci
+pre-commit install
+tox -e github
 ```
 
-If it reports formatting issues, auto-fix them with:
+`tox -e github` runs linting, text and document formatting checks, TOML checks,
+duplication detection, Python tests with at least 85% branch-aware coverage,
+strict Python type checks, Python package builds, and web package checks.
+`tox -e format` applies formatting. Pre-commit requires the activated environment
+and installed Node tooling.
 
-```bash
-tox -e format
-```
+Prefer functions and closures; use classes for settings and required third-party
+interfaces. Test observable behavior. Every security fix needs a regression test.
 
-Both `tests.yml` (the same `tox -e github` chain) and `secret-detection.yml` (TruffleHog) run in CI on every push and PR — fixing issues locally first saves a round trip.
+## Versioning
 
-## Review
+Use Conventional Commits, for example `feat(settings): add configuration`.
+Python metadata lives in `python/pyproject.toml`; update its version together with
+`python/src/access_kit/__init__.py`. Web metadata lives in `web/package.json`;
+update it together with `web/src/index.js`.
 
-PRs are routed to the owners defined in [CODEOWNERS](CODEOWNERS).
+Use `py-vX.Y.Z` and `web-vX.Y.Z` tags independently after integration validation.
+Tag workflows build artifacts only. Registry publishing is deferred to v1.0.
+Never create a release solely because a commit landed on main.
