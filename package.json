@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "check": "npm run check --workspace web",
-    "format:check": "prettier --check \"**/*.{css,js,html,json,yml,yaml,md}\"",
+    "format:check": "prettier --check \"**/*.{css,js,mjs,html,json,yml,yaml,md}\"",
     "demo": "npm run demo --workspace web"
   }
 }
