@@ -8,16 +8,17 @@ class Usage(TypedDict):
     input_tokens: int
     output_tokens: int
     total_tokens: int
+    complete: bool
 
 
-def usage(input_tokens: int = 0, output_tokens: int = 0) -> Usage:
+def usage(input_tokens: int = 0, output_tokens: int = 0, *, complete: bool = True) -> Usage:
     if type(input_tokens) is not int or type(output_tokens) is not int or min(input_tokens, output_tokens) < 0:
         raise ValueError("token counts must be nonnegative integers")
-    return Usage(input_tokens=input_tokens, output_tokens=output_tokens, total_tokens=input_tokens + output_tokens)
+    return Usage(input_tokens=input_tokens, output_tokens=output_tokens, total_tokens=input_tokens + output_tokens, complete=complete)
 
 
 def add_usage(left: Usage, right: Usage) -> Usage:
-    return usage(left["input_tokens"] + right["input_tokens"], left["output_tokens"] + right["output_tokens"])
+    return usage(left["input_tokens"] + right["input_tokens"], left["output_tokens"] + right["output_tokens"], complete=left["complete"] and right["complete"])
 
 
 class LLMError(Exception):
@@ -25,7 +26,7 @@ class LLMError(Exception):
 
     def __init__(self, message: str, *, consumed: Usage | None = None) -> None:
         super().__init__(message)
-        self.usage = consumed if consumed is not None else usage()
+        self.usage = consumed if consumed is not None else usage(complete=False)
 
 
 class LLMValidationError(LLMError):
