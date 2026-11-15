@@ -9,8 +9,8 @@ from typing import Literal
 import httpx
 
 from access_kit.llm.core import build_provider
-from access_kit.llm.http import check_input, endpoint, post_json, token_count, validate_limits
-from access_kit.llm.types import LLMError, LLMProvider, Usage, usage
+from access_kit.llm.http import check_input, endpoint, post_json, read_usage, validate_limits
+from access_kit.llm.types import LLMError, LLMProvider, Usage
 
 
 def anthropic_provider(
@@ -39,13 +39,7 @@ def anthropic_provider(
             client=client,
             timeout=timeout,
         )
-        raw = data.get("usage")
-        if not isinstance(raw, dict):
-            raise LLMError("provider returned no token usage")
-        tokens = usage(
-            token_count(raw, "input_tokens") + token_count(raw, "cache_creation_input_tokens", default=0) + token_count(raw, "cache_read_input_tokens", default=0),
-            token_count(raw, "output_tokens"),
-        )
+        tokens = read_usage(data, input_key="input_tokens", output_key="output_tokens", extra_input_keys=("cache_creation_input_tokens", "cache_read_input_tokens"))
         blocks = data.get("content")
         if data.get("stop_reason") not in ("end_turn", "stop_sequence") or not isinstance(blocks, list) or not blocks:
             raise LLMError("provider returned incomplete or unsupported output", consumed=tokens)
@@ -82,10 +76,7 @@ def openai_compat_provider(
             client=client,
             timeout=timeout,
         )
-        raw = data.get("usage")
-        if not isinstance(raw, dict):
-            raise LLMError("provider returned no token usage")
-        tokens = usage(token_count(raw, "prompt_tokens"), token_count(raw, "completion_tokens"))
+        tokens = read_usage(data, input_key="prompt_tokens", output_key="completion_tokens")
         choices = data.get("choices")
         if not isinstance(choices, list) or len(choices) != 1 or not isinstance(choices[0], dict):
             raise LLMError("provider returned invalid choices", consumed=tokens)
