@@ -8,7 +8,7 @@ with the reviewed UI artifact; each records its source tag/commit and font licen
 
 ## ClearRead
 
-[Integration PR #6](https://github.com/gavvahar/ClearRead/pull/6) implements the
+[Merged integration PR #6](https://github.com/gavvahar/ClearRead/pull/6) implements the
 core article pipeline and shared reader. Public URL input uses the actual safe
 fetcher, trafilatura/readability extraction and strict provider output validation.
 Pasted text shares the same provider/budget path. The browser submits an
@@ -26,12 +26,14 @@ asynchronous job, follows owner-bound SSE and opens the reading view.
 
 Upstream DNS/model replies are controlled fixtures, not paid provider calls.
 The production code uses the real adapters and requires explicit model settings.
+The integration merged as `2db2777c89a98c1e11d4c7529624ddba685feb13` after GitHub
+quality, browser and secret checks passed.
 Postgres history/cache, long-document chunking and public deployment belong to
 ClearRead's remaining product roadmap, not this shared-library acceptance slice.
 
 ## SoundSight
 
-[Integration PR #4](https://github.com/gavvahar/SoundSight/pull/4) implements a
+[Merged integration PR #4](https://github.com/gavvahar/SoundSight/pull/4) implements a
 shared first screen, explicitly started browser captions, typed replies, and a
 working WebVTT import workflow. Real imports publish Redis job progress and
 return owner-bound, expiring transcript data. No audio is sent to SoundSight;
@@ -46,7 +48,8 @@ browser speech-provider privacy is explained before microphone access.
 4. `tox -e all`, zero npm audit findings, the Vite build and the latest-Node/Python
    multi-stage Docker image build pass. Snapshot release behavior is unchanged.
 
-The minute cap counts imported caption duration. Cloud STT is not enabled and no
+The integration merged as `fe58169db27bcdcecb0714d49eb2b09ef9178b5f` after GitHub
+quality, browser and secret checks passed. The minute cap counts imported caption duration. Cloud STT is not enabled and no
 paid transcription is claimed. Browser tests use a stub speech engine and request
 no microphone permission. Whisper, YAMNet, pairing, ASL content and public launch
 remain separate SoundSight product work.
