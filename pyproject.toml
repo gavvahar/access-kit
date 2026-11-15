@@ -54,6 +54,7 @@ ignore = ["E203", "E501", "E701", "E401", "B008"]
 
 # Default envs run when you type `tox` with no arguments
 [tool.tox]
+package_root = "{tox_root}/python"
 env_list = [
   "lint",
   "txt-lint",
@@ -183,21 +184,8 @@ commands = [["npx", "jscpd", "."]]
 
 [tool.tox.env."secret-detection"]
 skip_install = true
-allowlist_externals = ["docker"]
-commands = [
-  [
-    "docker",
-    "run",
-    "--rm",
-    "-v",
-    "{toxinidir}:/repo",
-    "trufflesecurity/trufflehog:latest",
-    "git",
-    "file:///repo",
-    "--results=verified,unverified,unknown",
-    "--fail",
-  ],
-]
+deps = []
+commands = [["python", "scripts/scan_secrets.py"]]
 
 # Local equivalent of the dedicated zizmor.yml GitHub Actions workflow (static
 # analysis for GitHub Actions YAML -- catches template-injection, artipacked
@@ -268,9 +256,9 @@ strict = true
 files = ["python/src/access_kit"]
 
 [tool.tox.env.py-test]
-package = "skip"
+package = "editable"
 changedir = "{toxinidir}"
-deps = ["-e {toxinidir}/python[dev]"]
+extras = ["dev", "testing"]
 commands = [
   [
     "pytest",
@@ -278,13 +266,19 @@ commands = [
     "--cov=access_kit",
     "--cov-branch",
     "--cov-report=term-missing",
+    "--cov-report=json:{envtmpdir}/coverage.json",
     "--cov-fail-under=85",
+  ],
+  [
+    "python",
+    "scripts/check_security_coverage.py",
+    "{envtmpdir}/coverage.json",
   ],
 ]
 
 [tool.tox.env.py-typecheck]
-package = "skip"
-deps = ["-e {toxinidir}/python[dev]"]
+package = "editable"
+extras = ["dev", "testing"]
 commands = [["mypy"]]
 
 [tool.tox.env.package-build]

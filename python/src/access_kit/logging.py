@@ -2,7 +2,6 @@
 
 import json
 import logging
-import math
 import re
 from collections.abc import Mapping
 from contextvars import ContextVar
@@ -37,7 +36,7 @@ def scrub_logs(event: Mapping[str, object]) -> dict[str, object]:
     result: dict[str, object] = {"event": message if isinstance(message, str) and _EVENT.fullmatch(message) else "redacted"}
     for key in _NUMBERS:
         value = event.get(key)
-        if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):
+        if isinstance(value, (int, float)) and not isinstance(value, bool) and -1e15 <= value <= 1e15:
             result[key] = value
     for key, allowed in _ENUMS.items():
         value = event.get(key)

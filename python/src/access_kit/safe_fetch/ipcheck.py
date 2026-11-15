@@ -20,12 +20,10 @@ def is_public_ip(value: str) -> bool:
         address = ip_address(value)
     except ValueError:
         return False
-    if not address.is_global or address.is_multicast or address.is_reserved:
-        return False
     if isinstance(address, IPv6Address):
         if address.ipv4_mapped is not None or any(address in network for network in _TRANSITION):
             return False
-    return True
+    return address.is_global and not address.is_multicast and not address.is_reserved
 
 
 def validate_url(value: str | httpx.URL) -> httpx.URL:
@@ -39,7 +37,7 @@ def validate_url(value: str | httpx.URL) -> httpx.URL:
     except (httpx.InvalidURL, ValueError):
         raise BlockedDestination("invalid URL") from None
     hostname = url.host.rstrip(".").lower()
-    if url.scheme not in {"http", "https"} or not hostname or url.userinfo or (port is not None and port not in {80, 443}):
+    if url.scheme not in {"http", "https"} or not hostname or "%" in hostname or url.userinfo or (port is not None and port not in {80, 443}):
         raise BlockedDestination("URL scheme, credentials, host or port is not permitted")
     if hostname == "localhost" or hostname.endswith((".localhost", ".local", ".internal")):
         raise BlockedDestination("local hostnames are not permitted")

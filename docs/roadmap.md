@@ -15,13 +15,20 @@ by the current repository layout.
 ## Phase B: Python v0.1
 
 1. [x] Extensible validated settings; health endpoint with pluggable checks.
-2. [ ] Logging with default scrubbing and request IDs.
-3. [ ] Privacy helpers and signed anonymous sessions.
-4. [ ] SSRF-safe fetcher with connect-time IP pinning and regression suite.
-5. [ ] LLM providers, JSON retry, usage accounting, and reusable testing fakes.
+2. [x] Logging with default scrubbing and request IDs.
+3. [x] Privacy helpers and signed anonymous sessions.
+4. [x] SSRF-safe fetcher with connect-time IP pinning and regression suite.
+5. [x] LLM providers, JSON retry, usage accounting, and reusable testing fakes.
 
-Phase B is complete only after ClearRead installs `py-v0.1.0` and runs its
-Phase 1 pipeline. The current development version is not that release.
+The Phase B library implementation is complete. A consumer-style ASGI test
+exercises fetching, typed LLM JSON output, sessions, privacy, request IDs, and
+health without live services. All package initializers are empty.
+
+Integration acceptance remains pending: the sibling ClearRead repository is
+still a template and has no Phase 1 pipeline to validate. Phase B is accepted
+only after ClearRead installs `py-v0.1.0` and runs its
+Phase 1 pipeline. The current development version is not that release. No package tag is created
+by this implementation. Phase C has not started.
 
 ## Later phases
 

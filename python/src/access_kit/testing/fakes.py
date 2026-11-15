@@ -26,7 +26,7 @@ def fake_llm(responses: Sequence[str | LLMError], *, tokens: Usage | None = None
     async def complete_text(system: str, user: str) -> tuple[str, Usage]:
         calls.append(LLMCall(system, user))
         if not pending:
-            raise LLMError("fake provider has no remaining responses")
+            raise LLMError("fake provider has no remaining responses", consumed=usage())
         result = pending.popleft()
         if isinstance(result, LLMError):
             raise result

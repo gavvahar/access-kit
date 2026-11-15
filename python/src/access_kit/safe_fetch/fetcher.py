@@ -61,7 +61,8 @@ def make_fetcher(
     @asynccontextmanager
     async def open_response(value: str) -> AsyncIterator[tuple[httpx.Response, httpx.URL]]:
         url = validate_url(value)
-        for hop in range(max_redirects + 1):
+        hop = 0
+        while True:
             ip = await resolve_public(url.host, url.port or (443 if url.scheme == "https" else 80))
             pinned = url.copy_with(host=ip)
             # New client per hop prevents TLS/Host confusion across pooled origins.
@@ -82,14 +83,12 @@ def make_fetcher(
                         location = response.headers.get("location")
                         if not location:
                             raise FetchError("redirect has no location")
-                        if hop == max_redirects:
+                        if hop >= max_redirects:
                             raise TooManyRedirects("redirect limit exceeded")
-                        try:
-                            target = validate_url(url.join(location))
-                        except (httpx.InvalidURL, ValueError):
-                            raise BlockedDestination("invalid redirect URL") from None
+                        target = validate_url(url.join(location))
                         if url.scheme == "https" and target.scheme != "https":
                             raise BlockedDestination("HTTPS downgrade redirect is not permitted")
+                        hop += 1
                         url = target
                         continue
                     if not 200 <= response.status_code < 300:
@@ -121,7 +120,7 @@ def make_fetcher(
                 yield result
         except (TimeoutError, httpx.TimeoutException):
             raise FetchTimeout("fetch deadline exceeded") from None
-        except httpx.HTTPError:
+        except (httpx.HTTPError, httpx.InvalidURL):
             raise FetchError("upstream transport failed") from None
 
     async def fetch(value: str) -> FetchResult:

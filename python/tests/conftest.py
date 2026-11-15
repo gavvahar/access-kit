@@ -5,6 +5,7 @@ import pytest
 import pytest_asyncio
 
 pytest_plugins = ["access_kit.testing.fixtures"]
+_HTTP_CLIENT = httpx.AsyncClient
 
 
 @pytest_asyncio.fixture
@@ -12,7 +13,7 @@ async def client_for():
     clients = []
 
     def create(app):
-        client = httpx.AsyncClient(transport=httpx.ASGITransport(app=app, raise_app_exceptions=False), base_url="https://test")
+        client = _HTTP_CLIENT(transport=httpx.ASGITransport(app=app, raise_app_exceptions=False), base_url="https://test")
         clients.append(client)
         return client
 
@@ -66,8 +67,8 @@ def patch_fetch_http(monkeypatch):
     return responses, seen, configurations
 
 
-@pytest.fixture
-def public_dns(monkeypatch):
+@pytest_asyncio.fixture
+async def public_dns(monkeypatch):
     import asyncio
     import socket
 
@@ -80,3 +81,10 @@ def public_dns(monkeypatch):
 
     monkeypatch.setattr(asyncio.get_running_loop(), "getaddrinfo", resolve)
     return addresses, seen
+
+
+@pytest.fixture
+def kit_settings():
+    from access_kit.settings import AccessKitSettings
+
+    return AccessKitSettings(app_name="Example", public_base_url="https://example.com", redis_url="redis://localhost", session_secret="s" * 32, ip_hash_salt="h" * 32)

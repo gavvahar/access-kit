@@ -16,4 +16,19 @@ Security requirements:
    and the SSRF case suite are required before that module ships.
 4. Secret scanning and Dependabot alerts must be enabled by the repository owner.
 
-No SSRF-safe fetcher is implemented in this scaffold.
+The fetcher in `access_kit.safe_fetch.fetcher` validates every DNS answer and
+connects to the validated numeric IP while preserving TLS SNI and Host. It
+revalidates redirects, refuses HTTPS downgrades and ambient proxies, and bounds
+response bytes and time. CI requires 100% line and branch coverage for fetching,
+session handling, privacy, and log scrubbing. Coverage establishes regression
+coverage; it does not substitute for security review.
+
+## Historical test fixtures
+
+The local full-history scan recognizes exactly two fake URI fixtures in immutable
+commits: `8afedc4` (`test_logging.py`) and `bf5200e` (`testing/ssrf_cases.py`).
+`scripts/scan_secrets.py` matches commit, file, detector, exact dummy value, and
+unverified status. Verified results, other values, other files, and newer commits
+always fail. No detector or path is skipped, and Git history is not rewritten.
+Current test fixtures assemble those URLs at runtime, so new commits avoid the
+false positives. The GitHub push/PR scanner configuration is unchanged.
