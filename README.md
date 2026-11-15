@@ -62,8 +62,10 @@ dependencies = [
 `py-v0.1.0` is a planned tag, not an existing release. For local development use
 `python -m pip install -e ../access-kit/python`.
 
-Tag workflows build downloadable CI artifacts; they do not publish packages or
-create releases automatically. Set each package's version before tagging.
+Pushes to `main` create repository releases (`vX.Y.Z`) from Conventional Commits,
+using the original release workflow. Package builds run in CI; package registry
+publishing is deferred. Validated Python and web releases will use independent
+package tags. Repository snapshot tags do not replace consuming-app validation.
 
 See the [roadmap](docs/roadmap.md), [contributing guide](CONTRIBUTING.md), and
 [security policy](SECURITY.md). Release acceptance requires integration in the
