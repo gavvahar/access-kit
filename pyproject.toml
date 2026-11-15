@@ -279,7 +279,13 @@ commands = [
     "--cov=access_kit",
     "--cov-branch",
     "--cov-report=term-missing",
+    "--cov-report=json:{envtmpdir}/coverage.json",
     "--cov-fail-under=85",
+  ],
+  [
+    "python",
+    "scripts/check_security_coverage.py",
+    "{envtmpdir}/coverage.json",
   ],
 ]
 
