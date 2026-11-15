@@ -71,7 +71,7 @@ work_dir = "/tmp/.tox"
 
 # Shared base config inherited by all envs
 [tool.tox.env_run_base]
-pass_env = ["PATH"]
+pass_env = ["PATH", "CI", "PLAYWRIGHT_BROWSERS_PATH"]
 set_env = { VIRTUALENV_OVERRIDE_APP_DATA = "{work_dir}/.virtualenv", PRETTIER_GLOB = "**/*.{css,js,mjs,html,json,yml,yaml,md}" }
 
 # --- Linting ----------------------------------------------------------------
