@@ -5,9 +5,23 @@
   "description": "Shared accessible Web Components for ClearRead and SoundSight",
   "type": "module",
   "license": "MIT",
-  "engines": { "node": ">=22" },
-  "exports": { ".": "./src/index.js" },
-  "files": ["src", "README.md", "LICENSE"],
-  "scripts": { "check": "node --check src/index.js" },
-  "repository": { "type": "git", "url": "https://github.com/gavvahar/access-kit", "directory": "web" }
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "check": "node --check src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gavvahar/access-kit",
+    "directory": "web"
+  }
 }
