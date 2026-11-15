@@ -43,8 +43,36 @@ by this implementation.
 Phase C library implementation is complete; app integration acceptance is pending.
 No `web-v0.1.0` tag is created. See [web usage](../web/README.md).
 
-## Later phases
+## Phase D: protection
 
-1. Phase D: rate limits, Turnstile, budgets, and notifications.
-2. Phase E: job progress, SSE, and ADHD components.
-3. Phase F: stable APIs, complete module docs, and public package publishing.
+1. [x] Redis Lua weighted sliding limits and fail-closed FastAPI dependency.
+2. [x] Server-validated Turnstile with hostname/action binding.
+3. [x] Atomic daily reserve/commit/release, idempotency and threshold snapshots.
+4. [x] ntfy, signed webhooks and TLS email notifications.
+5. [x] Real Redis load check: each of token/minute caps admits 33 of 1,000
+       requests across four independent clients (99 used against a cap of 100).
+
+The library load criterion passes. Application-wide enforcement still depends on
+apps bounding every provider attempt and dispatching only after reservation.
+See [protection contracts](protection.md); no live paid-provider load was run.
+
+## Phase E: jobs and web activities
+
+1. [x] Owner-scoped Redis progress, monotonic transitions and terminal states.
+2. [x] SSE snapshots, bounded replay, Last-Event-ID, heartbeats and disconnects.
+3. [x] `<ak-progress>`, `<ak-session>`, `<ak-celebrate>` and DOM-free controllers.
+4. [x] Demo plus keyboard, timer, narrow-screen and five-theme axe coverage.
+5. [ ] Consumer acceptance: both apps display live jobs and use the same session
+       component. Required screens/pipelines are absent from the workspace.
+
+## Phase F: stable release preparation
+
+1. [x] Guides for every module and public API inventory.
+2. [x] Architecture decisions and independent package version policy.
+3. [x] Local package builds and publication review checklist.
+4. [ ] Consumer acceptance evidence, final API review and independent v1 tags.
+5. [ ] Owner-approved public visibility, PyPI/npm name ownership and publication.
+
+Library implementation is complete; the overall launch plan is not complete.
+Manifests remain development versions and web remains private. Existing snapshot
+release automation keeps its original behavior. See [release readiness](releasing-packages.md).
