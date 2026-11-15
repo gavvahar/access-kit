@@ -61,6 +61,10 @@ env_list = [
   "prettier",
   "toml-lint",
   "duplicate-code",
+  "py-test",
+  "py-typecheck",
+  "package-build",
+  "web-check",
 ]
 work_dir = "/tmp/.tox"
 
@@ -231,6 +235,10 @@ commands = [
   ["tox", "-e", "prettier"],
   ["tox", "-e", "toml-lint"],
   ["tox", "-e", "duplicate-code"],
+  ["tox", "-e", "py-test"],
+  ["tox", "-e", "py-typecheck"],
+  ["tox", "-e", "package-build"],
+  ["tox", "-e", "web-check"],
   # ["tox", "-e", "combined-imports-check"],
 ]
 
@@ -256,3 +264,35 @@ commands = [
     "secret-detection",
   ],
 ]
+
+# Python metadata lives in python/pyproject.toml; this file owns shared tooling.
+[tool.pytest.ini_options]
+testpaths = ["python/tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["python/src/access_kit"]
+
+[tool.tox.env.py-test]
+package = "skip"
+changedir = "{toxinidir}"
+deps = ["-e {toxinidir}/python[dev]"]
+commands = [["pytest", "python/tests", "--cov=access_kit", "--cov-branch", "--cov-report=term-missing", "--cov-fail-under=85"]]
+
+[tool.tox.env.py-typecheck]
+package = "skip"
+deps = ["-e {toxinidir}/python[dev]"]
+commands = [["mypy"]]
+
+[tool.tox.env.package-build]
+package = "skip"
+deps = ["build"]
+commands = [["python", "-m", "build", "python", "--outdir", "{envtmpdir}/dist"]]
+
+[tool.tox.env.web-check]
+skip_install = true
+allowlist_externals = ["npm"]
+commands = [["npm", "run", "check", "--workspace", "web"], ["npm", "pack", "--workspace", "web", "--dry-run"]]
