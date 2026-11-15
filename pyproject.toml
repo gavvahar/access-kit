@@ -184,21 +184,8 @@ commands = [["npx", "jscpd", "."]]
 
 [tool.tox.env."secret-detection"]
 skip_install = true
-allowlist_externals = ["docker"]
-commands = [
-  [
-    "docker",
-    "run",
-    "--rm",
-    "-v",
-    "{toxinidir}:/repo",
-    "trufflesecurity/trufflehog:latest",
-    "git",
-    "file:///repo",
-    "--results=verified,unverified,unknown",
-    "--fail",
-  ],
-]
+deps = []
+commands = [["python", "scripts/scan_secrets.py"]]
 
 # Local equivalent of the dedicated zizmor.yml GitHub Actions workflow (static
 # analysis for GitHub Actions YAML -- catches template-injection, artipacked
