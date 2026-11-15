@@ -252,3 +252,16 @@ latest Python, a native Lua wheel may need the compiler toolchain supplied by
 exercises concurrent budget admission, weighted limits and job event replay.
 The [API inventory](https://github.com/gavvahar/access-kit/blob/main/docs/api.md) covers every supported module; the
 [architecture decisions](https://github.com/gavvahar/access-kit/blob/main/docs/decisions.md) explain ownership and lifecycle.
+
+## Bounded HTTP requests
+
+Wrap an ASGI app with `access_kit.http.body_limit(app, max_bytes=1_000_000,
+read_timeout=15)` before exposing JSON/document endpoints. Oversized declared or
+streamed bodies receive 413 before framework parsing. Duplicate/invalid/mismatched
+Content-Length receives 400; body-read timeout receives 408. Non-HTTP scopes pass
+through. Valid bodies replay once, then preserve the original disconnect stream.
+This buffers bounded requests; use a separate design for streaming uploads.
+
+`provider_from_settings` accepts explicit `max_tokens`, `max_input_tokens`,
+`timeout` and `json_retries` overrides. Consumer budgets can reserve the true
+upper bound across those bounded attempts instead of guessing factory defaults.
