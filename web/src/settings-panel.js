@@ -10,6 +10,7 @@ export function defineSettingsPanel({
   if (!registry || !elementBase) return false;
   if (registry.get("ak-settings-panel"))
     return registry.get("ak-settings-panel");
+  let nextId = 0;
   class SettingsPanel extends elementBase {
     #unsubscribe;
     #abort;
@@ -30,7 +31,7 @@ export function defineSettingsPanel({
             <label><span>Font</span><select name="font"><option value="system">Device default</option><option value="atkinson">Atkinson Hyperlegible</option><option value="noto">Noto Sans</option></select></label>
           </fieldset>
           <fieldset><legend>Reading</legend>
-            <label><span>Text size <output name="scale">100%</output></span><input name="textScale" type="range" min="0.875" max="3" step="0.125" value="1"></label>
+            <label><span>Text size <output name="scale" aria-hidden="true">100%</output></span><input name="textScale" type="range" min="0.875" max="3" step="0.125" value="1"></label>
             <label><span>Line spacing</span><select name="lineHeight"><option value="1.5">Comfortable</option><option value="1.7">Roomy</option><option value="2">Extra roomy</option></select></label>
             <label><span>Letter spacing</span><select name="letterSpacing"><option value="normal">Standard</option><option value="wide">Wider</option></select></label>
           </fieldset>
@@ -42,6 +43,20 @@ export function defineSettingsPanel({
           <p class="ak-settings-storage" role="status"></p>
           <button type="button" data-ak-reset>Reset preferences</button>
         </form>`;
+        const prefix = `ak-settings-${globalThis.crypto?.randomUUID?.() ?? ++nextId}`;
+        for (const label of this.querySelectorAll("label")) {
+          const control = label.querySelector("select, input");
+          control.id = `${prefix}-${control.name}`;
+          label.htmlFor = control.id;
+          const field = this.ownerDocument.createElement("div");
+          field.className = "ak-field";
+          label.before(field);
+          if (label.classList.contains("ak-check")) {
+            field.classList.add("ak-check");
+            label.classList.remove("ak-check");
+            field.append(control, label);
+          } else field.append(label, control);
+        }
         this.#rendered = true;
       }
       this.#unsubscribe?.();
