@@ -85,10 +85,7 @@ def make_fetcher(
                             raise FetchError("redirect has no location")
                         if hop >= max_redirects:
                             raise TooManyRedirects("redirect limit exceeded")
-                        try:
-                            target = validate_url(url.join(location))
-                        except (httpx.InvalidURL, ValueError):
-                            raise BlockedDestination("invalid redirect URL") from None
+                        target = validate_url(url.join(location))
                         if url.scheme == "https" and target.scheme != "https":
                             raise BlockedDestination("HTTPS downgrade redirect is not permitted")
                         hop += 1
@@ -123,7 +120,7 @@ def make_fetcher(
                 yield result
         except (TimeoutError, httpx.TimeoutException):
             raise FetchTimeout("fetch deadline exceeded") from None
-        except httpx.HTTPError:
+        except (httpx.HTTPError, httpx.InvalidURL):
             raise FetchError("upstream transport failed") from None
 
     async def fetch(value: str) -> FetchResult:
