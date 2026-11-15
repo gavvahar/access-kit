@@ -18,5 +18,10 @@
     "check": "npm run check --workspace web",
     "format:check": "prettier --check \"**/*.{css,js,mjs,html,json,yml,yaml,md}\"",
     "demo": "npm run demo --workspace web"
+  },
+  "overrides": {
+    "glob": {
+      "minimatch": "^11.0.1"
+    }
   }
 }
