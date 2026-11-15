@@ -9,7 +9,7 @@ from typing import Any
 
 import httpx
 
-from access_kit.llm.types import LLMError
+from access_kit.llm.types import LLMError, usage
 
 
 def endpoint(base_url: str, path: str) -> str:
@@ -62,7 +62,7 @@ def check_input(system: str, user: str, max_input_tokens: int) -> None:
     # A conservative byte cap, not a tokenizer or a billing estimate. Leave room
     # for message framing; actual model context limits remain provider-enforced.
     if len(system.encode()) + len(user.encode()) + 1024 > max_input_tokens:
-        raise LLMError("input exceeds conservative provider byte limit")
+        raise LLMError("input exceeds conservative provider byte limit", consumed=usage())
 
 
 def token_count(data: dict[str, Any], key: str, *, default: int | None = None) -> int:
