@@ -7,7 +7,7 @@ name = "access-kit"
 version = "0.1.0.dev0"
 description = "Shared backend toolkit for ClearRead and SoundSight"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.15"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Nihar Gavva" }]
