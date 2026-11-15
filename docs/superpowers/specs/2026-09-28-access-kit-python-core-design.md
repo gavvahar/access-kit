@@ -88,21 +88,8 @@ env_list = [
 ]
 ```
 
-Add to `github` aggregate:
-
-```toml
-[tool.tox.env.github]
-commands = [
-  ["tox", "-e", "lint"],
-  ["tox", "-e", "txt-lint"],
-  ["tox", "-e", "prettier"],
-  ["tox", "-e", "toml-lint"],
-  ["tox", "-e", "duplicate-code"],
-  ["tox", "-e", "py-test"],
-  ["tox", "-e", "py-typecheck"],
-  ["tox", "-e", "py-no-classes"],
-]
-```
+The `github` aggregate is maintained in the [root tooling configuration](../../../pyproject.toml).
+Python tests and type checks run alongside the existing quality checks.
 
 ### 1.4 CI Workflows
 
