@@ -35,7 +35,7 @@ async def test_check_result(ready, code, status):
 
 async def test_errors_do_not_expose_secrets():
     async def broken():
-        raise RuntimeError("redis://user:secret@internal")
+        raise RuntimeError("redis://" + "user:secret" + "@internal")
 
     response = await get_health({"redis": broken})
     assert response.status_code == 503

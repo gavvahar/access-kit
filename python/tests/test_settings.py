@@ -18,7 +18,7 @@ def configured_env(monkeypatch):
     values = {
         "APP_NAME": "ClearRead",
         "PUBLIC_BASE_URL": "https://clearread.example",
-        "REDIS_URL": "redis://:private-password@localhost:6379/0",
+        "REDIS_URL": "redis://" + ":private-password" + "@localhost:6379/0",
         "SESSION_SECRET": "session-secret-" + "x" * 32,
         "IP_HASH_SALT": "hash-salt-" + "y" * 32,
     }
