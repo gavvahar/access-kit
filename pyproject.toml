@@ -54,6 +54,7 @@ ignore = ["E203", "E501", "E701", "E401", "B008"]
 
 # Default envs run when you type `tox` with no arguments
 [tool.tox]
+package_root = "{tox_root}/python"
 env_list = [
   "lint",
   "txt-lint",
@@ -268,9 +269,9 @@ strict = true
 files = ["python/src/access_kit"]
 
 [tool.tox.env.py-test]
-package = "skip"
+package = "editable"
 changedir = "{toxinidir}"
-deps = ["-e {toxinidir}/python[dev]"]
+extras = ["dev", "testing"]
 commands = [
   [
     "pytest",
@@ -283,8 +284,8 @@ commands = [
 ]
 
 [tool.tox.env.py-typecheck]
-package = "skip"
-deps = ["-e {toxinidir}/python[dev]"]
+package = "editable"
+extras = ["dev", "testing"]
 commands = [["mypy"]]
 
 [tool.tox.env.package-build]
