@@ -1,5 +1,9 @@
 # access-kit v0.1 Python Core — Design Spec
 
+> Current Python policy: always use the latest stable Python 3 release.
+> Historical fixed-version examples below are superseded by CI `3.x` with
+> `check-latest: true` and type checking against the running interpreter.
+
 **Author:** Claude (via superpowers:brainstorming)  
 **Date:** 2026-09-28  
 **Status:** Ready for review  
