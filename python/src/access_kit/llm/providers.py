@@ -47,7 +47,7 @@ def anthropic_provider(
             token_count(raw, "output_tokens"),
         )
         blocks = data.get("content")
-        if data.get("stop_reason") not in {"end_turn", "stop_sequence"} or not isinstance(blocks, list) or not blocks:
+        if data.get("stop_reason") not in ("end_turn", "stop_sequence") or not isinstance(blocks, list) or not blocks:
             raise LLMError("provider returned incomplete or unsupported output", consumed=tokens)
         if any(not isinstance(block, dict) or block.get("type") != "text" or not isinstance(block.get("text"), str) for block in blocks):
             raise LLMError("provider returned non-text output", consumed=tokens)
