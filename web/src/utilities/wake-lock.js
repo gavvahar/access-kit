@@ -9,6 +9,11 @@ export function createWakeLock({
   let pending = null;
   const supported =
     typeof navigator?.wakeLock?.request === "function" && Boolean(document);
+  const listeners = new Set();
+  const notify = () => {
+    for (const listener of [...listeners])
+      listener({ active: Boolean(lock && !lock.released), supported });
+  };
   async function releaseSentinel(sentinel) {
     try {
       await sentinel.release();
@@ -39,12 +44,17 @@ export function createWakeLock({
         sentinel.addEventListener(
           "release",
           () => {
-            if (lock === sentinel) lock = null;
+            if (lock === sentinel) {
+              lock = null;
+              notify();
+            }
           },
           { once: true },
         );
+        notify();
         return true;
       } catch {
+        notify();
         return false;
       } finally {
         pending = null;
@@ -56,6 +66,7 @@ export function createWakeLock({
     wanted = false;
     const previous = lock;
     lock = null;
+    notify();
     if (previous) await releaseSentinel(previous);
     if (pending) await pending;
   }
@@ -69,6 +80,11 @@ export function createWakeLock({
   document?.defaultView?.addEventListener("pagehide", onPageHide);
   return {
     supported,
+    subscribe(listener) {
+      listeners.add(listener);
+      listener({ active: Boolean(lock && !lock.released), supported });
+      return () => listeners.delete(listener);
+    },
     get active() {
       return Boolean(lock && !lock.released);
     },
@@ -82,6 +98,7 @@ export function createWakeLock({
       document?.removeEventListener("visibilitychange", onVisibility);
       document?.defaultView?.removeEventListener("pagehide", onPageHide);
       await release();
+      listeners.clear();
     },
   };
 }
