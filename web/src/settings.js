@@ -63,6 +63,8 @@ export function createSettingsStore({
     if (destroyed) throw new Error("Settings store has been destroyed");
   }
   function onStorage(event) {
+    if (event.storageArea && storage.matchesArea?.(event.storageArea) === false)
+      return;
     if (event.key !== SETTINGS_KEY && event.key !== null) return;
     let payload = null;
     try {
