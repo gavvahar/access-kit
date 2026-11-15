@@ -36,8 +36,11 @@ _REDIRECTS = frozenset({301, 302, 303, 307, 308})
 
 
 def make_fetcher(
-    *, max_bytes: int = 5_000_000, connect_timeout: float = 5.0,
-    total_timeout: float = 15.0, max_redirects: int = 5,
+    *,
+    max_bytes: int = 5_000_000,
+    connect_timeout: float = 5.0,
+    total_timeout: float = 15.0,
+    max_redirects: int = 5,
     allowed_content_types: frozenset[str] = _DEFAULT_TYPES,
 ) -> tuple[Fetch, Download]:
     """Create fetch/download callables with shared safety rules.
@@ -63,12 +66,15 @@ def make_fetcher(
             pinned = url.copy_with(host=ip)
             # New client per hop prevents TLS/Host confusion across pooled origins.
             async with httpx.AsyncClient(
-                trust_env=False, follow_redirects=False, http2=False,
+                trust_env=False,
+                follow_redirects=False,
+                http2=False,
                 timeout=httpx.Timeout(total_timeout, connect=connect_timeout),
                 limits=httpx.Limits(max_connections=1, max_keepalive_connections=0),
             ) as client:
                 async with client.stream(
-                    "GET", pinned,
+                    "GET",
+                    pinned,
                     headers={"Host": url.netloc.decode("ascii"), "Accept-Encoding": "identity", "User-Agent": "access-kit/0.1"},
                     extensions={"sni_hostname": url.raw_host.decode("ascii")},
                 ) as response:
@@ -95,7 +101,7 @@ def make_fetcher(
                     if length is not None:
                         if not length.isascii() or not length.isdecimal():
                             raise FetchError("invalid response content length")
-                        if int(length) > max_bytes:
+                        if len(length) > 20 or int(length) > max_bytes:
                             raise TooLarge("announced body exceeds byte limit")
                     yield response, url
                     return
@@ -137,7 +143,7 @@ def make_fetcher(
                     async for chunk in chunks(response):
                         output.write(chunk)
                 # A hard link atomically refuses overwrites, including racing writers.
-                os.link(temporary, target)
+            os.link(temporary, target)
             return target
         finally:
             if temporary is not None:
