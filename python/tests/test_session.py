@@ -1,8 +1,7 @@
 """Cookie authenticity, expiry, isolation, rotation and streaming behavior."""
 
-import secrets
+import secrets, pytest
 
-import pytest
 from fastapi import Depends, FastAPI, Request
 from starlette.responses import StreamingResponse
 

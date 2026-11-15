@@ -1,11 +1,8 @@
 """Fail-closed Cloudflare Turnstile validation with hostname/action binding."""
 
-import json
-import math
-import re
+import json, math, re, httpx
 from collections.abc import Awaitable, Callable
 
-import httpx
 from fastapi import HTTPException, Request
 
 from access_kit.errors import ServiceUnavailable

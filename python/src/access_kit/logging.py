@@ -1,8 +1,6 @@
 """Structured stdlib logs with conservative redaction and ASGI request IDs."""
 
-import json
-import logging
-import re
+import json, logging, re
 from collections.abc import Mapping
 from contextvars import ContextVar
 from datetime import UTC, datetime

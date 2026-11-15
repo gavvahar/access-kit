@@ -1,7 +1,6 @@
 """Canonical client addresses and keyed, irreversible IP identifiers."""
 
-import hashlib
-import hmac
+import hashlib, hmac
 from collections.abc import Iterable
 from ipaddress import ip_address, ip_network
 

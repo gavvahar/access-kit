@@ -1,8 +1,6 @@
 """Shared ASGI clients and streaming HTTP fixtures."""
 
-import httpx
-import pytest
-import pytest_asyncio
+import httpx, pytest, pytest_asyncio
 
 pytest_plugins = ["access_kit.testing.fixtures"]
 _HTTP_CLIENT = httpx.AsyncClient

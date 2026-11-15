@@ -1,9 +1,7 @@
 """Socket-peer trust and pseudonymous IP hashing regressions."""
 
-import hashlib
-import hmac
+import hashlib, hmac, pytest
 
-import pytest
 from starlette.requests import Request
 
 from access_kit.privacy import canonical_ip, client_ip, hash_ip

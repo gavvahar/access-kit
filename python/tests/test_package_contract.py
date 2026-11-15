@@ -1,9 +1,7 @@
 """Package policy and security CI must hold independently of implementation."""
 
-import runpy
+import runpy, access_kit
 from pathlib import Path
-
-import access_kit
 
 
 def test_all_package_initializers_are_empty():

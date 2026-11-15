@@ -1,10 +1,8 @@
 """Worker transitions, owner isolation and reconnectable SSE contracts."""
 
-import asyncio
-import json
+import asyncio, json, pytest
 from unittest.mock import AsyncMock
 
-import pytest
 from fastapi import HTTPException
 from redis.exceptions import ConnectionError as RedisConnectionError
 from starlette.requests import Request

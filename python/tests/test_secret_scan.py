@@ -1,11 +1,8 @@
 """Historical fixture exceptions cannot hide new or verified credentials."""
 
 from copy import deepcopy
-import json
-import runpy
+import json, runpy, pytest
 from types import SimpleNamespace
-
-import pytest
 
 
 @pytest.fixture

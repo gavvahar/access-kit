@@ -6,8 +6,7 @@ fixtures even after removing full credential-bearing literals from current code.
 Verified secrets are NEVER allowlisted. No detector or source path is excluded.
 """
 
-import json
-import subprocess
+import json, subprocess
 from pathlib import Path
 from typing import Any
 

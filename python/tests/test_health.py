@@ -1,8 +1,7 @@
 """Exercise readiness through the ASGI interface without external services."""
 
-import asyncio
+import asyncio, pytest
 
-import pytest
 from fastapi import FastAPI
 from httpx import ASGITransport, AsyncClient
 

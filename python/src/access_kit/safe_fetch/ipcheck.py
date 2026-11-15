@@ -1,10 +1,8 @@
 """Destination validation. The validated numeric IP is the connection target."""
 
-import asyncio
-import socket
+import asyncio, socket, httpx
 from ipaddress import IPv6Address, ip_address, ip_network
 
-import httpx
 
 from access_kit.safe_fetch.errors import BlockedDestination
 

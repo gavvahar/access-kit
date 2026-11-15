@@ -11,9 +11,7 @@ environment (a real exported env var wins over .env, matching common
 dotenv-loader convention).
 """
 
-import os
-import re
-import sys
+import os, re, sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent

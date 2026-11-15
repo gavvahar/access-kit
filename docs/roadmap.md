@@ -25,11 +25,10 @@ The Phase B library implementation is complete. A consumer-style ASGI test
 exercises fetching, typed LLM JSON output, sessions, privacy, request IDs, and
 health without live services. All package initializers are empty.
 
-Integration acceptance remains pending: the sibling ClearRead repository is
-still a template and has no Phase 1 pipeline to validate. Phase B is accepted
-only after ClearRead installs `py-v0.1.0` and runs its
-Phase 1 pipeline. The initial public library package is prepared as v1.0.0;
-that supersedes the unreleased v0.1 milestone without claiming app acceptance.
+The ClearRead integration now implements a real extraction/provider/reader path
+using `py-v1.0.0`, which supersedes the unreleased v0.1 milestone. The consuming
+app tests cover the shared SSRF cases and actual endpoint composition. See
+[consumer acceptance evidence](acceptance-v1.md). Both integration PRs are merged.
 
 ## Phase C: Web v0.1
 
@@ -37,12 +36,11 @@ that supersedes the unreleased v0.1 milestone without claiming app acceptance.
 2. [x] Validated settings store and `<ak-settings-panel>` with native controls.
 3. [x] Announcements, wake locks, opt-in vibration, and safe storage utilities.
 4. [x] Demo, unit tests, browser keyboard/mobile tests, and axe checks in CI.
-5. [ ] Consuming-app acceptance: SoundSight's first screen and ClearRead's reader
-       must use the same package. Those screens are not present in the current
-       workspace; the existing ClearRead checkout remains a template.
+5. [x] Both real consumer screens use the exact same `web-v1.0.0` package,
+       including themes, settings, fonts and shared activity components.
 
-Phase C library implementation is complete; app integration acceptance is pending.
-No `web-v0.1.0` tag is created. See [web usage](../web/README.md).
+The browser acceptance suites pass in both consumer apps. The initial public
+package tag is `web-v1.0.0`, superseding the unreleased v0.1 milestone. See [web usage](../web/README.md).
 
 ## Phase D: protection
 
@@ -63,8 +61,8 @@ See [protection contracts](protection.md); no live paid-provider load was run.
 2. [x] SSE snapshots, bounded replay, Last-Event-ID, heartbeats and disconnects.
 3. [x] `<ak-progress>`, `<ak-session>`, `<ak-celebrate>` and DOM-free controllers.
 4. [x] Demo plus keyboard, timer, narrow-screen and five-theme axe coverage.
-5. [ ] Consumer acceptance: both apps display live jobs and use the same session
-       component. Required screens/pipelines are absent from the workspace.
+5. [x] Both apps display actual background-job progress and use the same session
+       component; browser tests verify pause/completion in their real screens.
 
 ## Phase F: stable release
 
@@ -72,10 +70,15 @@ See [protection contracts](protection.md); no live paid-provider load was run.
 2. [x] Architecture decisions and independent package version policy.
 3. [x] Local package builds and publication review checklist.
 4. [x] API review and `1.0.0` manifests; compatibility rules are now frozen.
-5. [ ] Independent package tags and authenticated PyPI/npm uploads.
+5. [ ] Registry uploads: independent v1 tags exist and publisher build checks
+       pass. PyPI needs its trusted publisher registered; npm needs login/bootstrap.
 
-Library implementation is complete; the overall launch plan is not complete.
-The repository is public and both manifests target `1.0.0`. A separate manual
+Library implementation and consumer acceptance tests are complete. The overall
+plan remains open only for authenticated registry publication.
+The repository is public and both v1 tags/manifests identify `1.0.0`. A separate manual
 publisher supports checked artifacts and trusted registry identities. Actual
 registry uploads require the owner’s account setup. Existing snapshot release
 automation keeps its original behavior. See [release readiness](releasing-packages.md).
+
+See [the acceptance record](acceptance-v1.md) for exact test counts, consumer PRs,
+publication attempts and the boundaries of the app integration work.
