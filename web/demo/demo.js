@@ -1,5 +1,7 @@
 import {
   announce,
+  createProgress,
+  defineActivityComponents,
   createWakeLock,
   defineSettingsPanel,
   initialize,
@@ -54,3 +56,23 @@ window.addEventListener("pagehide", (event) => {
     runtime.destroy();
   }
 });
+
+defineActivityComponents();
+const goal = createProgress({ target: 5 });
+const goalElement = document.querySelector("#demo-goal");
+const celebration = document.querySelector("ak-celebrate");
+document.querySelector("[data-add-step]").addEventListener("click", () => {
+  const state = goal.add();
+  goalElement.setAttribute("value", state.completed);
+  if (state.complete) celebration.celebrate("Five small steps. That counts.");
+});
+document.querySelector("[data-reset-goal]").addEventListener("click", () => {
+  goal.reset();
+  goalElement.setAttribute("value", 0);
+  celebration.clear();
+});
+document
+  .querySelector("ak-session")
+  .addEventListener("ak-session-complete", () =>
+    celebration.celebrate("You made time for a small step. That counts."),
+  );
