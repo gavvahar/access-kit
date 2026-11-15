@@ -11,6 +11,9 @@ DNS and connects to pinned public IPs with bounded redirects, bytes and time.
 LLM providers support explicit models, strict JSON validation, retries and
 accumulated known/unknown usage.
 
+Bounded ASGI request bodies reject oversized JSON before parsing. Settings-based
+provider construction accepts explicit input/output and retry limits.
+
 Redis-backed protections provide weighted sliding limits, daily reservation and
 settlement, threshold snapshots, and fail-closed dependencies. Turnstile validates
 hostname/action against Cloudflare. ntfy, signed webhooks and TLS SMTP deliver
