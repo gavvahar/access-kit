@@ -137,8 +137,9 @@ npm run check --workspace web
 npm pack --workspace web
 ```
 
-`check` builds the distribution, runs Node unit tests, and runs Chromium tests
-with axe. CI installs Chromium and its OS dependencies. A fresh Linux development
+`check` builds the distribution, runs Node unit tests, installs the matching
+Chromium binary if missing (without sudo), and runs browser tests with axe.
+The first check needs network access for that one-time browser download. CI installs Chromium and its OS dependencies. A fresh Linux development
 machine may also need `playwright install --with-deps chromium`.
 
 The package archive includes ESM entries, their shared chunks, CSS, font assets,
