@@ -4,8 +4,9 @@ build-backend = "hatchling.build"
 
 [project]
 name = "access-kit"
-version = "0.1.0.dev0"
+version = "1.0.0"
 description = "Shared backend toolkit for ClearRead and SoundSight"
+keywords = ["accessibility", "fastapi", "ssrf", "redis"]
 readme = "README.md"
 requires-python = ">=3.15"
 license = "MIT"
@@ -35,6 +36,8 @@ dev = [
 ]
 
 [project.urls]
+Documentation = "https://github.com/gavvahar/access-kit/blob/main/docs/api.md"
+Issues = "https://github.com/gavvahar/access-kit/issues"
 Repository = "https://github.com/gavvahar/access-kit"
 
 [tool.hatch.build.targets.wheel]

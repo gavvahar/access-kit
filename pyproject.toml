@@ -283,8 +283,25 @@ commands = [["mypy"]]
 
 [tool.tox.env.package-build]
 package = "skip"
-deps = ["build"]
-commands = [["python", "-m", "build", "python", "--outdir", "{envtmpdir}/dist"]]
+deps = ["build", "twine"]
+commands = [
+  [
+    "python",
+    "-m",
+    "build",
+    "python",
+    "--outdir",
+    "{envtmpdir}/dist",
+  ],
+  [
+    "python",
+    "-m",
+    "twine",
+    "check",
+    "--strict",
+    "{envtmpdir}/dist/*",
+  ],
+]
 
 [tool.tox.env.web-check]
 skip_install = true

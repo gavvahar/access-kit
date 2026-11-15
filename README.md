@@ -9,7 +9,9 @@ Only code both applications use belongs here.
 | `@gavvahar/access-kit-ui`   | `web/`    | Themes, settings and activities implemented | `web-vX.Y.Z` |
 
 Both packages use the MIT license and are versioned independently.
-Development versions are not stable releases. Nothing is published to PyPI or npm.
+Both package manifests target `1.0.0`, with the public API frozen in the API
+inventory. Publication status and remaining app acceptance are recorded in
+[the roadmap](docs/roadmap.md).
 
 ## Start developing
 
@@ -65,16 +67,16 @@ Apps will pin independent git tags after their first validated releases:
 
 ```toml
 dependencies = [
-  "access-kit @ git+https://github.com/gavvahar/access-kit@py-v0.1.0#subdirectory=python",
+  "access-kit @ git+https://github.com/gavvahar/access-kit@py-v1.0.0#subdirectory=python",
 ]
 ```
 
-`py-v0.1.0` is a planned tag, not an existing release. For local development use
+The `py-v1.0.0` package tag identifies the reviewed Python release. For local development use
 `python -m pip install -e ../access-kit/python`.
 
 Pushes to `main` create repository releases (`vX.Y.Z`) from Conventional Commits,
 using the original release workflow. Package builds run in CI; package registry
-publishing is deferred. Validated Python and web releases will use independent
+publishing uses the separate manual `publish-packages.yml` workflow. Validated Python and web releases will use independent
 package tags. Repository snapshot tags do not replace consuming-app validation.
 
 See the [roadmap](docs/roadmap.md), [contributing guide](CONTRIBUTING.md), and
@@ -85,5 +87,5 @@ The remaining library modules are implemented. Start with the
 [protection guide](docs/protection.md), [job/SSE guide](docs/jobs.md), and
 [public API inventory](docs/api.md). [Architecture decisions](docs/decisions.md)
 and [package release readiness](docs/releasing-packages.md) describe the v1
-acceptance steps. Actual consuming-app validation and public publishing remain
+acceptance steps. Actual consuming-app validation and authenticated registry uploads remain
 pending; the roadmap distinguishes those from completed library work.

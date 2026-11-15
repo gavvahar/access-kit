@@ -10,7 +10,8 @@ by the current repository layout.
 1. [x] Independent `python/` and `web/` package manifests and source layouts.
 2. [x] Test, type-check, formatting, build, and pre-commit configuration.
 3. [x] README, MIT license, security policy, and contributor instructions.
-4. [ ] Owner: enable private vulnerability reporting, secret scanning, and alerts.
+4. [x] Public repository with private vulnerability reporting, secret scanning,
+       push protection, and Dependabot alerts enabled.
 
 ## Phase B: Python v0.1
 
@@ -27,8 +28,8 @@ health without live services. All package initializers are empty.
 Integration acceptance remains pending: the sibling ClearRead repository is
 still a template and has no Phase 1 pipeline to validate. Phase B is accepted
 only after ClearRead installs `py-v0.1.0` and runs its
-Phase 1 pipeline. The current development version is not that release. No package tag is created
-by this implementation.
+Phase 1 pipeline. The initial public library package is prepared as v1.0.0;
+that supersedes the unreleased v0.1 milestone without claiming app acceptance.
 
 ## Phase C: Web v0.1
 
@@ -65,14 +66,16 @@ See [protection contracts](protection.md); no live paid-provider load was run.
 5. [ ] Consumer acceptance: both apps display live jobs and use the same session
        component. Required screens/pipelines are absent from the workspace.
 
-## Phase F: stable release preparation
+## Phase F: stable release
 
 1. [x] Guides for every module and public API inventory.
 2. [x] Architecture decisions and independent package version policy.
 3. [x] Local package builds and publication review checklist.
-4. [ ] Consumer acceptance evidence, final API review and independent v1 tags.
-5. [ ] Owner-approved public visibility, PyPI/npm name ownership and publication.
+4. [x] API review and `1.0.0` manifests; compatibility rules are now frozen.
+5. [ ] Independent package tags and authenticated PyPI/npm uploads.
 
 Library implementation is complete; the overall launch plan is not complete.
-Manifests remain development versions and web remains private. Existing snapshot
-release automation keeps its original behavior. See [release readiness](releasing-packages.md).
+The repository is public and both manifests target `1.0.0`. A separate manual
+publisher supports checked artifacts and trusted registry identities. Actual
+registry uploads require the owner’s account setup. Existing snapshot release
+automation keeps its original behavior. See [release readiness](releasing-packages.md).

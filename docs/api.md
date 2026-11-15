@@ -1,7 +1,8 @@
 # Public API and compatibility
 
-This inventory defines the intended v1 contract. Current manifests remain
-`0.1.0.dev0` (Python) and `0.1.0-dev.0` (web); they are not accepted v1 releases.
+This inventory freezes the v1 public contract. Both package manifests are
+`1.0.0`. Registry publication is tracked separately in the roadmap; a manifest
+version does not prove that an upload has completed.
 Package initializers stay empty. Import the defining Python module, not the
 package root. Underscore modules and undocumented helpers are internal.
 

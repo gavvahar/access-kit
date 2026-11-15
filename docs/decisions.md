@@ -44,11 +44,14 @@ and target changes; only an explicit reset erases it. Celebrations use text and
 a static mark, with no surprise motion, vibration or sound. All five palettes
 must pass axe, keyboard use and narrow-screen tests.
 
-## 006: Stable contracts require consumer evidence
+## 006: Library stability and application acceptance
 
-Accepted. The documented API inventory is the intended v1 surface. Development
-versions remain clearly marked until real ClearRead and SoundSight integration
-passes. After independent v1 tags, incompatible signatures, return shapes,
-settings storage or event contracts require a major version; additive optional
-behavior uses minor versions and compatible fixes use patch versions. Public
-visibility and registry publication follow artifact review and owner approval.
+Accepted, amended for the initial public package release. The documented API
+inventory freezes the v1 library surface, backed by package tests and composed
+FastAPI consumer contracts for core processing, protections and job progress.
+Actual ClearRead and SoundSight acceptance remains a separate launch requirement;
+fixtures do not count as deployed app evidence. Incompatible signatures, return
+shapes, persisted settings or event contracts require a major version. Additive
+optional behavior uses minor versions and compatible fixes use patch versions.
+The owner requested completion of the planned public release. Registry access
+still requires account authentication; it is never inferred from GitHub access.
