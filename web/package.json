@@ -23,5 +23,12 @@
     "type": "git",
     "url": "https://github.com/gavvahar/access-kit",
     "directory": "web"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@fontsource/atkinson-hyperlegible": "^5.3.0",
+    "@fontsource/noto-sans": "^5.3.0",
+    "@playwright/test": "^1.65.1",
+    "esbuild": "^0.28.2"
   }
 }
