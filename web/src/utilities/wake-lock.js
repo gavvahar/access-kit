@@ -12,7 +12,7 @@ export function createWakeLock({ navigator = globalThis.navigator, document = gl
     if (pending) return pending;
     pending = (async () => {
       try {
-        const sentinel = await navigator.wakeLock.request("screen");
+        const sentinel = await Promise.resolve().then(() => navigator.wakeLock.request("screen"));
         if (disposed || !wanted || document.visibilityState !== "visible") { await releaseSentinel(sentinel); return false; }
         lock = sentinel;
         sentinel.addEventListener("release", () => { if (lock === sentinel) lock = null; }, { once: true });

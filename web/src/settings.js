@@ -78,6 +78,7 @@ export function getSettingsStore() { return sharedStore ??= createSettingsStore(
 /** Apply preferences to a document root; return cleanup for SPA lifecycles. */
 export function initialize({ store = getSettingsStore(), root = globalThis.document?.documentElement, window = globalThis.window } = {}) {
   if (!root) throw new Error("A document root is required");
+  root.classList.add("ak-ui");
   const dark = window?.matchMedia?.("(prefers-color-scheme: dark)");
   const motion = window?.matchMedia?.("(prefers-reduced-motion: reduce)");
   function apply(settings = store.get()) {

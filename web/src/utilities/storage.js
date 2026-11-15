@@ -8,15 +8,12 @@ export function createStorage(options = {}) {
   return {
     get available() { return available; },
     read(key, fallback = null) {
-      try {
-        if (!backend) return fallback;
-        const raw = backend.getItem(key);
-        available = true;
-        return raw === null ? fallback : JSON.parse(raw);
-      } catch {
-        // Invalid JSON is also handled by falling back; never trust stored data.
-        return fallback;
-      }
+      if (!backend) return fallback;
+      let raw;
+      try { raw = backend.getItem(key); available = true; }
+      catch { available = false; return fallback; }
+      if (typeof raw !== "string" || raw.length > 65_536) return fallback;
+      try { return JSON.parse(raw); } catch { return fallback; }
     },
     write(key, value) {
       try {
