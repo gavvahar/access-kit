@@ -26,8 +26,9 @@ coverage; it does not substitute for security review.
 
 ## Historical test fixtures
 
-The local full-history scan recognizes exactly two fake URI fixtures in immutable
-commits: `8afedc4` (`test_logging.py`) and `bf5200e` (`testing/ssrf_cases.py`).
+The local full-history scan recognizes exactly three fake URI fixtures in immutable
+commits: `8afedc4` (`test_logging.py`), `bf5200e` (`testing/ssrf_cases.py`), and `39859b6`
+(`test_delivery.py`).
 `scripts/scan_secrets.py` matches commit, file, detector, exact dummy value, and
 unverified status. Verified results, other values, other files, and newer commits
 always fail. No detector or path is skipped, and Git history is not rewritten.
