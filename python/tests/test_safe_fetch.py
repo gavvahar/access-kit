@@ -117,7 +117,7 @@ async def test_redirect_to_hostname_with_private_dns(public_dns, patch_fetch_htt
         ({}, FetchError),
         ({"location": "/next"}, TooManyRedirects),
         ({"location": "http://[invalid"}, BlockedDestination),
-        ({"location": "http://example.com:invalid"}, BlockedDestination),
+        ({"location": "http://example.com:invalid"}, FetchError),
     ],
 )
 async def test_redirect_errors(header, error, public_dns, patch_fetch_http):
