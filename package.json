@@ -1,5 +1,5 @@
 {
-  "name": "self-hosting-template",
+  "name": "access-kit",
   "private": true,
   "dependencies": {
     "prettier": "^3.9.8"
@@ -9,5 +9,12 @@
     "textlint": "^15.8.0",
     "textlint-rule-common-misspellings": "^1.0.1",
     "textlint-rule-write-good": "^2.0.0"
+  },
+  "workspaces": [
+    "web"
+  ],
+  "scripts": {
+    "check": "npm run check --workspace web",
+    "format:check": "prettier --check \"**/*.{css,js,html,json,yml,yaml,md}\""
   }
 }
