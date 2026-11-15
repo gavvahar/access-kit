@@ -18,8 +18,12 @@ document
     status.textContent =
       "A message was sent to the screen reader. Your focus stays here.";
   });
+wake.subscribe(({ active }) => {
+  wakeButton.setAttribute("aria-pressed", String(active));
+  wakeButton.textContent = active ? "Let screen sleep" : "Keep screen awake";
+});
 wakeButton.addEventListener("click", async () => {
-  if (wakeButton.getAttribute("aria-pressed") === "true") {
+  if (wake.active) {
     await wake.release();
     wakeButton.setAttribute("aria-pressed", "false");
     wakeButton.textContent = "Keep screen awake";
@@ -44,11 +48,9 @@ document
         ? "Vibration requested. Some devices may not provide feedback."
         : "Vibration is unavailable or was declined on this device.";
   });
-window.addEventListener(
-  "pagehide",
-  () => {
+window.addEventListener("pagehide", (event) => {
+  if (!event.persisted) {
     void wake.destroy();
     runtime.destroy();
-  },
-  { once: true },
-);
+  }
+});
