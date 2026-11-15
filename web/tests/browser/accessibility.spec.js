@@ -20,7 +20,6 @@ test("native keyboard controls keep focus and survive reload", async ({
   const theme = page.getByLabel("Theme", { exact: true });
   await theme.focus();
   await page.keyboard.press("End");
-  await page.keyboard.press("Enter");
   await expect(theme).toHaveValue("calm");
   await page.keyboard.press("Tab");
   await expect(page.getByLabel("Font", { exact: true })).toBeFocused();
