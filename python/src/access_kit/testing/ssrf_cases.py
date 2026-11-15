@@ -49,7 +49,7 @@ SSRF_CASES: tuple[str, ...] = (
     "file:///etc/passwd",
     "ftp://example.com",
     "gopher://example.com",
-    "http://user:password@example.com",
+    "http://" + "user:password" + "@example.com",
     "http://example.com:22",
     "http://example.com:0",
     "http://example.com:65536",

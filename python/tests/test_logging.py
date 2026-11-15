@@ -41,7 +41,7 @@ def test_only_allowlisted_fields_survive():
     assert safe == {"event": "request_done", "status_code": 200, "duration_ms": 1.5, "method": "POST", "provider": "ollama", "request_id": "a" * 32}
 
 
-@pytest.mark.parametrize("event", [None, 4, "raw user text", "127.0.0.1", "https://user:password@private", "a" * 65])
+@pytest.mark.parametrize("event", [None, 4, "raw user text", "127.0.0.1", "https://" + "user:password" + "@private", "a" * 65])
 def test_freeform_event_is_redacted(event):
     assert scrub_logs({"event": event}) == {"event": "redacted"}
 

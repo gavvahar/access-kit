@@ -1,6 +1,5 @@
 """Shared ASGI clients and streaming HTTP fixtures."""
 
-
 import httpx
 import pytest
 import pytest_asyncio
