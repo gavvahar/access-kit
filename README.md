@@ -1,47 +1,70 @@
-# Self-Hosting-Template
+# access-kit
 
-A GitHub template repo for bootstrapping new self-hosting projects with linting, CI, and release automation already wired up.
+Shared backend and Web Components for **ClearRead** and **SoundSight**.
+Only code both applications use belongs here.
 
-## What's included
+| Package | Location | Status | Tags |
+| --- | --- | --- | --- |
+| `access-kit` / `access_kit` | `python/` | Settings and health implemented | `py-vX.Y.Z` |
+| `@gavvahar/access-kit-ui` | `web/` | Package scaffold | `web-vX.Y.Z` |
 
-- **`environment.yml` / `requirements.txt`** — conda environment (Python, pip, `gh`) with Python deps installed via pip.
-- **`pyproject.toml`** — [tox](https://tox.wiki) environments for linting and formatting:
-  - `lint` — `ruff check`
-  - `format` — `ruff format` + `ruff check --fix` + `prettier --write` + `taplo fmt`
-  - `txt-lint` — [textlint](https://textlint.github.io/) over `**/*.txt`
-  - `prettier` — `prettier --check` over CSS/JS/HTML/JSON/YAML/Markdown
-  - `toml-lint` — `taplo` format/lint check over TOML files
-  - `duplicate-code` — [jscpd](https://github.com/kucherenko/jscpd) zero-tolerance duplicate-code scan (config in `.jscpd.json`). Real duplication should be refactored into a shared file the callers source/import, not waved off by raising the threshold.
-  - `github` — the full read-only CI chain (`lint` + `txt-lint` + `prettier` + `toml-lint` + `duplicate-code`)
-  - `all` — `format` then `github`
-  - Also configures [git-cliff](https://git-cliff.org/) for generating changelogs/PR descriptions from Conventional Commits.
-- **`package.json`** — `prettier` and `textlint` (+ plugins), installed on demand by the relevant tox envs.
-- **`scripts/render_env_docs.py`** — renders `*.md.template` files, substituting `${VAR}` / `${VAR:-default}` / `${VAR:?message}` references (same syntax as `compose.yml`) from `.env`. Run it via `tox -e render-docs` or `make render-docs`. Write `docs/setup.md.template`, run the renderer, and it produces `docs/setup.md` with real values filled in. **Don't use this for docs that get committed if `.env` holds secrets** — either keep the rendered output gitignored, or only template non-sensitive values (domain, ports) and leave real secrets out of the template entirely.
-- **`.github/workflows/`**
-  - `tests.yml` — runs `tox -e github` on every push and PR.
-  - `secret-detection.yml` — [TruffleHog](https://github.com/trufflesecurity/trufflehog) scan on every push and PR.
-  - `release.yml` — on push to `main`, bumps semver based on Conventional Commit prefixes (`feat` → minor, `fix`/other → patch, `!`/`BREAKING CHANGE` → major) and publishes a GitHub Release with an auto-generated changelog.
-- **`CODEOWNERS`** — defaults review ownership to `@Self-Host-Server/code-owners`.
-- **`.gitignore`** — editor/AI-assistant artifacts (`.vscode`, `.cursor`, `CLAUDE.md`, etc.), `.env`, `node_modules`.
+Both packages use the MIT license and are versioned independently.
+Development versions are not stable releases. Nothing is published to PyPI or npm.
 
-## Using this template
+## Start developing
 
-1. Click **Use this template** on GitHub to create a new repo.
-2. Set up the environment:
+Requires Python 3.12+ and Node 22+.
 
-   ```bash
-   conda env create -f environment.yml
-   conda activate template
-   ```
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e './python[dev]'
+npm ci
+pytest
+mypy
+tox -e github
+pre-commit install
+```
 
-3. Install `tox` and run the full check locally before pushing:
+The existing conda workflow is also available through `environment.yml`.
+The root `pyproject.toml` owns shared tooling; `python/pyproject.toml` owns the
+installable Python package. Web package metadata lives in `web/package.json`.
 
-   ```bash
-   pip install tox
-   tox -e github   # lint + txt-lint + prettier + toml-lint + duplicate-code
-   tox -e format   # auto-fix formatting issues
-   ```
+## Use the Python core
 
-## Contributing
+```python
+from fastapi import FastAPI
+from access_kit.health import health_router
+from access_kit.settings import AccessKitSettings
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the commit convention (Conventional Commits — it drives changelog generation and release versioning) and the local checks to run before opening a PR.
+# Apps subclass AccessKitSettings to add their own configuration.
+# Required environment: APP_NAME, PUBLIC_BASE_URL, REDIS_URL,
+# SESSION_SECRET (32+ characters), IP_HASH_SALT (32+ characters).
+settings = AccessKitSettings()
+app = FastAPI(title=settings.app_name)
+app.include_router(health_router())
+```
+
+`GET /healthz` returns 200 for liveness. Supply named async checks returning
+`True` to use it for readiness; failed or timed-out checks return 503.
+See [Python usage](python/README.md) for an example.
+
+## Releases and next steps
+
+Apps will pin independent git tags after their first validated releases:
+
+```toml
+dependencies = [
+  "access-kit @ git+https://github.com/gavvahar/access-kit@py-v0.1.0#subdirectory=python",
+]
+```
+
+`py-v0.1.0` is a planned tag, not an existing release. For local development use
+`python -m pip install -e ../access-kit/python`.
+
+Tag workflows build downloadable CI artifacts; they do not publish packages or
+create releases automatically. Set each package's version before tagging.
+
+See the [roadmap](docs/roadmap.md), [contributing guide](CONTRIBUTING.md), and
+[security policy](SECURITY.md). Release acceptance requires integration in the
+consuming apps, not only this repo's tests.
