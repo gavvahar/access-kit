@@ -23,7 +23,7 @@ def body_limit(app: ASGIApp, *, max_bytes: int = 1_000_000, read_timeout: float 
         lengths = [value for name, value in scope["headers"] if name.lower() == b"content-length"]
         declared = None
         if lengths:
-            if len(lengths) != 1 or not lengths[0].isdigit():
+            if len(lengths) != 1 or len(lengths[0]) > 20 or not lengths[0].isdigit():
                 await JSONResponse({"detail": "Invalid content length"}, status_code=400)(scope, receive, send)
                 return
             declared = int(lengths[0])
