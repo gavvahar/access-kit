@@ -1,6 +1,6 @@
 # access-kit Python
 
-Typed backend primitives for ClearRead and SoundSight. Requires Python 3.12+.
+Typed backend primitives for ClearRead and SoundSight. Use the latest stable Python 3 release.
 
 ## Install
 
