@@ -205,3 +205,54 @@ test("back-forward cache lifecycle keeps preference application alive", async ({
   await page.getByLabel("Theme", { exact: true }).selectOption("calm");
   await expect(page.locator("html")).toHaveAttribute("data-ak-theme", "calm");
 });
+
+test("earned progress and celebrations are accessible and text-only", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const progress = page.getByRole("progressbar", { name: "Small steps today" });
+  await page
+    .getByRole("button", { name: "Add one step" })
+    .click({ clickCount: 5 });
+  await expect(progress).toHaveAttribute("value", "5");
+  await expect(page.locator("ak-celebrate")).toContainText("Five small steps");
+  await page
+    .locator("#demo-goal")
+    .evaluate((element) => element.setAttribute("max", "2"));
+  await expect(page.locator("#demo-goal")).toContainText("5 of 2");
+  await page
+    .locator("ak-celebrate")
+    .evaluate((element) => element.celebrate('<img src=x onerror="alert(1)">'));
+  await expect(page.locator("ak-celebrate img")).toHaveCount(0);
+  await expect(page.locator("ak-celebrate")).toContainText("<img");
+  await page.getByRole("button", { name: "Reset step count" }).click();
+  await expect(progress).toHaveAttribute("value", "0");
+});
+
+test("micro-sessions require intent, preserve pauses and clean up on reconnect", async ({
+  page,
+}) => {
+  await page.clock.install();
+  await page.goto("/");
+  const session = page.locator("ak-session");
+  await expect(session.getByRole("timer")).toHaveText("5:00");
+  await page.clock.fastForward(60_000);
+  await expect(session.getByRole("timer")).toHaveText("5:00");
+  await session.getByRole("button", { name: "Start", exact: true }).click();
+  await page.clock.fastForward(30_000);
+  await session.getByRole("button", { name: "Pause", exact: true }).click();
+  await expect(session.getByRole("timer")).toHaveText("4:30");
+  await page.clock.fastForward(60_000);
+  await expect(session.getByRole("timer")).toHaveText("4:30");
+  await session.evaluate((element) => {
+    const parent = element.parentNode;
+    element.remove();
+    parent.append(element);
+  });
+  await session.getByRole("button", { name: "Continue" }).click();
+  await page.clock.fastForward(270_000);
+  await expect(session).toContainText("Session complete");
+  await expect(page.locator("ak-celebrate")).toContainText("small step");
+  await session.getByRole("button", { name: "Start over" }).click();
+  await expect(session.getByRole("timer")).toHaveText("5:00");
+});

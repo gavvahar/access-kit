@@ -3,10 +3,10 @@
 Shared backend and Web Components for **ClearRead** and **SoundSight**.
 Only code both applications use belongs here.
 
-| Package                     | Location  | Status                       | Tags         |
-| --------------------------- | --------- | ---------------------------- | ------------ |
-| `access-kit` / `access_kit` | `python/` | Python v0.1 core implemented | `py-vX.Y.Z`  |
-| `@gavvahar/access-kit-ui`   | `web/`    | Web v0.1 core implemented    | `web-vX.Y.Z` |
+| Package                     | Location  | Status                                      | Tags         |
+| --------------------------- | --------- | ------------------------------------------- | ------------ |
+| `access-kit` / `access_kit` | `python/` | Core, protections and jobs implemented      | `py-vX.Y.Z`  |
+| `@gavvahar/access-kit-ui`   | `web/`    | Themes, settings and activities implemented | `web-vX.Y.Z` |
 
 Both packages use the MIT license and are versioned independently.
 Development versions are not stable releases. Nothing is published to PyPI or npm.
@@ -38,7 +38,7 @@ npm run demo
 ```
 
 Open `http://127.0.0.1:4173` for the five themes, local fonts, settings panel,
-and browser utilities. See [web integration and tests](web/README.md).
+browser utilities, and forgiving progress/session components. See [web integration and tests](web/README.md).
 
 ## Use the Python core
 
@@ -80,3 +80,10 @@ package tags. Repository snapshot tags do not replace consuming-app validation.
 See the [roadmap](docs/roadmap.md), [contributing guide](CONTRIBUTING.md), and
 [security policy](SECURITY.md). Release acceptance requires integration in the
 consuming apps, not only this repo's tests.
+
+The remaining library modules are implemented. Start with the
+[protection guide](docs/protection.md), [job/SSE guide](docs/jobs.md), and
+[public API inventory](docs/api.md). [Architecture decisions](docs/decisions.md)
+and [package release readiness](docs/releasing-packages.md) describe the v1
+acceptance steps. Actual consuming-app validation and public publishing remain
+pending; the roadmap distinguishes those from completed library work.

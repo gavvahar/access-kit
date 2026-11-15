@@ -97,6 +97,30 @@
           <ak-settings-panel></ak-settings-panel>
         </aside>
       </div>
+      <section class="activity" aria-labelledby="activity-title">
+        <p class="eyebrow">One small step</p>
+        <h2 id="activity-title">A comfortable pace.</h2>
+        <p>Pause whenever you need. A shorter session still counts.</p>
+        <div class="activity-grid">
+          <div>
+            <ak-progress
+              id="demo-goal"
+              value="0"
+              max="5"
+              label="Small steps today"
+            ></ak-progress>
+            <div class="utility-actions">
+              <button type="button" data-add-step>Add one step</button
+              ><button type="button" data-reset-goal>Reset step count</button>
+            </div>
+          </div>
+          <ak-session
+            minutes="5"
+            label="Five minutes for yourself"
+          ></ak-session>
+        </div>
+        <ak-celebrate></ak-celebrate>
+      </section>
       <section
         class="utilities"
         id="utilities"

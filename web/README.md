@@ -1,8 +1,8 @@
 # @gavvahar/access-kit-ui
 
 Shared Web Components and display preferences for ClearRead and SoundSight.
-The Phase C implementation includes five themes, local fonts, a settings panel,
-and browser utilities. The package is framework-independent and remains private
+The implementation includes five themes, local fonts, a settings panel,
+browser utilities, progress, micro-sessions and celebrations. The package is framework-independent and remains private
 until consuming-app integration is validated. Python and web releases are independent.
 
 ## Run the demo
@@ -156,4 +156,56 @@ reader testing or testing with users. See
 The library implementation and demo are complete. Final Phase C acceptance still
 requires SoundSight's first screen and ClearRead's reader to consume the same
 package. Those application screens are not present in this workspace, so this is
-not yet a validated `web-v0.1.0` release. Phase D work is not included.
+not yet a consuming-app-validated release. Progress and session components are
+implemented; actual ClearRead and SoundSight screen integration remains pending.
+
+## Progress, micro-sessions, and celebrations
+
+Import `defineActivityComponents` and call it once to register all three elements.
+The `/auto` entry point registers them alongside the settings panel. Registration
+is idempotent; importing the explicit entry point does not require a DOM.
+
+```html
+<ak-progress value="2" max="5" label="Small steps today"></ak-progress>
+<ak-session minutes="5" label="A little reading time"></ak-session>
+<ak-celebrate></ak-celebrate>
+```
+
+`ak-progress` renders a labelled native progress element. Omit `value` for an
+indeterminate state. `max` defaults to 100; invalid maxima use that default.
+Values are visually clamped to the bar while the summary preserves earned work,
+including completion beyond the target. Change attributes to apply job snapshots.
+Labels are text, never HTML. The host app owns the data and persistence.
+
+`createProgress({target=5, completed=0})` is a DOM-free goal controller.
+`get()` returns a frozen snapshot; `add(amount=1)` preserves cumulative completed
+work; `setTarget(value)` changes only the goal; `reset()` explicitly clears it.
+Targets/counts are bounded whole numbers up to one million, and targets must be
+positive. Progress is intentionally independent of streaks, deadlines or penalties.
+
+`ak-session` starts idle. Native Start, Pause/Continue and Start over buttons
+control it. Hidden tabs and disconnected elements pause; reconnecting retains
+elapsed work and requires explicit intent to resume. Minutes are read at first
+connection (default five; duration bounded from one second to one hour).
+Countdown ticks are not live announcements. Status changes announce once;
+completion dispatches bubbling `ak-session-complete` with the timer snapshot in
+`event.detail`. Use one event listener per host lifecycle and remove it on teardown.
+
+`createSessionTimer({seconds=300, now})` provides the same DOM-free clock logic:
+`start()`, `pause()`, `reset()`, `get()`. `now` is an optional monotonic millisecond
+clock; performance.now is the default. Snapshots have status, seconds, elapsed
+seconds and remaining whole seconds. Timer state is in memory; reload clears it.
+
+Call `element.celebrate("That counts.")` on `ak-celebrate`, and `clear()` to
+remove its message. It accepts text up to 180 characters, displays a static check
+mark, and uses a polite status region. It does not trigger sound, movement,
+vibration, storage writes or focus changes. Persisting progress and selecting
+when to celebrate belong to the application.
+
+## Connect job progress
+
+Listen to the backend's named SSE events, apply each snapshot directly to
+`ak-progress`, and use `textContent` for labels. Discard lower sequences and close
+the EventSource on complete, failed or cancelled. Handle unavailable/reconnect
+with bounded backoff and the app's session authorization. The backend contract
+and retention behavior are documented in [job progress](../docs/jobs.md).

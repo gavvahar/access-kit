@@ -11,3 +11,5 @@ export { createStorage } from "./utilities/storage.js";
 export { announce } from "./utilities/announce.js";
 export { createWakeLock } from "./utilities/wake-lock.js";
 export { vibrate } from "./utilities/vibrate.js";
+export { createProgress, createSessionTimer } from "./progress.js";
+export { defineActivityComponents } from "./activity-components.js";
