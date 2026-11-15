@@ -85,7 +85,15 @@ commands = [["ruff", "check", "--no-cache", "."]]
 skip_install = true
 allowlist_externals = ["npx", "npm"]
 commands = [
-  ["npx", "textlint", "--rule", "common-misspellings", "--rule", "write-good", "**/*.txt"],
+  [
+    "npx",
+    "textlint",
+    "--rule",
+    "common-misspellings",
+    "--rule",
+    "write-good",
+    "**/*.txt",
+  ],
 ]
 
 # [tool.tox.env."combined-imports-check"]
@@ -264,7 +272,16 @@ files = ["python/src/access_kit"]
 package = "skip"
 changedir = "{toxinidir}"
 deps = ["-e {toxinidir}/python[dev]"]
-commands = [["pytest", "python/tests", "--cov=access_kit", "--cov-branch", "--cov-report=term-missing", "--cov-fail-under=85"]]
+commands = [
+  [
+    "pytest",
+    "python/tests",
+    "--cov=access_kit",
+    "--cov-branch",
+    "--cov-report=term-missing",
+    "--cov-fail-under=85",
+  ],
+]
 
 [tool.tox.env.py-typecheck]
 package = "skip"
@@ -279,4 +296,19 @@ commands = [["python", "-m", "build", "python", "--outdir", "{envtmpdir}/dist"]]
 [tool.tox.env.web-check]
 skip_install = true
 allowlist_externals = ["npm"]
-commands = [["npm", "run", "check", "--workspace", "web"], ["npm", "pack", "--workspace", "web", "--dry-run"]]
+commands = [
+  [
+    "npm",
+    "run",
+    "check",
+    "--workspace",
+    "web",
+  ],
+  [
+    "npm",
+    "pack",
+    "--workspace",
+    "web",
+    "--dry-run",
+  ],
+]
