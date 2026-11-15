@@ -3,10 +3,10 @@
 Shared backend and Web Components for **ClearRead** and **SoundSight**.
 Only code both applications use belongs here.
 
-| Package                     | Location  | Status                          | Tags         |
-| --------------------------- | --------- | ------------------------------- | ------------ |
-| `access-kit` / `access_kit` | `python/` | Settings and health implemented | `py-vX.Y.Z`  |
-| `@gavvahar/access-kit-ui`   | `web/`    | Package scaffold                | `web-vX.Y.Z` |
+| Package                     | Location  | Status                       | Tags         |
+| --------------------------- | --------- | ---------------------------- | ------------ |
+| `access-kit` / `access_kit` | `python/` | Python v0.1 core implemented | `py-vX.Y.Z`  |
+| `@gavvahar/access-kit-ui`   | `web/`    | Package scaffold             | `web-vX.Y.Z` |
 
 Both packages use the MIT license and are versioned independently.
 Development versions are not stable releases. Nothing is published to PyPI or npm.
