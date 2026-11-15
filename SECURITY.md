@@ -20,7 +20,8 @@ The fetcher in `access_kit.safe_fetch.fetcher` validates every DNS answer and
 connects to the validated numeric IP while preserving TLS SNI and Host. It
 revalidates redirects, refuses HTTPS downgrades and ambient proxies, and bounds
 response bytes and time. CI requires 100% line and branch coverage for fetching,
-session handling, privacy, and log scrubbing. Coverage establishes regression
+session handling, privacy, log scrubbing, Redis admission, budgets, and Turnstile
+validation. Coverage establishes regression
 coverage; it does not substitute for security review.
 
 ## Historical test fixtures
