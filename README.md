@@ -6,7 +6,7 @@ Only code both applications use belongs here.
 | Package                     | Location  | Status                       | Tags         |
 | --------------------------- | --------- | ---------------------------- | ------------ |
 | `access-kit` / `access_kit` | `python/` | Python v0.1 core implemented | `py-vX.Y.Z`  |
-| `@gavvahar/access-kit-ui`   | `web/`    | Package scaffold             | `web-vX.Y.Z` |
+| `@gavvahar/access-kit-ui`   | `web/`    | Web v0.1 core implemented    | `web-vX.Y.Z` |
 
 Both packages use the MIT license and are versioned independently.
 Development versions are not stable releases. Nothing is published to PyPI or npm.
@@ -29,6 +29,16 @@ pre-commit install
 The existing conda workflow is also available through `environment.yml`.
 The root `pyproject.toml` owns shared tooling; `python/pyproject.toml` owns the
 installable Python package. Web package metadata lives in `web/package.json`.
+
+## Try the shared web UI
+
+```bash
+npm ci
+npm run demo
+```
+
+Open `http://127.0.0.1:4173` for the five themes, local fonts, settings panel,
+and browser utilities. See [web integration and tests](web/README.md).
 
 ## Use the Python core
 
