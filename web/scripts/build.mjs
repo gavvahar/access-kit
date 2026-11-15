@@ -1,5 +1,5 @@
 import { build } from "esbuild";
-import { cp, mkdir, readFile, writeFile } from "node:fs/promises";
+import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -8,6 +8,7 @@ import { themes } from "../src/themes.js";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const dist = join(root, "dist");
 const require = createRequire(import.meta.url);
+await rm(dist, { recursive: true, force: true });
 await mkdir(join(dist, "fonts"), { recursive: true });
 await build({
   entryPoints: {
