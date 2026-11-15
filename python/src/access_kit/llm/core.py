@@ -16,7 +16,7 @@ def build_provider(*, name: str, model: str, complete_text: CompleteText, max_in
     Usage includes every attempt, including attempts that failed validation.
     Schema validation is strict: strings are not coerced to integers.
     """
-    if not name or not model or max_input_tokens <= 0 or not 0 <= json_retries <= 5:
+    if not name or not model or type(max_input_tokens) is not int or max_input_tokens <= 0 or type(json_retries) is not int or not 0 <= json_retries <= 5:
         raise ValueError("provider name/model and positive limits are required; retries must be 0..5")
 
     async def complete_json(system: str, user: str, schema: Any) -> tuple[Any, Usage]:
