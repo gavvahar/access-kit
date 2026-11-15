@@ -1,0 +1,14 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff
+        name: Python lint
+        entry: tox -e lint
+        language: system
+        types: [python]
+        pass_filenames: false
+      - id: prettier
+        name: Web and documentation formatting
+        entry: npm exec -- prettier --check
+        language: system
+        types_or: [javascript, json, yaml, markdown, css, html]
