@@ -111,7 +111,15 @@ async def test_redirect_to_hostname_with_private_dns(public_dns, patch_fetch_htt
     assert len(seen) == 1
 
 
-@pytest.mark.parametrize("header,error", [({}, FetchError), ({"location": "/next"}, TooManyRedirects), ({"location": "http://[invalid"}, BlockedDestination)])
+@pytest.mark.parametrize(
+    "header,error",
+    [
+        ({}, FetchError),
+        ({"location": "/next"}, TooManyRedirects),
+        ({"location": "http://[invalid"}, BlockedDestination),
+        ({"location": "http://example.com:invalid"}, BlockedDestination),
+    ],
+)
 async def test_redirect_errors(header, error, public_dns, patch_fetch_http):
     patch_fetch_http[0].append(stream_response(status=301, headers=header))
     # Invalid URL must be evaluated before the redirect-limit branch.
