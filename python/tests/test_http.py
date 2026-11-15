@@ -37,6 +37,7 @@ async def test_bounded_body_replays_once_then_preserves_disconnect():
         ([], b"123456", 413),
         ([(b"content-length", b"2")], b"x", 400),
         ([(b"content-length", b"x")], b"", 400),
+        ([(b"content-length", b"9" * 5000)], b"", 400),
         ([(b"content-length", b"1"), (b"content-length", b"1")], b"x", 400),
     ],
 )
