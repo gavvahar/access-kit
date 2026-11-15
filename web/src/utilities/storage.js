@@ -10,6 +10,7 @@ export function createStorage(options = {}) {
   }
   let available = Boolean(backend);
   return {
+    matchesArea: (area) => area === backend,
     get available() {
       return available;
     },
