@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>access-kit · A little more comfortable</title>
+    <link rel="stylesheet" href="/dist/access-kit.css" />
+    <link rel="stylesheet" href="/demo/demo.css" />
+    <script type="module" src="/demo/demo.js"></script>
+  </head>
+  <body>
+    <a class="ak-skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/">
+        <span class="brand-mark" aria-hidden="true"
+          ><svg viewBox="0 0 24 24" width="24" height="24">
+            <path
+              d="M10 17v-6a3 3 0 1 0 0 3M15 6v12m0-6 4-4m-4 4 4 6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            /></svg
+        ></span>
+        access-kit
+      </a>
+      <span class="version-label">Shared UI / v0.1 preview</span>
+      <a href="#preferences" class="settings-link"
+        >Display settings <span aria-hidden="true">↗</span></a
+      >
+    </header>
+    <main id="main" tabindex="-1">
+      <div class="intro">
+        <p class="eyebrow">
+          <span class="status-dot" aria-hidden="true"></span> Small adjustments.
+          A better fit.
+        </p>
+        <h1>A little more<br />comfortable.</h1>
+        <p class="intro-copy">
+          Your screen should work for you. Find the colors, type, and breathing
+          room that make it easier to read.
+        </p>
+      </div>
+      <div class="workspace">
+        <section class="preview" aria-labelledby="preview-title">
+          <div class="preview-toolbar">
+            <h2 id="preview-title">Your reading space</h2>
+            <span class="live-label"
+              ><span class="status-dot" aria-hidden="true"></span> Live
+              preview</span
+            >
+          </div>
+          <article class="reading-sample ak-reading">
+            <p class="eyebrow">A moment to settle in</p>
+            <h3>Make room for<br />what matters.</h3>
+            <p>
+              You don’t need to take everything in at once. A clear place to
+              start, a comfortable pace, and a little space between ideas can
+              make a difference.
+            </p>
+            <p>
+              Try a warmer background. Give the lines more room. Choose letters
+              that feel familiar. There’s no perfect setting—just the one that
+              works for you today.
+            </p>
+            <aside class="takeaway">
+              <span class="takeaway-mark" aria-hidden="true">↳</span>
+              <p>
+                Start with one small adjustment.<br /><strong
+                  >You can always change it.</strong
+                >
+              </p>
+            </aside>
+          </article>
+          <div class="caption-sample">
+            <span class="sample-label">Caption preview</span>
+            <p>“Take your time.<br />I’m listening.”</p>
+            <span class="sample-label">Sample text · no microphone access</span>
+          </div>
+          <div class="preview-footer">
+            <span>Shared by ClearRead & SoundSight</span
+            ><a href="#utilities"
+              >Explore utilities <span aria-hidden="true">↓</span></a
+            >
+          </div>
+        </section>
+        <aside
+          class="preferences"
+          id="preferences"
+          aria-labelledby="preferences-title"
+        >
+          <p class="eyebrow">Make it yours</p>
+          <h2 id="preferences-title">A comfortable fit.</h2>
+          <p class="preferences-intro">Try a change. See how it feels.</p>
+          <ak-settings-panel></ak-settings-panel>
+        </aside>
+      </div>
+      <section
+        class="utilities"
+        id="utilities"
+        aria-labelledby="utilities-title"
+      >
+        <div>
+          <p class="eyebrow">A few useful extras</p>
+          <h2 id="utilities-title">Support, when you need it.</h2>
+          <p>Optional browser tools. Nothing starts on its own.</p>
+        </div>
+        <div class="utility-actions">
+          <button type="button" data-action="announce">
+            Test screen reader message
+          </button>
+          <button type="button" data-action="wake" aria-pressed="false">
+            Keep screen awake
+          </button>
+          <button type="button" data-action="vibrate">
+            Try gentle vibration
+          </button>
+        </div>
+        <p id="utility-status" role="status">Choose a tool to try it.</p>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <span>access-kit</span>
+      <p>A shared foundation for more accessible everyday tools.</p>
+      <a href="https://github.com/gavvahar/access-kit"
+        >View source <span aria-hidden="true">↗</span></a
+      >
+    </footer>
+  </body>
+</html>

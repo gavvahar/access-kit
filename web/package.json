@@ -9,19 +9,39 @@
     "node": ">=22"
   },
   "exports": {
-    ".": "./src/index.js"
+    ".": "./dist/access-kit.js",
+    "./auto": "./dist/auto.js",
+    "./styles.css": "./dist/access-kit.css",
+    "./fonts/*": "./dist/fonts/*",
+    "./package.json": "./package.json"
   },
   "files": [
-    "src",
+    "dist",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "check": "node --check src/index.js"
+    "build": "node scripts/build.mjs",
+    "test:unit": "node --test tests/unit/*.test.js",
+    "test:browser": "playwright test",
+    "check": "npm run build && npm run test:unit && npm run test:browser",
+    "demo": "npm run build && node scripts/serve.mjs",
+    "prepack": "npm run build"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/gavvahar/access-kit",
     "directory": "web"
-  }
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@fontsource/atkinson-hyperlegible": "^5.3.0",
+    "@fontsource/noto-sans": "^5.3.0",
+    "@playwright/test": "^1.65.1",
+    "esbuild": "^0.28.2"
+  },
+  "sideEffects": [
+    "./dist/auto.js",
+    "./dist/access-kit.css"
+  ]
 }

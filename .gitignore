@@ -22,3 +22,6 @@ htmlcov/
 **/dist/
 *.egg-info/
 *.tgz
+
+web/test-results/
+web/playwright-report/
