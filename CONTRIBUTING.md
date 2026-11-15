@@ -5,6 +5,10 @@ prompts, detection logic, and content in those repositories.
 
 ## Local checks
 
+Use the latest stable Python 3 release. CI uses `3.x` with `check-latest: true`
+and type checking follows its running interpreter. Package metadata declares a
+minimum supported version, not an interpreter pin.
+
 ```bash
 python -m pip install -e './python[dev]'
 npm ci
