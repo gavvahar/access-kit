@@ -3,13 +3,13 @@
 import asyncio
 import json
 import math
-from collections.abc import AsyncIterator, Mapping
-from contextlib import asynccontextmanager
+from collections.abc import Mapping
 from typing import Any
 
 import httpx
 
 from access_kit.llm.types import LLMError, Usage, usage
+from access_kit._http import borrow_client
 
 
 def endpoint(base_url: str, path: str) -> str:
@@ -20,21 +20,12 @@ def endpoint(base_url: str, path: str) -> str:
     return str(url).rstrip("/") + "/" + path.lstrip("/")
 
 
-@asynccontextmanager
-async def _client(existing: httpx.AsyncClient | None) -> AsyncIterator[httpx.AsyncClient]:
-    if existing is not None:
-        yield existing
-    else:
-        async with httpx.AsyncClient(trust_env=False, follow_redirects=False) as owned:
-            yield owned
-
-
 async def post_json(
     url: str, headers: Mapping[str, str], payload: dict[str, object], *, client: httpx.AsyncClient | None, timeout: float, max_response_bytes: int = 1_000_000
 ) -> dict[str, Any]:
     """No automatic HTTP retries or redirects. Injected clients remain caller-owned."""
     try:
-        async with asyncio.timeout(timeout), _client(client) as connection:
+        async with asyncio.timeout(timeout), borrow_client(client) as connection:
             async with connection.stream("POST", url, headers={**headers, "Accept-Encoding": "identity"}, json=payload, follow_redirects=False, timeout=timeout) as response:
                 if response.status_code != 200:
                     raise LLMError(f"provider HTTP status {response.status_code}")
