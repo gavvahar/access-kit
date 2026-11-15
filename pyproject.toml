@@ -257,7 +257,7 @@ files = ["python/src/access_kit"]
 
 [tool.tox.env.py-test]
 package = "editable"
-changedir = "{toxinidir}"
+change_dir = "{tox_root}"
 extras = ["dev", "testing"]
 commands = [
   [
