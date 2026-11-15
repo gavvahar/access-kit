@@ -9,7 +9,7 @@ from typing import Any
 
 import httpx
 
-from access_kit.llm.types import LLMError, usage
+from access_kit.llm.types import LLMError, Usage, usage
 
 
 def endpoint(base_url: str, path: str) -> str:
@@ -70,3 +70,11 @@ def token_count(data: dict[str, Any], key: str, *, default: int | None = None) -
     if type(value) is not int or value < 0:
         raise LLMError("provider returned invalid or missing token usage")
     return int(value)
+
+
+def read_usage(data: dict[str, Any], *, input_key: str, output_key: str, extra_input_keys: tuple[str, ...] = ()) -> Usage:
+    raw = data.get("usage")
+    if not isinstance(raw, dict):
+        raise LLMError("provider returned no token usage")
+    inputs = token_count(raw, input_key) + sum(token_count(raw, key, default=0) for key in extra_input_keys)
+    return usage(inputs, token_count(raw, output_key))
