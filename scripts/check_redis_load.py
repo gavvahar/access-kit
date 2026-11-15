@@ -4,8 +4,7 @@ Run: python scripts/check_redis_load.py redis://127.0.0.1:6379/0
 Only this run's randomly named keys are deleted. Redis 7+ is required.
 """
 
-import argparse
-import asyncio
+import argparse, asyncio
 from uuid import uuid4
 from decimal import Decimal
 

@@ -1,11 +1,7 @@
 """Redaction, correlation and async isolation through ASGI."""
 
-import asyncio
-import io
-import json
-import logging
+import asyncio, io, json, logging, pytest
 
-import pytest
 from fastapi import FastAPI
 from starlette.responses import JSONResponse
 

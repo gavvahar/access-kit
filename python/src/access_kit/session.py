@@ -1,11 +1,6 @@
 """Signed, expiring anonymous cookies without server-side session storage."""
 
-import base64
-import hashlib
-import hmac
-import re
-import secrets
-import time
+import base64, hashlib, hmac, re, secrets, time
 from datetime import UTC, datetime
 
 from starlette.requests import Request

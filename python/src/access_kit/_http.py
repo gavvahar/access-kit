@@ -1,12 +1,9 @@
 """Bounded outbound requests to application-configured service endpoints."""
 
-import asyncio
-import json
+import asyncio, json, httpx
 from collections.abc import AsyncIterator, Mapping
 from contextlib import asynccontextmanager
 from typing import Any
-
-import httpx
 
 
 from access_kit.errors import ServiceUnavailable

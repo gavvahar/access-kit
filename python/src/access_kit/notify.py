@@ -1,18 +1,11 @@
 """Explicit ntfy, webhook, and TLS SMTP alerts. No transport retries by default."""
 
-import asyncio
-import hashlib
-import hmac
-import json
-import math
-import smtplib
-import ssl
+import asyncio, hashlib, hmac, json, math, smtplib, ssl, httpx
 from collections.abc import Awaitable, Callable, Sequence
 from email.message import EmailMessage
 from email.utils import getaddresses
 from uuid import uuid4
 
-import httpx
 
 from access_kit.errors import ServiceUnavailable
 from access_kit._http import request_bytes, service_url

@@ -1,12 +1,9 @@
 """Bounded HTTP JSON calls shared by provider adapters."""
 
-import asyncio
-import json
-import math
+import asyncio, json, math, httpx
 from collections.abc import Mapping
 from typing import Any
 
-import httpx
 
 from access_kit.llm.types import LLMError, Usage, usage
 from access_kit._http import borrow_client

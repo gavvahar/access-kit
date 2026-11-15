@@ -1,7 +1,6 @@
 """A bounded readiness endpoint with application-owned async checks."""
 
-import asyncio
-import math
+import asyncio, math
 from collections.abc import Awaitable, Callable, Mapping
 
 from fastapi import APIRouter

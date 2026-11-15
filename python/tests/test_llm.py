@@ -1,12 +1,8 @@
 """Provider wire contracts, strict JSON retries, usage and explicit fallback."""
 
-import asyncio
-import json
+import asyncio, json, httpx, pytest, pytest_asyncio
 from typing import TypedDict
 
-import httpx
-import pytest
-import pytest_asyncio
 
 from access_kit.llm.core import with_fallback
 from access_kit.llm.factory import provider_from_settings

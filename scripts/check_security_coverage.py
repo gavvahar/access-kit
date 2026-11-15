@@ -1,7 +1,6 @@
 """Fail CI unless security modules have complete line and branch coverage."""
 
-import argparse
-import json
+import argparse, json
 from pathlib import Path
 
 CRITICAL_FILES = (

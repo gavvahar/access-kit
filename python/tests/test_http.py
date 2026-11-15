@@ -1,8 +1,7 @@
 """Oversized bodies are rejected before a consumer parses or dispatches work."""
 
-import asyncio
+import asyncio, pytest
 
-import pytest
 
 from access_kit.http import body_limit
 

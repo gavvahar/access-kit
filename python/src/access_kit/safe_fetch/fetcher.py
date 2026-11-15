@@ -5,16 +5,12 @@ The Host header and TLS SNI retain the original hostname. Ambient proxies, cooki
 redirect following, retries, and content decompression are disabled.
 """
 
-import asyncio
-import math
-import os
-import tempfile
+import asyncio, math, os, tempfile, httpx
 from collections.abc import AsyncIterator, Awaitable, Callable
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import NamedTuple
 
-import httpx
 
 from access_kit.safe_fetch.errors import BadContentType, BlockedDestination, FetchError, FetchTimeout, TooLarge, TooManyRedirects
 from access_kit.safe_fetch.ipcheck import resolve_public, validate_url

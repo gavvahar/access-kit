@@ -1,12 +1,8 @@
 """External verification and notification contracts without live delivery."""
 
-import hashlib
-import hmac
-import json
+import hashlib, hmac, json, httpx, pytest
 from unittest.mock import MagicMock
 
-import httpx
-import pytest
 from fastapi import Depends, FastAPI
 
 from access_kit.errors import ServiceUnavailable

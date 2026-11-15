@@ -1,10 +1,7 @@
 """Adversarial URL, DNS, transport, redirect and streaming regression tests."""
 
-import asyncio
-import socket
+import asyncio, socket, httpx, pytest
 
-import httpx
-import pytest
 from httpcore._backends.auto import AutoBackend
 
 from access_kit.safe_fetch.errors import BadContentType, BlockedDestination, FetchError, FetchTimeout, TooLarge, TooManyRedirects

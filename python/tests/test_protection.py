@@ -1,10 +1,9 @@
 """Concurrency, accounting and fail-closed regressions for shared protections."""
 
-import asyncio
+import asyncio, pytest
 from decimal import Decimal
 from unittest.mock import AsyncMock
 
-import pytest
 from fastapi import Depends, FastAPI
 from redis.exceptions import ConnectionError as RedisConnectionError
 

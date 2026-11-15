@@ -1,7 +1,6 @@
 """Bounded ASGI request bodies for applications accepting documents or captions."""
 
-import asyncio
-import math
+import asyncio, math
 
 from starlette.responses import JSONResponse
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
