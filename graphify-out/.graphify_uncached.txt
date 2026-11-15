@@ -1,0 +1,10 @@
+/home/nihar.gavva/Desktop/Folders/Personal/Git/access-kit/CONTRIBUTING.md
+/home/nihar.gavva/Desktop/Folders/Personal/Git/access-kit/README.md
+/home/nihar.gavva/Desktop/Folders/Personal/Git/access-kit/SECURITY.md
+/home/nihar.gavva/Desktop/Folders/Personal/Git/access-kit/docs/roadmap.md
+/home/nihar.gavva/Desktop/Folders/Personal/Git/access-kit/docs/superpowers/plans/2026-09-28-access-kit-python-core-plan.md
+/home/nihar.gavva/Desktop/Folders/Personal/Git/access-kit/docs/superpowers/specs/2026-09-28-access-kit-python-core-design.md
+/home/nihar.gavva/Desktop/Folders/Personal/Git/access-kit/python/README.md
+/home/nihar.gavva/Desktop/Folders/Personal/Git/access-kit/requirements.txt
+/home/nihar.gavva/Desktop/Folders/Personal/Git/access-kit/web/README.md
+/home/nihar.gavva/Desktop/Folders/Personal/Git/access-kit/web/demo/index.html
