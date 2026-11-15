@@ -5,6 +5,11 @@ import json
 from pathlib import Path
 
 CRITICAL_FILES = (
+    "python/src/access_kit/_http.py",
+    "python/src/access_kit/_redis.py",
+    "python/src/access_kit/budget.py",
+    "python/src/access_kit/ratelimit.py",
+    "python/src/access_kit/turnstile.py",
     "python/src/access_kit/logging.py",
     "python/src/access_kit/privacy.py",
     "python/src/access_kit/session.py",
