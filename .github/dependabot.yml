@@ -32,3 +32,12 @@ updates:
       npm:
         patterns:
           - "*"
+
+  - package-ecosystem: pip
+    directory: /python
+    schedule:
+      interval: weekly
+    groups:
+      python:
+        patterns:
+          - "*"
