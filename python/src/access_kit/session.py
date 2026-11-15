@@ -111,9 +111,14 @@ def session_middleware(app: ASGIApp, *, secret: str, max_age: int = DEFAULT_MAX_
                     issued_at = int(time.time())
                     response = Response()
                     response.set_cookie(
-                        "ak_sid", sign_session(str(state["id"]), secret, issued_at=issued_at),
-                        max_age=max_age, expires=datetime.fromtimestamp(issued_at + max_age, UTC),
-                        httponly=True, secure=secure, samesite="lax", path="/",
+                        "ak_sid",
+                        sign_session(str(state["id"]), secret, issued_at=issued_at),
+                        max_age=max_age,
+                        expires=datetime.fromtimestamp(issued_at + max_age, UTC),
+                        httponly=True,
+                        secure=secure,
+                        samesite="lax",
+                        path="/",
                     )
                     message = dict(message)
                     message["headers"] = list(message.get("headers", [])) + [(key, value) for key, value in response.raw_headers if key == b"set-cookie"]
