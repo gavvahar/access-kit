@@ -47,5 +47,5 @@ Original repository snapshot release automation remains unchanged.
 Automated consumer contracts cover core processing, session ownership, rejection
 before provider dispatch, token/minute caps under concurrent calls, and terminal
 SSE delivery. Actual ClearRead and SoundSight consumer integrations now pass their backend
-and browser acceptance checks; see the current acceptance record for PR status. This release does not claim that
+and browser acceptance checks and are merged; see the current acceptance record. This release does not claim that
 either application is launched, deployed, or validated with real users.
