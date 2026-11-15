@@ -10,16 +10,14 @@ from fastapi import FastAPI
 from starlette.responses import JSONResponse
 
 from access_kit.logging import get_request_id, request_id_middleware, scrub_logs, setup_logging
-from access_kit.settings import AccessKitSettings
 
 
 @pytest.fixture
-def log_output():
+def log_output(kit_settings):
     root = logging.getLogger()
     previous_handlers, previous_level = list(root.handlers), root.level
     output = io.StringIO()
-    settings = AccessKitSettings(app_name="Example", public_base_url="https://example.com", redis_url="redis://localhost", session_secret="s" * 32, ip_hash_salt="h" * 32)
-    setup_logging(settings, stream=output)
+    setup_logging(kit_settings, stream=output)
     yield output
     root.handlers, root.level = previous_handlers, previous_level
 
