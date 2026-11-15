@@ -1,0 +1,115 @@
+name: Publish packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: Package to publish
+        type: choice
+        options:
+          - both
+          - python
+          - web
+        default: both
+      publish:
+        description: Upload the checked artifacts to the public registries
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-packages
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    uses: $/.github/workflows/tox-check-reusable.yml
+    with:
+      tox_env: github
+
+  build:
+    needs: checks
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:8.4.0
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.x"
+          check-latest: true
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "node"
+          cache: npm
+      - name: Install build tools
+        run: |
+          python -m pip install build twine ./python
+          npm ci
+      - name: Real Redis admission and progress check
+        run: python scripts/check_redis_load.py redis://127.0.0.1:6379/0
+      - name: Build Python distributions
+        run: |
+          python -m build python --outdir artifacts/python
+          python -m twine check --strict artifacts/python/*
+      - name: Build browser tarball
+        run: |
+          mkdir -p artifacts/web
+          npm pack --workspace web --pack-destination artifacts/web
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: public-packages
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 7
+
+  pypi:
+    needs: build
+    if: inputs.publish && (inputs.package == 'both' || inputs.package == 'python')
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/access-kit/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: public-packages
+          path: artifacts/
+      - uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # release/v1
+        with:
+          packages-dir: artifacts/python/
+
+  npm:
+    needs: build
+    if: inputs.publish && (inputs.package == 'both' || inputs.package == 'web')
+    runs-on: ubuntu-latest
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/@gavvahar/access-kit-ui
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: public-packages
+          path: artifacts/
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "node"
+          registry-url: https://registry.npmjs.org
+      - name: Publish reviewed browser tarball
+        run: npm publish artifacts/web/*.tgz --access public --provenance --ignore-scripts
