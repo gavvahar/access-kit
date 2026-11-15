@@ -13,7 +13,7 @@ Development versions are not stable releases. Nothing is published to PyPI or np
 
 ## Start developing
 
-Requires Python 3.12+ and Node 22+.
+Use the latest stable Python 3 release and Node 22+.
 
 ```bash
 python -m venv .venv
