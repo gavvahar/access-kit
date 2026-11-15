@@ -8,28 +8,29 @@ package root. Underscore modules and undocumented helpers are internal.
 
 ## Python surface
 
-| Module               | Supported exports                                                                                    | Guide                                                          |
-| -------------------- | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| `settings`           | `AccessKitSettings`                                                                                  | [Core usage](../python/README.md#settings)                     |
-| `health`             | `health_router`                                                                                      | [Readiness](../python/README.md#health)                        |
-| `logging`            | `setup_logging`, `scrub_logs`, `request_id_middleware`, `get_request_id`                             | [Logging](../python/README.md#logging-and-request-ids)         |
-| `privacy`            | `canonical_ip`, `client_ip`, `hash_ip`                                                               | [Privacy](../python/README.md#privacy-and-anonymous-sessions)  |
-| `session`            | `sign_session`, `verify_session`, `session_middleware`, `get_session_id`, `rotate_session`           | [Sessions](../python/README.md#privacy-and-anonymous-sessions) |
-| `safe_fetch.fetcher` | `make_fetcher`, `FetchResult`                                                                        | [Safe fetching](../python/README.md#safe-fetching)             |
-| `safe_fetch.errors`  | `FetchError`, `BlockedDestination`, `TooLarge`, `BadContentType`, `TooManyRedirects`, `FetchTimeout` | Same guide                                                     |
-| `llm.factory`        | `provider_from_settings`                                                                             | [LLM usage](../python/README.md#llm-providers-and-strict-json) |
-| `llm.providers`      | `anthropic_provider`, `openai_compat_provider`                                                       | Same guide                                                     |
-| `llm.core`           | `build_provider`, `with_fallback`                                                                    | Same guide                                                     |
-| `llm.types`          | `Usage`, `usage`, `add_usage`, `LLMProvider`, `LLMError`, `LLMValidationError`, `LLMFallbackError`   | Same guide                                                     |
-| `ratelimit`          | `make_limiter`, `rate_limit_dependency`, `Limiter`, `LimitResult`                                    | [Protections](protection.md#weighted-rate-limits)              |
-| `turnstile`          | `make_turnstile_verifier`, `require_turnstile`                                                       | [Bot checks](protection.md#turnstile)                          |
-| `budget`             | `make_budget`, `Budget`, `Reservation`, `BudgetState`, `BudgetExceeded`, `BudgetOverrun`             | [Accounting](protection.md#daily-budgets)                      |
-| `notify`             | `Notifier`, `ntfy_notifier`, `webhook_notifier`, `email_notifier`, `combine_notifiers`               | [Delivery](protection.md#notifications)                        |
-| `jobs`               | `make_jobs`, `job_response`, `Jobs`, `Job`                                                           | [Progress](jobs.md)                                            |
-| `errors`             | `StorageUnavailable`, `ServiceUnavailable`                                                           | Sanitized boundary exceptions; fail closed on admission errors |
-| `testing.fakes`      | `fake_llm`, `LLMCall`                                                                                | [Testing helpers](../python/README.md#consumer-test-helpers)   |
-| `testing.fixtures`   | pytest plugin: `fake_redis`                                                                          | Same guide; install `[testing]`, which includes Lua support    |
-| `testing.ssrf_cases` | `SSRF_CASES`                                                                                         | Same guide                                                     |
+| Module               | Supported exports                                                                                    | Guide                                                               |
+| -------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `settings`           | `AccessKitSettings`                                                                                  | [Core usage](../python/README.md#settings)                          |
+| `http`               | `body_limit`                                                                                         | [Bounded request bodies](../python/README.md#bounded-http-requests) |
+| `health`             | `health_router`                                                                                      | [Readiness](../python/README.md#health)                             |
+| `logging`            | `setup_logging`, `scrub_logs`, `request_id_middleware`, `get_request_id`                             | [Logging](../python/README.md#logging-and-request-ids)              |
+| `privacy`            | `canonical_ip`, `client_ip`, `hash_ip`                                                               | [Privacy](../python/README.md#privacy-and-anonymous-sessions)       |
+| `session`            | `sign_session`, `verify_session`, `session_middleware`, `get_session_id`, `rotate_session`           | [Sessions](../python/README.md#privacy-and-anonymous-sessions)      |
+| `safe_fetch.fetcher` | `make_fetcher`, `FetchResult`                                                                        | [Safe fetching](../python/README.md#safe-fetching)                  |
+| `safe_fetch.errors`  | `FetchError`, `BlockedDestination`, `TooLarge`, `BadContentType`, `TooManyRedirects`, `FetchTimeout` | Same guide                                                          |
+| `llm.factory`        | `provider_from_settings`                                                                             | [LLM usage](../python/README.md#llm-providers-and-strict-json)      |
+| `llm.providers`      | `anthropic_provider`, `openai_compat_provider`                                                       | Same guide                                                          |
+| `llm.core`           | `build_provider`, `with_fallback`                                                                    | Same guide                                                          |
+| `llm.types`          | `Usage`, `usage`, `add_usage`, `LLMProvider`, `LLMError`, `LLMValidationError`, `LLMFallbackError`   | Same guide                                                          |
+| `ratelimit`          | `make_limiter`, `rate_limit_dependency`, `Limiter`, `LimitResult`                                    | [Protections](protection.md#weighted-rate-limits)                   |
+| `turnstile`          | `make_turnstile_verifier`, `require_turnstile`                                                       | [Bot checks](protection.md#turnstile)                               |
+| `budget`             | `make_budget`, `Budget`, `Reservation`, `BudgetState`, `BudgetExceeded`, `BudgetOverrun`             | [Accounting](protection.md#daily-budgets)                           |
+| `notify`             | `Notifier`, `ntfy_notifier`, `webhook_notifier`, `email_notifier`, `combine_notifiers`               | [Delivery](protection.md#notifications)                             |
+| `jobs`               | `make_jobs`, `job_response`, `Jobs`, `Job`                                                           | [Progress](jobs.md)                                                 |
+| `errors`             | `StorageUnavailable`, `ServiceUnavailable`                                                           | Sanitized boundary exceptions; fail closed on admission errors      |
+| `testing.fakes`      | `fake_llm`, `LLMCall`                                                                                | [Testing helpers](../python/README.md#consumer-test-helpers)        |
+| `testing.fixtures`   | pytest plugin: `fake_redis`                                                                          | Same guide; install `[testing]`, which includes Lua support         |
+| `testing.ssrf_cases` | `SSRF_CASES`                                                                                         | Same guide                                                          |
 
 Provider results, usage accounting, reservation receipts and job snapshots are
 part of the contract. `Reservation` is data, not a bearer credential: only trusted

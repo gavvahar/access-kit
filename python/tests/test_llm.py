@@ -224,6 +224,7 @@ def test_settings_factory(kind, kit_settings):
         kit_settings.llm_api_key = SecretStr("test-only")
         kit_settings.llm_base_url = "https://gateway.example/v1"
     assert provider_from_settings(kit_settings)["name"] == kind
+    assert provider_from_settings(kit_settings, max_input_tokens=4096)["max_input_tokens"] == 4096
 
 
 def test_factory_requires_explicit_configuration(kit_settings):
