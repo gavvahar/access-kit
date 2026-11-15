@@ -23,3 +23,8 @@ class AccessKitSettings(BaseSettings):
     session_secret: SecretStr = Field(min_length=32)
     ip_hash_salt: SecretStr = Field(min_length=32)
     trust_cloudflare_headers: bool = False
+
+    llm_provider: Literal["anthropic", "ollama", "omniroute"] | None = None
+    llm_model: str | None = None
+    llm_base_url: str | None = Field(default=None, repr=False)
+    llm_api_key: SecretStr | None = None
