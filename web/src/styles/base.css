@@ -212,3 +212,12 @@ ak-settings-panel .ak-settings-storage:empty {
 ak-settings-panel [data-ak-reset] {
   inline-size: 100%;
 }
+
+ak-settings-panel .ak-field {
+  display: grid;
+  gap: 0.4rem;
+  min-inline-size: 0;
+}
+ak-settings-panel .ak-check > label {
+  font-weight: 400;
+}
