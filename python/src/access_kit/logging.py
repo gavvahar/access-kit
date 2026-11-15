@@ -77,6 +77,7 @@ def request_id_middleware(app: ASGIApp) -> ASGIApp:
     IDs are server-generated; incoming headers cannot inject arbitrary log data.
     Pure ASGI wrapping preserves streaming and context-variable isolation.
     """
+
     async def middleware(scope: Scope, receive: Receive, send: Send) -> None:
         if scope["type"] != "http":
             await app(scope, receive, send)
