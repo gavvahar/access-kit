@@ -67,7 +67,168 @@ interrupt blocking code. Without checks, `/healthz` is a liveness endpoint.
 
 HTTP status handling follows [FastAPI's response API](https://fastapi.tiangolo.com/advanced/additional-status-codes/).
 
-## Planned modules
+## Logging and request IDs
 
-Logging, privacy, sessions, safe fetching, LLM providers, and testing fakes are
-not implemented yet. See [the roadmap](../docs/roadmap.md).
+```python
+import logging
+from access_kit.logging import request_id_middleware, setup_logging
+
+setup_logging(settings)
+app = request_id_middleware(app)
+logging.info("request_done", extra={"status_code": 200, "duration_ms": 12})
+```
+
+Wrap the complete ASGI app so error responses also receive `X-Request-ID`.
+IDs are generated on the server and isolated between concurrent requests.
+`get_request_id()` returns the current ID and resets after the request.
+
+The default JSON handler keeps constant event names, safe numeric fields, known
+HTTP methods/provider names, and validated request IDs. It drops bodies, headers,
+URLs, IPs, arbitrary metadata, formatted arguments, exception text, and tracebacks.
+Use constant event names: never put user text in an event name. Configure logging
+at process startup, before installing additional handlers. Separate log handlers
+installed by an app must apply their own equivalent redaction.
+
+## Privacy and anonymous sessions
+
+```python
+from access_kit.privacy import client_ip, hash_ip
+from access_kit.session import session_middleware
+
+app = session_middleware(app, secret=settings.session_secret.get_secret_value())
+# Inside a request handler:
+# peer = client_ip(request)
+# identifier = hash_ip(peer, settings.ip_hash_salt.get_secret_value()) if peer else None
+```
+
+`client_ip` ignores forwarding headers by default. Cloudflare extraction requires
+both `trust_cloudflare=True` and explicit `trusted_proxies` CIDRs. The ASGI client
+address must be the actual socket peer; unconditional upstream proxy-header
+rewriting would undermine that check. Keep proxy networks current in the app.
+Malformed or duplicate Cloudflare headers fall back to the verified peer.
+
+`hash_ip` uses HMAC-SHA256 and a 32-byte minimum salt, normalizing equivalent IPv6
+and mapped IPv4 literals. The application owns retention/deletion; there is no
+generic SQL deletion helper. Rotating the salt changes identifiers.
+
+Use `Depends(get_session_id)` from `access_kit.session` to read the anonymous ID.
+Cookies are HMAC-signed, expire after one year, and use HttpOnly, Secure,
+SameSite=Lax, and Path=/. Pass `secure=False` only for local HTTP development.
+Tampered or expired cookies are replaced without raising a request error.
+
+`rotate_session(request)` changes the current ID before response headers are sent.
+Stateless rotation does not revoke old signed cookies. Apps that need revocation
+must reject the old ID in their data store. The cookie is not authentication or
+CSRF protection.
+
+## Safe fetching
+
+```python
+from pathlib import Path
+from access_kit.safe_fetch.fetcher import make_fetcher
+
+fetch, download = make_fetcher(max_bytes=5_000_000, total_timeout=15)
+result = await fetch("https://example.com/document")
+# result.url, result.content, result.content_type, result.status_code
+await download("https://example.com/document", Path("document.html"))
+```
+
+HTTP(S) URLs may use only ports 80 or 443, with no credentials or local names.
+Every DNS answer must be public; mixed public/private answers are rejected.
+The validated numeric IP is used as the socket target, with the original Host
+and TLS verification hostname preserved. Each redirect gets a new client and
+fresh validation, including rejection of HTTPS-to-HTTP downgrades. Proxy settings,
+ambient cookies, automatic redirects, and HTTP retries are disabled.
+
+The default media types are HTML, XHTML, plain text, and JSON. Supply an explicit
+`allowed_content_types=frozenset({...})` for other content. Content encoding must
+be identity to avoid decompression bombs. Announced and streamed byte counts are
+bounded, and the total timeout includes DNS, redirects, and body reads.
+
+Downloads write to a temporary file and publish atomically after success. Existing
+paths are never overwritten. Failures and cancellation remove temporary files.
+Disk writes are synchronous in bounded chunks; network deadlines cannot interrupt
+blocking filesystem operations. File types and fetched HTML remain untrusted:
+apps must sanitize content and enforce suitable rendering/download policies.
+
+Errors live in `access_kit.safe_fetch.errors`: `BlockedDestination`, `TooLarge`,
+`BadContentType`, `TooManyRedirects`, `FetchTimeout`, and their base `FetchError`.
+Error messages omit submitted URLs and response bodies.
+
+IP pinning uses HTTPX's documented
+[`sni_hostname` extension](https://www.python-httpx.org/advanced/extensions/).
+The regression suite tests actual HTTPX/httpcore socket arguments and TLS names,
+not only mocked responses. Reusable attack URLs live in
+`access_kit.testing.ssrf_cases.SSRF_CASES`; redirect, rebinding, cancellation,
+streaming-limit, and TLS tests are maintained in `python/tests/test_safe_fetch.py`.
+
+## LLM providers and strict JSON
+
+```python
+from typing import TypedDict
+from access_kit.llm.factory import provider_from_settings
+
+Summary = TypedDict("Summary", {"summary": str})
+provider = provider_from_settings(settings)
+result, tokens = await provider["complete_json"]("Summarize the document.", "Document content", Summary)
+```
+
+Configure `LLM_PROVIDER` (`anthropic`, `ollama`, or `omniroute`) and `LLM_MODEL`
+explicitly. Remote models and credentials are never selected implicitly.
+`LLM_API_KEY` is a redacted secret. `LLM_BASE_URL` overrides the trusted provider
+endpoint. Ollama defaults to `http://localhost:11434/v1`; OmniRoute requires an
+explicit base URL and API key. Remote endpoints must use HTTPS; HTTP is allowed
+only on loopback. Provider endpoint configuration is trusted app configuration,
+not a place to pass user-submitted URLs.
+
+Direct factories live in `access_kit.llm.providers`. Both adapters expose a dict
+with `complete_text`, `complete_json`, provider name, model, and an input limit.
+They use the [Anthropic Messages API](https://platform.claude.com/docs/en/api/messages/create)
+and [Ollama's OpenAI-compatible Chat Completions API](https://docs.ollama.com/api/openai-compatibility).
+Models are always caller-selected. The input limit is enforced as a conservative
+UTF-8 byte cap plus 1,024 bytes of framing allowance, not a tokenizer or a billing
+estimate. The provider remains responsible for its actual model context limit.
+
+`complete_json` validates with a Pydantic TypeAdapter in strict mode. It retries
+invalid JSON/schema responses twice by default; fences and string-to-integer
+coercion are not accepted. Retry limits are configurable from zero to five.
+Transport failures, refusals, truncation, and tool calls fail explicitly.
+HTTP responses are bounded to one MB and have a total timeout; HTTP retries and
+redirect following are disabled. Injected HTTPX clients remain caller-owned.
+
+`Usage` contains `input_tokens`, `output_tokens`, `total_tokens`, and `complete`.
+Anthropic cached input tokens are included. JSON retries and explicit provider
+fallbacks accumulate usage across failed attempts. Errors also carry `.usage`.
+`complete=False` means some usage could not be established, for example after a
+connection reset. Do not interpret unknown usage as zero spending.
+
+`with_fallback([...])` in `access_kit.llm.core` is opt-in: it sends the prompt to
+each configured provider in order until one succeeds. If every provider fails,
+`LLMFallbackError` retains sanitized errors and accumulated known usage.
+Rate limiting and daily budgets are Phase D work; no spending cap is provided yet.
+
+## Consumer test helpers
+
+Install `access-kit[testing]` for pytest/fakeredis support. Fixtures are opt-in:
+
+```python
+# conftest.py
+pytest_plugins = ["access_kit.testing.fixtures"]
+```
+
+The async `fake_redis` fixture closes its in-memory client after each test.
+`fake_llm` in `access_kit.testing.fakes` returns `(provider, calls)` and runs the
+same JSON validation and retry logic as real providers. Supply strings or
+`LLMError` instances as deterministic responses; exhausted responses fail clearly.
+The call records retain prompts in test memory and must not be used in production.
+
+All Python `__init__.py` files are empty. Import from named modules rather than
+package-level re-exports. Read the installed version with
+`importlib.metadata.version("access-kit")`.
+
+## Release acceptance
+
+The library core and a consumer-style FastAPI integration test are implemented.
+ClearRead's Phase 1 pipeline is not present in its current template repository,
+so the planned `py-v0.1.0` consuming-app acceptance check is still pending.
+See [the roadmap](../docs/roadmap.md). Phase C has not started.
