@@ -37,7 +37,7 @@ def scrub_logs(event: Mapping[str, object]) -> dict[str, object]:
     result: dict[str, object] = {"event": message if isinstance(message, str) and _EVENT.fullmatch(message) else "redacted"}
     for key in _NUMBERS:
         value = event.get(key)
-        if type(value) in (int, float) and math.isfinite(value):
+        if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):
             result[key] = value
     for key, allowed in _ENUMS.items():
         value = event.get(key)
