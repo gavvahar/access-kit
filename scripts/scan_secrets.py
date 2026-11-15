@@ -1,4 +1,4 @@
-"""Scan complete Git history while recognizing two immutable test fixtures.
+"""Scan complete Git history while recognizing exact immutable test fixtures.
 
 The exact commit/file/value matches below are known fake URLs introduced by the
 redaction and SSRF tests. Keeping history intact requires recognizing those old
@@ -15,6 +15,7 @@ HISTORICAL_FIXTURES = frozenset(
     {
         ("8afedc4addf3f83e8cd012eedc3736b3d18565c4", "python/tests/test_logging.py", "https://" + "user:password" + "@private"),
         ("bf5200e420860cde7d4b0744affa68290155b305", "python/src/access_kit/testing/ssrf_cases.py", "http://" + "user:password" + "@example.com"),
+        ("39859b6669097b136422b25dd4c1a75278960226", "python/tests/test_delivery.py", "https://" + "user:password" + "@example.com"),
     }
 )
 
