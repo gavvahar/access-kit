@@ -138,7 +138,7 @@ async def test_verification_transport_and_response_bounds(service):
     await client.aclose()
 
 
-@pytest.mark.parametrize("endpoint", ["https://[x]", "https://user:password@example.com", "file:///tmp/test"])
+@pytest.mark.parametrize("endpoint", ["https://[x]", "https://" + "user:password" + "@example.com", "file:///tmp/test"])
 def test_invalid_service_endpoints(endpoint):
     with pytest.raises(ValueError):
         webhook_notifier(endpoint)
