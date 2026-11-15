@@ -5,6 +5,7 @@
     "prettier": "^3.9.8"
   },
   "devDependencies": {
+    "@taplo/cli": "^0.7.0",
     "jscpd": "^5.3.3",
     "textlint": "^15.8.0",
     "textlint-rule-common-misspellings": "^1.0.1",
