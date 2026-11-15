@@ -235,20 +235,20 @@ The library core and a consumer-style FastAPI integration test are implemented.
 ClearRead's Phase 1 pipeline is not present in its current template repository,
 so the planned `py-v0.1.0` consuming-app acceptance check is still pending.
 The protection and progress modules are implemented and tested locally; real
-consuming-app acceptance and stable package publication remain pending.
-See [the roadmap](../docs/roadmap.md).
+consuming-app acceptance and authenticated registry uploads remain pending.
+See [the roadmap](https://github.com/gavvahar/access-kit/blob/main/docs/roadmap.md).
 
 ## Protection, delivery, and job progress
 
 `ratelimit`, `turnstile`, `budget`, and `notify` are documented with configuration,
-error handling and operating constraints in [the protection guide](../docs/protection.md).
+error handling and operating constraints in [the protection guide](https://github.com/gavvahar/access-kit/blob/main/docs/protection.md).
 `jobs` provides owner-scoped worker progress and a FastAPI SSE response helper;
-see [job integration](../docs/jobs.md). Public infrastructure exceptions live in
+see [job integration](https://github.com/gavvahar/access-kit/blob/main/docs/jobs.md). Public infrastructure exceptions live in
 `access_kit.errors`. Storage failure must deny protected work.
 
 Install `[testing]` or `[dev]` to run Redis Lua scripts with fakeredis. On the
 latest Python, a native Lua wheel may need the compiler toolchain supplied by
 `environment.yml`; no sudo is required. The real Redis CI check independently
 exercises concurrent budget admission, weighted limits and job event replay.
-The [API inventory](../docs/api.md) covers every supported module; the
-[architecture decisions](../docs/decisions.md) explain ownership and lifecycle.
+The [API inventory](https://github.com/gavvahar/access-kit/blob/main/docs/api.md) covers every supported module; the
+[architecture decisions](https://github.com/gavvahar/access-kit/blob/main/docs/decisions.md) explain ownership and lifecycle.

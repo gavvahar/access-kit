@@ -29,19 +29,12 @@ jobs:
     with:
       tox_env: github
 
+  redis-check:
+    uses: $/.github/workflows/redis-integration.yml
+
   build:
-    needs: checks
+    needs: [checks, redis-check]
     runs-on: ubuntu-latest
-    services:
-      redis:
-        image: redis:8.4.0
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 5s
-          --health-timeout 3s
-          --health-retries 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -56,10 +49,8 @@ jobs:
           cache: npm
       - name: Install build tools
         run: |
-          python -m pip install build twine ./python
+          python -m pip install build twine
           npm ci
-      - name: Real Redis admission and progress check
-        run: python scripts/check_redis_load.py redis://127.0.0.1:6379/0
       - name: Build Python distributions
         run: |
           python -m build python --outdir artifacts/python
@@ -67,7 +58,7 @@ jobs:
       - name: Build browser tarball
         run: |
           mkdir -p artifacts/web
-          npm pack --workspace web --pack-destination artifacts/web
+          npm pack --workspace web --pack-destination "$PWD/artifacts/web"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: public-packages

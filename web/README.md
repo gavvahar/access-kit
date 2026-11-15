@@ -2,8 +2,8 @@
 
 Shared Web Components and display preferences for ClearRead and SoundSight.
 The implementation includes five themes, local fonts, a settings panel,
-browser utilities, progress, micro-sessions and celebrations. The package is framework-independent and remains private
-until consuming-app integration is validated. Python and web releases are independent.
+browser utilities, progress, micro-sessions and celebrations. The package is framework-independent. Its v1 public API is frozen; actual app
+integration remains separately tracked. Python and web releases are independent.
 
 ## Run the demo
 
@@ -208,4 +208,4 @@ Listen to the backend's named SSE events, apply each snapshot directly to
 `ak-progress`, and use `textContent` for labels. Discard lower sequences and close
 the EventSource on complete, failed or cancelled. Handle unavailable/reconnect
 with bounded backoff and the app's session authorization. The backend contract
-and retention behavior are documented in [job progress](../docs/jobs.md).
+and retention behavior are documented in [job progress](https://github.com/gavvahar/access-kit/blob/main/docs/jobs.md).
