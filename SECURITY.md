@@ -16,4 +16,9 @@ Security requirements:
    and the SSRF case suite are required before that module ships.
 4. Secret scanning and Dependabot alerts must be enabled by the repository owner.
 
-No SSRF-safe fetcher is implemented in this scaffold.
+The fetcher in `access_kit.safe_fetch.fetcher` validates every DNS answer and
+connects to the validated numeric IP while preserving TLS SNI and Host. It
+revalidates redirects, refuses HTTPS downgrades and ambient proxies, and bounds
+response bytes and time. CI requires 100% line and branch coverage for fetching,
+session handling, privacy, and log scrubbing. Coverage establishes regression
+coverage; it does not substitute for security review.
