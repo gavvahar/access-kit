@@ -76,6 +76,7 @@ export function defineSettingsPanel({
             : ["textScale", "lineHeight"].includes(input.name)
               ? Number(input.value)
               : input.value;
+        if (store.get()[input.name] === value) return;
         const settings = store.update({ [input.name]: value });
         this.dispatchEvent(
           new CustomEvent("ak-settings-change", {
