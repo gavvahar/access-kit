@@ -66,8 +66,8 @@ def patch_fetch_http(monkeypatch):
     return responses, seen, configurations
 
 
-@pytest.fixture
-def public_dns(monkeypatch):
+@pytest_asyncio.fixture
+async def public_dns(monkeypatch):
     import asyncio
     import socket
 
@@ -80,3 +80,10 @@ def public_dns(monkeypatch):
 
     monkeypatch.setattr(asyncio.get_running_loop(), "getaddrinfo", resolve)
     return addresses, seen
+
+
+@pytest.fixture
+def kit_settings():
+    from access_kit.settings import AccessKitSettings
+
+    return AccessKitSettings(app_name="Example", public_base_url="https://example.com", redis_url="redis://localhost", session_secret="s" * 32, ip_hash_salt="h" * 32)
