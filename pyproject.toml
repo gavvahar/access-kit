@@ -85,23 +85,7 @@ commands = [["ruff", "check", "--no-cache", "."]]
 skip_install = true
 allowlist_externals = ["npx", "npm"]
 commands = [
-  [
-    "npm",
-    "install",
-    "--save-dev",
-    "textlint",
-    "textlint-rule-common-misspellings",
-    "textlint-rule-write-good",
-  ],
-  [
-    "npx",
-    "textlint",
-    "--rule",
-    "common-misspellings",
-    "--rule",
-    "write-good",
-    "**/*.txt",
-  ],
+  ["npx", "textlint", "--rule", "common-misspellings", "--rule", "write-good", "**/*.txt"],
 ]
 
 # [tool.tox.env."combined-imports-check"]
@@ -185,7 +169,7 @@ commands = [
 [tool.tox.env."duplicate-code"]
 skip_install = true
 allowlist_externals = ["npx", "npm"]
-commands = [["npm", "install", "--save-dev", "jscpd"], ["npx", "jscpd", "."]]
+commands = [["npx", "jscpd", "."]]
 
 # --- Security -----------------------------------------------------------
 
