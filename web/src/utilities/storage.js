@@ -33,7 +33,10 @@ export function createStorage(options = {}) {
     write(key, value) {
       try {
         if (!backend) return false;
-        backend.setItem(key, JSON.stringify(value));
+        const serialized = JSON.stringify(value);
+        if (typeof serialized !== "string" || serialized.length > 65_536)
+          return false;
+        backend.setItem(key, serialized);
         available = true;
         return true;
       } catch {
