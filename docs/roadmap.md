@@ -28,7 +28,7 @@ health without live services. All package initializers are empty.
 The ClearRead integration now implements a real extraction/provider/reader path
 using `py-v1.0.0`, which supersedes the unreleased v0.1 milestone. The consuming
 app tests cover the shared SSRF cases and actual endpoint composition. See
-[consumer acceptance evidence](acceptance-v1.md) and the integration PR for status.
+[consumer acceptance evidence](acceptance-v1.md). Both integration PRs are merged.
 
 ## Phase C: Web v0.1
 
