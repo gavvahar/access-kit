@@ -24,9 +24,10 @@
     "build": "node scripts/build.mjs",
     "test:unit": "node --test tests/unit/*.test.js",
     "test:browser": "playwright test",
-    "check": "npm run build && npm run test:unit && npm run test:browser",
+    "check": "npm run build && npm run test:unit && npm run test:setup && npm run test:browser",
     "demo": "npm run build && node scripts/serve.mjs",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "test:setup": "playwright install chromium"
   },
   "repository": {
     "type": "git",

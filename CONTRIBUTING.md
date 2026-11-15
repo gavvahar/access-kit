@@ -18,7 +18,8 @@ tox -e github
 
 `tox -e github` runs linting, text and document formatting checks, TOML checks,
 duplication detection, Python tests with at least 85% branch-aware coverage,
-strict Python type checks, Python package builds, and web package checks.
+strict Python type checks, Python package builds, and web package checks (Node tests, Chromium, and axe).
+Install the browser once with `npm exec --workspace web -- playwright install chromium`.
 `tox -e format` applies formatting. Pre-commit requires the activated environment
 and installed Node tooling.
 

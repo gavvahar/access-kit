@@ -192,3 +192,16 @@ test("unsupported hardware is explained without starting it automatically", asyn
   await page.getByRole("button", { name: "Try gentle vibration" }).click();
   await expect(page.locator("#utility-status")).toContainText("unavailable");
 });
+
+test("back-forward cache lifecycle keeps preference application alive", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.evaluate(() =>
+    window.dispatchEvent(
+      new PageTransitionEvent("pagehide", { persisted: true }),
+    ),
+  );
+  await page.getByLabel("Theme", { exact: true }).selectOption("calm");
+  await expect(page.locator("html")).toHaveAttribute("data-ak-theme", "calm");
+});
