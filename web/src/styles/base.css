@@ -213,7 +213,7 @@ ak-settings-panel [data-ak-reset] {
   inline-size: 100%;
 }
 
-ak-settings-panel .ak-field {
+ak-settings-panel .ak-field:not(.ak-check) {
   display: grid;
   gap: 0.4rem;
   min-inline-size: 0;
