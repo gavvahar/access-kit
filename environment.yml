@@ -6,5 +6,10 @@ dependencies:
   - python
   - pip
   - gh
+  - conda-forge::c-compiler
+  - conda-forge::cxx-compiler
+  - make
   - pip:
       - -r requirements.txt
+      - uv
+      - graphifyy
