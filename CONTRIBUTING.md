@@ -28,10 +28,12 @@ interfaces. Test observable behavior. Every security fix needs a regression test
 ## Versioning
 
 Use Conventional Commits, for example `feat(settings): add configuration`.
-Python metadata lives in `python/pyproject.toml`; update its version together with
-`python/src/access_kit/__init__.py`. Web metadata lives in `web/package.json`;
+Python metadata and its version live in `python/pyproject.toml`.
+Keep every Python `__init__.py` empty; import APIs from their named modules. Web metadata lives in `web/package.json`;
 update it together with `web/src/index.js`.
 
 Use `py-vX.Y.Z` and `web-vX.Y.Z` tags independently after integration validation.
-Tag workflows build artifacts only. Registry publishing is deferred to v1.0.
-Never create a release solely because a commit landed on main.
+Package builds run in CI. Registry publishing is deferred to v1.0.
+Pushes to `main` also create repository snapshot releases (`vX.Y.Z`) using the
+existing Conventional Commit versioning script. Snapshot releases do not establish
+that either package has passed its consuming-app integration checks.
