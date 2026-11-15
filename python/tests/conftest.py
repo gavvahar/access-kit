@@ -5,6 +5,7 @@ import pytest
 import pytest_asyncio
 
 pytest_plugins = ["access_kit.testing.fixtures"]
+_HTTP_CLIENT = httpx.AsyncClient
 
 
 @pytest_asyncio.fixture
@@ -12,7 +13,7 @@ async def client_for():
     clients = []
 
     def create(app):
-        client = httpx.AsyncClient(transport=httpx.ASGITransport(app=app, raise_app_exceptions=False), base_url="https://test")
+        client = _HTTP_CLIENT(transport=httpx.ASGITransport(app=app, raise_app_exceptions=False), base_url="https://test")
         clients.append(client)
         return client
 
