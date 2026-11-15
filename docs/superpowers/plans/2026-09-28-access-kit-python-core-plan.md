@@ -1,5 +1,9 @@
 # Access-Kit v0.1 Python Core Implementation Plan
 
+> Current Python policy: always use the latest stable Python 3 release.
+> Historical fixed-version examples below are superseded by CI `3.x` with
+> `check-latest: true` and type checking against the running interpreter.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Build the complete v0.1 Python core for access-kit: a shared toolkit providing SSRF-safe HTTP fetching, stateless session management, structured logging, and LLM provider abstraction for ClearRead and SoundSight.
