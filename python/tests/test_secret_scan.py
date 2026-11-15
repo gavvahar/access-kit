@@ -13,9 +13,9 @@ def scanner():
     return runpy.run_path("scripts/scan_secrets.py")
 
 
-@pytest.fixture
-def historical_finding(scanner):
-    commit, file, raw = next(iter(scanner["HISTORICAL_FIXTURES"]))
+@pytest.fixture(params=sorted(runpy.run_path("scripts/scan_secrets.py")["HISTORICAL_FIXTURES"]))
+def historical_finding(request):
+    commit, file, raw = request.param
     return {"Verified": False, "DetectorName": "URI", "Raw": raw, "SourceMetadata": {"Data": {"Git": {"commit": commit, "file": file}}}}
 
 
