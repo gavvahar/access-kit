@@ -221,3 +221,66 @@ ak-settings-panel .ak-field:not(.ak-check) {
 ak-settings-panel .ak-check > label {
   font-weight: 400;
 }
+
+ak-progress,
+ak-session,
+ak-celebrate {
+  display: block;
+  min-inline-size: 0;
+}
+ak-progress {
+  font-size: 1rem;
+}
+ak-progress label {
+  display: block;
+  font-weight: 600;
+  margin-block-end: 0.5rem;
+}
+ak-progress progress {
+  display: block;
+  inline-size: 100%;
+  block-size: 1rem;
+  accent-color: var(--ak-color-accent);
+}
+.ak-progress-summary {
+  display: block;
+  color: var(--ak-color-muted);
+  margin-block-start: 0.5rem;
+}
+ak-session {
+  font-size: 1rem;
+}
+.ak-session-label {
+  font-weight: 600;
+}
+ak-session [role="timer"] {
+  font-size: 2.5rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.ak-session-status {
+  color: var(--ak-color-muted);
+}
+.ak-session-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+ak-celebrate {
+  padding: 1rem;
+  border: 1px solid transparent;
+  font-size: 1rem;
+}
+ak-celebrate .ak-celebrate-mark {
+  visibility: hidden;
+  margin-inline-end: 0.6rem;
+}
+ak-celebrate.ak-celebrate-visible {
+  background: var(--ak-color-raised);
+  border-color: var(--ak-color-border);
+  border-radius: var(--ak-radius);
+}
+ak-celebrate.ak-celebrate-visible .ak-celebrate-mark {
+  visibility: visible;
+  color: var(--ak-color-accent);
+}
