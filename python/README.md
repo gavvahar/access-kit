@@ -28,7 +28,8 @@ Process environment is loaded case-insensitively. Required fields:
 
 `ENV` is `dev`, `test`, or `prod` (default `dev`).
 `TRUST_CLOUDFLARE_HEADERS` defaults to false. Enable it only when the origin
-accepts verified Cloudflare connections. Header extraction is not implemented yet.
+accepts verified Cloudflare connections and configure trusted proxy networks in
+`client_ip`; a header alone never establishes proxy trust.
 
 Dotenv loading is opt-in: `Settings(_env_file=".env")`.
 Secret fields are redacted in representations; do not log full settings objects,
@@ -205,7 +206,9 @@ connection reset. Do not interpret unknown usage as zero spending.
 `with_fallback([...])` in `access_kit.llm.core` is opt-in: it sends the prompt to
 each configured provider in order until one succeeds. If every provider fails,
 `LLMFallbackError` retains sanitized errors and accumulated known usage.
-Rate limiting and daily budgets are Phase D work; no spending cap is provided yet.
+Weighted rate limiting and daily budgets are available as explicit protection
+modules. Provider factories do not silently apply a cap: reserve a verified upper
+bound before dispatch, including every possible retry and fallback attempt.
 
 ## Consumer test helpers
 
@@ -231,4 +234,21 @@ package-level re-exports. Read the installed version with
 The library core and a consumer-style FastAPI integration test are implemented.
 ClearRead's Phase 1 pipeline is not present in its current template repository,
 so the planned `py-v0.1.0` consuming-app acceptance check is still pending.
-See [the roadmap](../docs/roadmap.md). Phase C has not started.
+The protection and progress modules are implemented and tested locally; real
+consuming-app acceptance and stable package publication remain pending.
+See [the roadmap](../docs/roadmap.md).
+
+## Protection, delivery, and job progress
+
+`ratelimit`, `turnstile`, `budget`, and `notify` are documented with configuration,
+error handling and operating constraints in [the protection guide](../docs/protection.md).
+`jobs` provides owner-scoped worker progress and a FastAPI SSE response helper;
+see [job integration](../docs/jobs.md). Public infrastructure exceptions live in
+`access_kit.errors`. Storage failure must deny protected work.
+
+Install `[testing]` or `[dev]` to run Redis Lua scripts with fakeredis. On the
+latest Python, a native Lua wheel may need the compiler toolchain supplied by
+`environment.yml`; no sudo is required. The real Redis CI check independently
+exercises concurrent budget admission, weighted limits and job event replay.
+The [API inventory](../docs/api.md) covers every supported module; the
+[architecture decisions](../docs/decisions.md) explain ownership and lifecycle.
