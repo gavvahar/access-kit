@@ -247,13 +247,13 @@ async def test_fake_records_calls_and_refuses_exhaustion():
         await llm["complete_text"]("", "")
 
 
-async def test_owned_http_client_is_closed(gateway, monkeypatch):
-    client, pending, _ = gateway
-    pending.append(response("ollama"))
-    monkeypatch.setattr("access_kit.llm.http.httpx.AsyncClient", lambda **kwargs: client)
+async def test_owned_http_client_is_closed(monkeypatch):
+    raw = json.dumps(response("ollama")).encode()
+    owned = httpx.AsyncClient(transport=httpx.MockTransport(lambda request: stream_response(raw)))
+    monkeypatch.setattr("access_kit.llm.http.httpx.AsyncClient", lambda **kwargs: owned)
     llm = openai_compat_provider(model="configured", base_url="http://localhost:11434/v1")
     assert (await llm["complete_text"]("", ""))[0] == "answer"
-    assert client.is_closed
+    assert owned.is_closed
 
 
 @pytest.mark.parametrize("counts", [(-1, 0), (0, -1), (True, 1)])
