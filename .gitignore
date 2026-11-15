@@ -10,3 +10,15 @@ CLAUDE.md
 node_modules
 .venv
 .claude
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+**/dist/
+*.egg-info/
+*.tgz
