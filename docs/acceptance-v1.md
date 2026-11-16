@@ -66,6 +66,26 @@ passed quality, real Redis and artifact builds. The
 [Python upload attempt](https://github.com/gavvahar/access-kit/actions/runs/43773898238)
 passed the same checks but PyPI rejected OIDC with `invalid-publisher`: no
 registered publisher matched the repository/workflow/environment identity.
-No Python package was uploaded. npm is not authenticated locally and its initial
-package does not exist, so no npm upload was attempted. Follow the
+No Python package was uploaded. PyPI publication still requires the owner to
+create an account and register the pending trusted publisher.
+
+## Published browser package: 1.0.1
+
+The authenticated npm account is `exchange2302`. The initial attempted
+`@gavvahar` package could not publish because that npm scope was unavailable.
+With owner approval, the package was renamed to
+[`@exchange2302/access-kit-ui@1.0.1`](https://www.npmjs.com/package/@exchange2302/access-kit-ui).
+The original web-v1.0.0 tag was preserved; web-v1.0.1 identifies the corrected
+package at `fa2cae3e0e838bee6f90901bd56142e184f1186f`.
+
+npm accepted the browser-approved upload, public registry metadata exposed the
+exact version/integrity, and an anonymous install into a fresh directory passed.
+The installed package's ESM exports, DOM-free progress/timer controllers, CSS,
+and local font licenses were verified. No install-time scripts were executed.
+
+[ClearRead #7](https://github.com/gavvahar/ClearRead/pull/7) and
+[SoundSight #5](https://github.com/gavvahar/SoundSight/pull/5) are merged updates
+to the same reviewed web-v1.0.1 package. All consumer CI checks pass, with the
+same 8 and 9 real browser tests. JavaScript APIs and behavior are unchanged.
+Only Python registry publication remains; follow the
 [account setup instructions](releasing-packages.md#first-time-account-setup).

@@ -87,5 +87,10 @@ The remaining library modules are implemented. Start with the
 [protection guide](docs/protection.md), [job/SSE guide](docs/jobs.md), and
 [public API inventory](docs/api.md). [Architecture decisions](docs/decisions.md)
 and [package release readiness](docs/releasing-packages.md) describe the v1
-acceptance steps. Consumer acceptance now passes in both real app integrations. Authenticated
-registry uploads remain pending; see [the acceptance record](docs/acceptance-v1.md).
+acceptance steps. Consumer acceptance now passes in both real app integrations. Python publication on PyPI remains pending; see [the acceptance record](docs/acceptance-v1.md).
+
+The browser package is published as `@exchange2302/access-kit-ui@1.0.1`:
+
+```bash
+npm install @exchange2302/access-kit-ui@1.0.1
+```
