@@ -70,14 +70,14 @@ See [protection contracts](protection.md); no live paid-provider load was run.
 2. [x] Architecture decisions and independent package version policy.
 3. [x] Local package builds and publication review checklist.
 4. [x] API review and independent v1 manifests; compatibility rules are now frozen.
-5. [ ] Registry uploads: independent v1 tags exist and publisher build checks
-       pass. PyPI needs its trusted publisher registered; npm bootstrap targets the authenticated `exchange2302` scope.
+5. [ ] Registry uploads: npm `@exchange2302/access-kit-ui@1.0.1` is public and
+       anonymously installable. PyPI still needs an account and pending publisher.
 
 Library implementation and consumer acceptance tests are complete. The overall
-plan remains open only for authenticated registry publication.
+plan remains open only for Python publication on PyPI.
 The repository is public and v1 manifests identify Python `1.0.0` and web `1.0.1`. A separate manual
-publisher supports checked artifacts and trusted registry identities. Actual
-registry uploads require the owner’s account setup. Existing snapshot release
+publisher supports checked artifacts and trusted registry identities. The npm
+upload is complete; the PyPI upload requires the owner’s account setup. Existing snapshot release
 automation keeps its original behavior. See [release readiness](releasing-packages.md).
 
 See [the acceptance record](acceptance-v1.md) for exact test counts, consumer PRs,

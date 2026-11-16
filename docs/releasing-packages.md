@@ -12,11 +12,21 @@ Python targets `1.0.0` and web targets `1.0.1`; the public surface is frozen in
 [the API inventory](api.md). Python wheel/source distributions and the browser
 tarball are built independently. Publication is not complete until the registries
 accept the uploads. Neither a manifest version nor a git tag proves that an
-upload succeeded. Real app integration remains pending in [the roadmap](roadmap.md).
+upload succeeded. Both actual app integrations are merged and pass their
+acceptance suites; see [the roadmap](roadmap.md).
+
+## Current publication status
+
+`@exchange2302/access-kit-ui@1.0.1` is published on npm and verified by an
+anonymous install. The matching app updates are merged. Python `access-kit`
+remains prepared as 1.0.0 but is not on PyPI; its first upload was rejected because
+no pending trusted publisher was registered.
 
 ## First-time account setup
 
-PyPI supports creating a new project from a pending trusted publisher. At
+Create a [PyPI account](https://pypi.org/account/register/) if needed, verify its
+email address and enable two-factor authentication. The username need not match
+GitHub or npm. PyPI supports creating a new project from a pending publisher. At
 [PyPI publishing settings](https://pypi.org/manage/account/publishing/), register:
 
 | Field              | Value                  |
@@ -68,8 +78,9 @@ upload has already been bootstrapped locally. Registry uploads are independent;
 a successful upload is not rolled back because the other registry failed.
 Never overwrite a published version or silently skip an unexpected collision.
 
-Create `py-v1.0.0` and `web-v1.0.1` git tags against the reviewed commit, then
-verify registry metadata and install both packages from their registries. Package
+Create each independent package tag against its reviewed commit, then verify
+registry metadata and install each package from its registry. Existing tags
+`py-v1.0.0` and `web-v1.0.1` already identify the prepared releases. Package
 tags are git tags, not additional GitHub Releases: the existing snapshot release
 workflow continues selecting its own latest repository release.
 
