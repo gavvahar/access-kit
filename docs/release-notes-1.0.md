@@ -56,3 +56,10 @@ The npm account is `exchange2302`, so the public browser package is
 `@exchange2302/access-kit-ui@1.0.1`. The existing web-v1.0.0 tag is preserved;
 web-v1.0.1 updates package identity and consumer imports with the same browser
 API and behavior. Python package identity/version remain unchanged.
+
+## First PyPI upload: Python 1.0.1
+
+PyPI rejected `access-kit` as too similar to an existing project. The accepted
+pending publisher uses `gavvahar-access-kit`, so Python 1.0.1 updates distribution
+metadata and installation instructions. Imports remain `access_kit` and the v1
+API is unchanged. The original py-v1.0.0 tag is preserved.

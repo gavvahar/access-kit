@@ -3,13 +3,13 @@
 Shared backend and Web Components for **ClearRead** and **SoundSight**.
 Only code both applications use belongs here.
 
-| Package                       | Location  | Status                                      | Tags         |
-| ----------------------------- | --------- | ------------------------------------------- | ------------ |
-| `access-kit` / `access_kit`   | `python/` | Core, protections and jobs implemented      | `py-vX.Y.Z`  |
-| `@exchange2302/access-kit-ui` | `web/`    | Themes, settings and activities implemented | `web-vX.Y.Z` |
+| Package                              | Location  | Status                                      | Tags         |
+| ------------------------------------ | --------- | ------------------------------------------- | ------------ |
+| `gavvahar-access-kit` / `access_kit` | `python/` | Core, protections and jobs implemented      | `py-vX.Y.Z`  |
+| `@exchange2302/access-kit-ui`        | `web/`    | Themes, settings and activities implemented | `web-vX.Y.Z` |
 
 Both packages use the MIT license and are versioned independently.
-Python targets `1.0.0` and the browser package targets `1.0.1`, with the public API frozen in the API
+Both packages target `1.0.1`, with the public API frozen in the API
 inventory. Publication status and remaining app acceptance are recorded in
 [the roadmap](docs/roadmap.md).
 
@@ -67,11 +67,11 @@ Apps will pin independent git tags after their first validated releases:
 
 ```toml
 dependencies = [
-  "access-kit @ git+https://github.com/gavvahar/access-kit@py-v1.0.0#subdirectory=python",
+  "gavvahar-access-kit @ git+https://github.com/gavvahar/access-kit@py-v1.0.1#subdirectory=python",
 ]
 ```
 
-The `py-v1.0.0` package tag identifies the reviewed Python release. For local development use
+The `py-v1.0.1` package tag identifies the corrected PyPI distribution name. Imports remain `access_kit`. For local development use
 `python -m pip install -e ../access-kit/python`.
 
 Pushes to `main` create repository releases (`vX.Y.Z`) from Conventional Commits,
