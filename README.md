@@ -9,8 +9,8 @@ Only code both applications use belongs here.
 | `@exchange2302/access-kit-ui`        | `web/`    | Themes, settings and activities implemented | `web-vX.Y.Z` |
 
 Both packages use the MIT license and are versioned independently.
-Both packages target `1.0.1`, with the public API frozen in the API
-inventory. Publication status and remaining app acceptance are recorded in
+Both packages are published as `1.0.1`, with the public API frozen in the API
+inventory. Publication and consumer acceptance evidence are recorded in
 [the roadmap](docs/roadmap.md).
 
 ## Start developing
@@ -63,12 +63,10 @@ See [Python usage](python/README.md) for an example.
 
 ## Releases and next steps
 
-Apps will pin independent git tags after their first validated releases:
+Install the published Python package:
 
-```toml
-dependencies = [
-  "gavvahar-access-kit @ git+https://github.com/gavvahar/access-kit@py-v1.0.1#subdirectory=python",
-]
+```bash
+python -m pip install gavvahar-access-kit==1.0.1
 ```
 
 The `py-v1.0.1` package tag identifies the corrected PyPI distribution name. Imports remain `access_kit`. For local development use
@@ -76,7 +74,7 @@ The `py-v1.0.1` package tag identifies the corrected PyPI distribution name. Imp
 
 Pushes to `main` create repository releases (`vX.Y.Z`) from Conventional Commits,
 using the original release workflow. Package builds run in CI; package registry
-publishing uses the separate manual `publish-packages.yml` workflow. Validated Python and web releases will use independent
+publishing uses the separate manual `publish-packages.yml` workflow. Validated Python and web releases use independent
 package tags. Repository snapshot tags do not replace consuming-app validation.
 
 See the [roadmap](docs/roadmap.md), [contributing guide](CONTRIBUTING.md), and
@@ -87,7 +85,7 @@ The remaining library modules are implemented. Start with the
 [protection guide](docs/protection.md), [job/SSE guide](docs/jobs.md), and
 [public API inventory](docs/api.md). [Architecture decisions](docs/decisions.md)
 and [package release readiness](docs/releasing-packages.md) describe the v1
-acceptance steps. Consumer acceptance now passes in both real app integrations. Python publication on PyPI remains pending; see [the acceptance record](docs/acceptance-v1.md).
+acceptance steps. Consumer acceptance now passes in both real app integrations. Both registry uploads are verified; see [the acceptance record](docs/acceptance-v1.md).
 
 The browser package is published as `@exchange2302/access-kit-ui@1.0.1`:
 

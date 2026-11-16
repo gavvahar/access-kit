@@ -89,5 +89,31 @@ and local font licenses were verified. No install-time scripts were executed.
 [SoundSight #5](https://github.com/gavvahar/SoundSight/pull/5) are merged updates
 to the same reviewed web-v1.0.1 package. All consumer CI checks pass, with the
 same 8 and 9 real browser tests. JavaScript APIs and behavior are unchanged.
-Only Python registry publication remains; follow the
-[account setup instructions](releasing-packages.md#first-time-account-setup).
+Both registry uploads are now complete; see the Python publication evidence below.
+
+## Published Python package: 1.0.1
+
+PyPI accepted the owner-configured pending publisher for `gavvahar-access-kit`.
+The original py-v1.0.0 tag remains unchanged; py-v1.0.1 points to
+`08ce7233266af91205fa18819aa9d4d67725ff32`.
+The [Python-only publication run](https://github.com/gavvahar/access-kit/actions/runs/43786013724)
+passed quality, real Redis, artifact builds and the OIDC PyPI upload.
+
+Public [PyPI version metadata](https://pypi.org/pypi/gavvahar-access-kit/1.0.1/json)
+confirms version 1.0.1 and these SHA-256 distribution digests:
+
+1. Wheel: `07651b4bced07613717cb1c13498be5e9b64dca75d9730bd290a8fea3e78864d`.
+2. Source archive: `48eab57d537cec27028b5ec0eabe3d689c3c0c21f885f6d1cbabfe2bfa50a32b`.
+
+A fresh Python 3.15.2 environment installed `gavvahar-access-kit==1.0.1` from
+`https://pypi.org/simple` using isolated pip with no cache or account credentials.
+Installed metadata, core/protection/job imports, the health route, and empty
+package initializers were verified outside the source checkout. Distribution
+identity changed; Python imports and the v1 API remain unchanged.
+
+[ClearRead #8](https://github.com/gavvahar/ClearRead/pull/8) and
+[SoundSight #6](https://github.com/gavvahar/SoundSight/pull/6) are merged updates
+from the original Git dependency to exact PyPI `gavvahar-access-kit==1.0.1`.
+Both local `tox -e all` chains and all GitHub quality, browser and secret checks
+passed. Consumer acceptance counts remain 58 backend/8 browser tests in ClearRead
+and 9 backend/9 browser tests in SoundSight.

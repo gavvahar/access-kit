@@ -70,15 +70,14 @@ See [protection contracts](protection.md); no live paid-provider load was run.
 2. [x] Architecture decisions and independent package version policy.
 3. [x] Local package builds and publication review checklist.
 4. [x] API review and independent v1 manifests; compatibility rules are now frozen.
-5. [ ] Registry uploads: npm `@exchange2302/access-kit-ui@1.0.1` is public and
-       anonymously installable. PyPI `gavvahar-access-kit@1.0.1` has its pending publisher configured; upload
-       and registry verification remain.
+5. [x] Registry uploads: npm `@exchange2302/access-kit-ui@1.0.1` and PyPI
+       `gavvahar-access-kit@1.0.1` are public; fresh registry installs are verified.
 
-Library implementation and consumer acceptance tests are complete. The overall
-plan remains open only for Python publication on PyPI.
+All six phases of the shared-library plan are complete: implementation, consumer
+acceptance, and verified public Python/npm publication.
 The repository is public and v1 manifests identify Python and web `1.0.1`. A separate manual
-publisher supports checked artifacts and trusted registry identities. The npm
-upload is complete; the PyPI upload is ready after the owner’s account/publisher setup. Existing snapshot release
+publisher supports checked artifacts and trusted registry identities. Both registry
+uploads are complete. Existing snapshot release
 automation keeps its original behavior. See [release readiness](releasing-packages.md).
 
 See [the acceptance record](acceptance-v1.md) for exact test counts, consumer PRs,
