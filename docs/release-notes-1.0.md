@@ -49,3 +49,10 @@ before provider dispatch, token/minute caps under concurrent calls, and terminal
 SSE delivery. Actual ClearRead and SoundSight consumer integrations now pass their backend
 and browser acceptance checks and are merged; see the current acceptance record. This release does not claim that
 either application is launched, deployed, or validated with real users.
+
+## First npm upload: web 1.0.1
+
+The npm account is `exchange2302`, so the public browser package is
+`@exchange2302/access-kit-ui@1.0.1`. The existing web-v1.0.0 tag is preserved;
+web-v1.0.1 updates package identity and consumer imports with the same browser
+API and behavior. Python package identity/version remain unchanged.

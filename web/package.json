@@ -1,6 +1,6 @@
 {
-  "name": "@gavvahar/access-kit-ui",
-  "version": "1.0.0",
+  "name": "@exchange2302/access-kit-ui",
+  "version": "1.0.1",
   "description": "Shared accessible Web Components for ClearRead and SoundSight",
   "type": "module",
   "license": "MIT",
