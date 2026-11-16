@@ -8,7 +8,7 @@ PyPI or npm automatically.
 
 ## Prepared release
 
-Both package manifests target `1.0.0`; the public surface is frozen in
+Python targets `1.0.0` and web targets `1.0.1`; the public surface is frozen in
 [the API inventory](api.md). Python wheel/source distributions and the browser
 tarball are built independently. Publication is not complete until the registries
 accept the uploads. Neither a manifest version nor a git tag proves that an
@@ -31,9 +31,9 @@ No PyPI API token is needed with this setup. See the official
 [pending publisher instructions](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/).
 A name is not reserved until the first successful upload.
 
-For npm, sign into the account owning the `gavvahar` scope with `npm login`.
+For npm, sign into the account owning the `exchange2302` npm scope with `npm login`.
 Bootstrap the first package upload from a reviewed tarball with
-`npm publish /path/to/gavvahar-access-kit-ui-1.0.0.tgz --access public --ignore-scripts`.
+`npm publish /path/to/exchange2302-access-kit-ui-1.0.1.tgz --access public --ignore-scripts`.
 Complete any browser/2FA challenge directly; never paste a token into chat or
 commit it. Once the npm package exists, configure its trusted publisher with
 owner `gavvahar`, repository `access-kit`, workflow `publish-packages.yml`, and
@@ -68,7 +68,7 @@ upload has already been bootstrapped locally. Registry uploads are independent;
 a successful upload is not rolled back because the other registry failed.
 Never overwrite a published version or silently skip an unexpected collision.
 
-Create `py-v1.0.0` and `web-v1.0.0` git tags against the reviewed commit, then
+Create `py-v1.0.0` and `web-v1.0.1` git tags against the reviewed commit, then
 verify registry metadata and install both packages from their registries. Package
 tags are git tags, not additional GitHub Releases: the existing snapshot release
 workflow continues selecting its own latest repository release.
@@ -76,3 +76,9 @@ workflow continues selecting its own latest repository release.
 Consumer apps pin a package tag/version and upgrade one app at a time. Actual
 ClearRead and SoundSight screen/pipeline acceptance must be recorded separately;
 a package smoke test does not replace it.
+
+The first npm publication uses `@exchange2302/access-kit-ui`. The earlier
+`web-v1.0.0` tag retains the original unpublished `@gavvahar` name; it is never
+overwritten. `web-v1.0.1` corrects package ownership without changing JavaScript
+exports, preferences, components, or browser behavior. GitHub/PyPI publisher
+owner and repository remain `gavvahar/access-kit`; npm identity is independent.

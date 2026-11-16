@@ -90,7 +90,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: npm
-      url: https://www.npmjs.com/package/@gavvahar/access-kit-ui
+      url: https://www.npmjs.com/package/@exchange2302/access-kit-ui
     permissions:
       id-token: write
     steps:

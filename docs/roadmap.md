@@ -36,11 +36,11 @@ app tests cover the shared SSRF cases and actual endpoint composition. See
 2. [x] Validated settings store and `<ak-settings-panel>` with native controls.
 3. [x] Announcements, wake locks, opt-in vibration, and safe storage utilities.
 4. [x] Demo, unit tests, browser keyboard/mobile tests, and axe checks in CI.
-5. [x] Both real consumer screens use the exact same `web-v1.0.0` package,
+5. [x] Both real consumer screens use the exact same `web-v1.0.1` package,
        including themes, settings, fonts and shared activity components.
 
 The browser acceptance suites pass in both consumer apps. The initial public
-package tag is `web-v1.0.0`, superseding the unreleased v0.1 milestone. See [web usage](../web/README.md).
+package tag is `web-v1.0.1`, superseding the unreleased v0.1 milestone. See [web usage](../web/README.md).
 
 ## Phase D: protection
 
@@ -69,13 +69,13 @@ See [protection contracts](protection.md); no live paid-provider load was run.
 1. [x] Guides for every module and public API inventory.
 2. [x] Architecture decisions and independent package version policy.
 3. [x] Local package builds and publication review checklist.
-4. [x] API review and `1.0.0` manifests; compatibility rules are now frozen.
+4. [x] API review and independent v1 manifests; compatibility rules are now frozen.
 5. [ ] Registry uploads: independent v1 tags exist and publisher build checks
-       pass. PyPI needs its trusted publisher registered; npm needs login/bootstrap.
+       pass. PyPI needs its trusted publisher registered; npm bootstrap targets the authenticated `exchange2302` scope.
 
 Library implementation and consumer acceptance tests are complete. The overall
 plan remains open only for authenticated registry publication.
-The repository is public and both v1 tags/manifests identify `1.0.0`. A separate manual
+The repository is public and v1 manifests identify Python `1.0.0` and web `1.0.1`. A separate manual
 publisher supports checked artifacts and trusted registry identities. Actual
 registry uploads require the owner’s account setup. Existing snapshot release
 automation keeps its original behavior. See [release readiness](releasing-packages.md).

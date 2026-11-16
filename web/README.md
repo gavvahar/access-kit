@@ -1,4 +1,4 @@
-# @gavvahar/access-kit-ui
+# @exchange2302/access-kit-ui
 
 Shared Web Components and display preferences for ClearRead and SoundSight.
 The implementation includes five themes, local fonts, a settings panel,
@@ -39,8 +39,8 @@ app-owned native dialog. Load the shared CSS for controls and live-region hiding
 ## Vite or explicit initialization
 
 ```js
-import "@gavvahar/access-kit-ui/styles.css";
-import { defineSettingsPanel, initialize } from "@gavvahar/access-kit-ui";
+import "@exchange2302/access-kit-ui/styles.css";
+import { defineSettingsPanel, initialize } from "@exchange2302/access-kit-ui";
 
 const runtime = initialize();
 defineSettingsPanel({ store: runtime.store });
