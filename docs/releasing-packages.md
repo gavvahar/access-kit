@@ -8,7 +8,7 @@ PyPI or npm automatically.
 
 ## Prepared release
 
-Python targets `1.0.0` and web targets `1.0.1`; the public surface is frozen in
+Python and web target `1.0.1`; the public surface is frozen in
 [the API inventory](api.md). Python wheel/source distributions and the browser
 tarball are built independently. Publication is not complete until the registries
 accept the uploads. Neither a manifest version nor a git tag proves that an
@@ -18,9 +18,9 @@ acceptance suites; see [the roadmap](roadmap.md).
 ## Current publication status
 
 `@exchange2302/access-kit-ui@1.0.1` is published on npm and verified by an
-anonymous install. The matching app updates are merged. Python `access-kit`
-remains prepared as 1.0.0 but is not on PyPI; its first upload was rejected because
-no pending trusted publisher was registered.
+anonymous install. The matching app updates are merged. Python `gavvahar-access-kit` is prepared as 1.0.1. The owner has registered its
+pending publisher. The original `access-kit` name was rejected by PyPI as too
+similar to an existing project; imports remain `access_kit`.
 
 ## First-time account setup
 
@@ -31,7 +31,7 @@ GitHub or npm. PyPI supports creating a new project from a pending publisher. At
 
 | Field              | Value                  |
 | ------------------ | ---------------------- |
-| PyPI project       | `access-kit`           |
+| PyPI project       | `gavvahar-access-kit`  |
 | Owner              | `gavvahar`             |
 | Repository         | `access-kit`           |
 | Workflow filename  | `publish-packages.yml` |
@@ -80,7 +80,7 @@ Never overwrite a published version or silently skip an unexpected collision.
 
 Create each independent package tag against its reviewed commit, then verify
 registry metadata and install each package from its registry. Existing tags
-`py-v1.0.0` and `web-v1.0.1` already identify the prepared releases. Package
+`py-v1.0.1` and `web-v1.0.1` already identify the prepared releases. Package
 tags are git tags, not additional GitHub Releases: the existing snapshot release
 workflow continues selecting its own latest repository release.
 
@@ -93,3 +93,6 @@ The first npm publication uses `@exchange2302/access-kit-ui`. The earlier
 overwritten. `web-v1.0.1` corrects package ownership without changing JavaScript
 exports, preferences, components, or browser behavior. GitHub/PyPI publisher
 owner and repository remain `gavvahar/access-kit`; npm identity is independent.
+
+The original `py-v1.0.0` tag is preserved. `py-v1.0.1` corrects the Python
+distribution name to match the accepted pending publisher; it keeps the v1 API.

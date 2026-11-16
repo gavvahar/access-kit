@@ -26,7 +26,7 @@ exercises fetching, typed LLM JSON output, sessions, privacy, request IDs, and
 health without live services. All package initializers are empty.
 
 The ClearRead integration now implements a real extraction/provider/reader path
-using `py-v1.0.0`, which supersedes the unreleased v0.1 milestone. The consuming
+initially using `py-v1.0.0`, which supersedes the unreleased v0.1 milestone. The consuming
 app tests cover the shared SSRF cases and actual endpoint composition. See
 [consumer acceptance evidence](acceptance-v1.md). Both integration PRs are merged.
 
@@ -71,13 +71,14 @@ See [protection contracts](protection.md); no live paid-provider load was run.
 3. [x] Local package builds and publication review checklist.
 4. [x] API review and independent v1 manifests; compatibility rules are now frozen.
 5. [ ] Registry uploads: npm `@exchange2302/access-kit-ui@1.0.1` is public and
-       anonymously installable. PyPI still needs an account and pending publisher.
+       anonymously installable. PyPI `gavvahar-access-kit@1.0.1` has its pending publisher configured; upload
+       and registry verification remain.
 
 Library implementation and consumer acceptance tests are complete. The overall
 plan remains open only for Python publication on PyPI.
-The repository is public and v1 manifests identify Python `1.0.0` and web `1.0.1`. A separate manual
+The repository is public and v1 manifests identify Python and web `1.0.1`. A separate manual
 publisher supports checked artifacts and trusted registry identities. The npm
-upload is complete; the PyPI upload requires the owner’s account setup. Existing snapshot release
+upload is complete; the PyPI upload is ready after the owner’s account/publisher setup. Existing snapshot release
 automation keeps its original behavior. See [release readiness](releasing-packages.md).
 
 See [the acceptance record](acceptance-v1.md) for exact test counts, consumer PRs,

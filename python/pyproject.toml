@@ -3,8 +3,8 @@ requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [project]
-name = "access-kit"
-version = "1.0.0"
+name = "gavvahar-access-kit"
+version = "1.0.1"
 description = "Shared backend toolkit for ClearRead and SoundSight"
 keywords = ["accessibility", "fastapi", "ssrf", "redis"]
 readme = "README.md"

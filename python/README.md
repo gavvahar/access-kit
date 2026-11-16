@@ -4,6 +4,13 @@ Typed backend primitives for ClearRead and SoundSight. Use the latest stable Pyt
 
 ## Install
 
+The PyPI distribution is `gavvahar-access-kit`; Python imports use `access_kit`.
+The prepared Python release is `1.0.1` (publication status is in the roadmap).
+
+```bash
+python -m pip install 'gavvahar-access-kit==1.0.1'
+```
+
 From the repository root:
 
 ```bash
@@ -212,7 +219,7 @@ bound before dispatch, including every possible retry and fallback attempt.
 
 ## Consumer test helpers
 
-Install `access-kit[testing]` for pytest/fakeredis support. Fixtures are opt-in:
+Install `gavvahar-access-kit[testing]` for pytest/fakeredis support. Fixtures are opt-in:
 
 ```python
 # conftest.py

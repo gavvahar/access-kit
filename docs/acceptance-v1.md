@@ -66,8 +66,10 @@ passed quality, real Redis and artifact builds. The
 [Python upload attempt](https://github.com/gavvahar/access-kit/actions/runs/43773898238)
 passed the same checks but PyPI rejected OIDC with `invalid-publisher`: no
 registered publisher matched the repository/workflow/environment identity.
-No Python package was uploaded. PyPI publication still requires the owner to
-create an account and register the pending trusted publisher.
+No Python package was uploaded in that attempt. The owner subsequently created
+a PyPI account and configured a pending publisher for `gavvahar-access-kit`: PyPI
+rejected the original distribution name as too similar to an existing project.
+Python 1.0.1 corrects the distribution name while preserving `access_kit` imports.
 
 ## Published browser package: 1.0.1
 

@@ -1,4 +1,4 @@
-"""Opt-in pytest fixtures. Install access-kit[testing] to use them.
+"""Opt-in pytest fixtures. Install gavvahar-access-kit[testing] to use them.
 
 In your conftest.py: pytest_plugins = ["access_kit.testing.fixtures"]
 """

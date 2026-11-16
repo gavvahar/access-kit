@@ -1,6 +1,6 @@
 # Public API and compatibility
 
-This inventory freezes the v1 public contract. The Python package is `1.0.0`; the browser package is
+This inventory freezes the v1 public contract. The Python distribution is `gavvahar-access-kit@1.0.1` (imports: `access_kit`); the browser package is
 `@exchange2302/access-kit-ui@1.0.1`. Registry publication is tracked separately in the roadmap; a manifest
 version does not prove that an upload has completed.
 Package initializers stay empty. Import the defining Python module, not the
