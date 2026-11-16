@@ -18,9 +18,10 @@ acceptance suites; see [the roadmap](roadmap.md).
 ## Current publication status
 
 `@exchange2302/access-kit-ui@1.0.1` is published on npm and verified by an
-anonymous install. The matching app updates are merged. Python `gavvahar-access-kit` is prepared as 1.0.1. The owner has registered its
-pending publisher. The original `access-kit` name was rejected by PyPI as too
-similar to an existing project; imports remain `access_kit`.
+anonymous install. The matching app updates are merged. Python [`gavvahar-access-kit@1.0.1`](https://pypi.org/project/gavvahar-access-kit/1.0.1/)
+is published through GitHub trusted publishing and verified by a fresh public
+install. The original `access-kit` name was rejected by PyPI as too similar to an
+existing project; imports remain `access_kit`. Both registry uploads are complete.
 
 ## First-time account setup
 

@@ -5,7 +5,7 @@ Typed backend primitives for ClearRead and SoundSight. Use the latest stable Pyt
 ## Install
 
 The PyPI distribution is `gavvahar-access-kit`; Python imports use `access_kit`.
-The prepared Python release is `1.0.1` (publication status is in the roadmap).
+Version [1.0.1 is published on PyPI](https://pypi.org/project/gavvahar-access-kit/1.0.1/).
 
 ```bash
 python -m pip install 'gavvahar-access-kit==1.0.1'
@@ -234,15 +234,14 @@ The call records retain prompts in test memory and must not be used in productio
 
 All Python `__init__.py` files are empty. Import from named modules rather than
 package-level re-exports. Read the installed version with
-`importlib.metadata.version("access-kit")`.
+`importlib.metadata.version("gavvahar-access-kit")`.
 
 ## Release acceptance
 
-The library core and a consumer-style FastAPI integration test are implemented.
-ClearRead's Phase 1 pipeline is not present in its current template repository,
-so the planned `py-v0.1.0` consuming-app acceptance check is still pending.
-The protection and progress modules are implemented and tested locally; real
-consuming-app acceptance and authenticated registry uploads remain pending.
+All shared-library phases are complete. ClearRead and SoundSight integrations
+are merged, their backend and browser acceptance suites pass, and both public
+registry uploads are verified. Python is published as `gavvahar-access-kit==1.0.1`;
+imports remain `access_kit`. The separate application product roadmaps continue.
 See [the roadmap](https://github.com/gavvahar/access-kit/blob/main/docs/roadmap.md).
 
 ## Protection, delivery, and job progress
